@@ -1,0 +1,39 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "license": "AGPL-version-3.0",
+  "private": false,
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": "",
+  "keywords": [],
+  "author": {
+    "name": "Team 20",
+    "email": "",
+    "url": "https://github.com/AM4283/cs326-webapp"
+  },
+  "contributors": [
+    "Albi Marini, albimarini@umass.edu, Nathan Pearce npearce@umass.edu, Nicole Kladus, nkladus@umass.edu, Danny Cedrone, jcedrone@umass.edu"
+  ],
+  "scripts": {
+    "milestone-01": "http-server src/docs/milestone-01 -p 3000 -c-1 -o -s",
+    "validate-html": "html-validate 'src/**/*.html'",
+    "dev": "",
+    "test": ""
+  },
+  "devDependencies": {
+    "html-validate": "^8.11.1",
+    "http-server": "^14.1.1",
+    "prettier": "^3.2.5"
+  }
+}
