@@ -1,0 +1,104 @@
+body {
+    font-family:'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
+}
+#vision {
+    text-align: center;
+    margin-bottom: 20px;
+}
+#image-showcase-container {
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    overflow: hidden;
+    position: relative;
+    /* width: 100%; */
+    width: calc(3*(200px + 8px));
+    margin: 0 auto;
+    padding: 0 30px;
+}
+#image-showcase {
+    display: flex;
+    transition: transform 0.5s ease;
+    justify-content: flex-start;
+    margin: 0 auto;
+}
+#image-showcase img {
+    /* height: 50%; */
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    margin: 0 4px;
+}
+#scroll-left, #scroll-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    border: none;
+    padding: 10px;
+    z-index: 10;
+    width: 10px;
+    height: 10px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+#scroll-left {
+    left: 0;
+}
+#scroll-right {
+    right: 0;
+}
+header h2 {
+    text-align: center;
+}
+#team {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+figure {
+    width: 20%;
+    margin: 10px;
+    text-align: center;
+}
+figure img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+figcaption {
+    margin-top: 10px;
+    font-weight: bold;
+}
+nav a:hover {
+    color: aqua;
+}
+main section p {
+    display: none;
+}
+main section h2:hover {
+    color: aqua;
+}
+h1 {
+    width: 100vw;
+    height: 40vh;
+    font-size: 50px;
+    color: black;
+    text-align: center;
+}
+
+h2 {
+    color: #353966;
+    text-align: left;
+}
+p {
+    color: black;
+    font-size: 16px;
+   color: grey
+}
