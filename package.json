@@ -23,7 +23,7 @@
     "url": "https://github.com/AM4283/cs326-webapp"
   },
   "contributors": [
-    "Albi Marini, albimarini@umass.edu, Nathan Pearce npearce@umass.edu, Nicole Kladus, nkladus@umass.edu, Danny Cedrone, jcedrone@umass.edu"
+    "Albi Marini, albimarini@umass.edu, Nathan Pearce npearce@umass.edu, Nicole Kaldus, nkaldus@umass.edu, Danny Cedrone, jcedrone@umass.edu"
   ],
   "scripts": {
     "milestone-01": "http-server src/docs/milestone-01 -p 3000 -c-1 -o -s",
