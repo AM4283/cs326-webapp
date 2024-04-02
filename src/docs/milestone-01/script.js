@@ -2,11 +2,11 @@ function readMore() {
   const headers = document.querySelectorAll("main > section > h2");
   headers.forEach((header) => {
     header.addEventListener("click", function () {
-      const paragraph = this.nextElementSibling;
-      if (paragraph.style.display === "none") {
-        paragraph.style.display = "block";
+      const div = this.nextElementSibling;
+      if (div.style.display === "none") {
+        div.style.display = "flex";
       } else {
-        paragraph.style.display = "none";
+        div.style.display = "none";
       }
     });
   });
