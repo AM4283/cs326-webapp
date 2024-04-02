@@ -26,8 +26,9 @@
     "Albi Marini, albimarini@umass.edu, Nathan Pearce npearce@umass.edu, Nicole Kaldus, nkaldus@umass.edu, Danny Cedrone, jcedrone@umass.edu"
   ],
   "scripts": {
-    "milestone-01": "http-server src/docs/milestone-01 -p 3000 -c-1 -o -s",
+    "milestone-01": "http-server src -p 3000 -c-1 -o /docs/milestone-01/index.html",
     "validate-html": "html-validate 'src/**/*.html'",
+    "prettier": "prettier src --write",
     "dev": "",
     "test": ""
   },

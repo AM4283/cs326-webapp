@@ -1,97 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document Title</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://lh3.googleusercontent.com/UvGJ_yf8sWctyTY-plo1i_PxKBawreHlXDobsqKsRhJlsHO68DxtDEwTiT--l8gHm0_tdtb5uBwJviDnfstt0Q=s500"
+    />
+    <title>StyleScout 360 Milestone 1</title>
     <!-- CSS Stylesheets -->
-    <link rel="stylesheet" href="styles.css">
-    <!-- JavaScript Files -->
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Script Files -->
     <script type="module" src="script.js" defer></script>
-</head>
-<body>
-    <header id = "vision">
-        <!-- Navigation bar, logo, etc. -->
-        <h1>StyleScout 360</h1>
-        <div id="image-showcase-container" class="center">
-            <button id = "scroll-left">←</button>
-            <div id="image-showcase" class="center">
-            </div>
-            <button id="scroll-right">→</button>
-        </div>
-        <h2>Team Members</h2>
-        <section id="team">
-            <figure>
-                <img src="https://media.licdn.com/dms/image/C4E03AQHnfEnRAKNv1Q/profile-displayphoto-shrink_400_400/0/1648172644633?e=1717632000&v=beta&t=-X9kXYTiu4DPLOSAIcZCDEnZHbqiJRL5XKigMYEgNw0", alt="Albi Marini">
-                <figcaption>Albi Marini</figcaption>
-            </figure>
-            <figure>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png", alt="Danny Cedrone">
-                <figcaption>Danny Cedrone</figcaption>
-            </figure>
-            <figure>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png", alt="Nicole Klaudus">
-                <figcaption>Nicole Klaudus</figcaption>
-            </figure>
-            <figure>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png", alt="Nathan Pearce">
-                <figcaption>Nathan Pearce</figcaption>
-            </figure>
-        </section>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header id="vision">
+      <!-- Navigation bar, logo, etc. -->
+      <h1>StyleScout 360</h1>
+      <div id="image-showcase-container" class="center">
+        <button id="scroll-left" type="button">←</button>
+        <div id="image-showcase" class="center"></div>
+        <button id="scroll-right" type="button">→</button>
+      </div>
+      <h2>Team Members</h2>
+      <section id="team">
+        <figure>
+          <img
+            src="https://media.licdn.com/dms/image/C4E03AQHnfEnRAKNv1Q/profile-displayphoto-shrink_400_400/0/1648172644633?e=1717632000&v=beta&t=-X9kXYTiu4DPLOSAIcZCDEnZHbqiJRL5XKigMYEgNw0"
+            alt="Albi Marini"
+          />
+          <figcaption>Albi Marini</figcaption>
+        </figure>
+        <figure>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
+            alt="Danny Cedrone"
+          />
+          <figcaption>Danny Cedrone</figcaption>
+        </figure>
+        <figure>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
+            alt="Nicole Klaudus"
+          />
+          <figcaption>Nicole Klaudus</figcaption>
+        </figure>
+        <figure>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
+            alt="Nathan Pearce"
+          />
+          <figcaption>Nathan Pearce</figcaption>
+        </figure>
+      </section>
     </header>
 
     <nav class="center">
-        <!-- Links to different sections/pages -->
-        <a href="#overview">Overview</a>
-        <a href="#application-parts">Application Parts</a>
-        <a href="#data-requirements">Data Requirements</a>
-        <a href="#wire-frames">Wire Frames</a>
-        <a href="#real-world">Real-World Connection</a>
-        <a href="#integrative-experience">Integrative Experience</a>
+      <!-- Links to different sections/pages -->
+      <a href="#overview">Overview</a>
+      <a href="#application-parts">Application Parts</a>
+      <a href="#data-requirements">Data Requirements</a>
+      <a href="#wire-frames">Wire Frames</a>
+      <a href="#real-world">Real-World Connection</a>
+      <a href="#integrative-experience">Integrative Experience</a>
     </nav>
 
     <main class="center">
-        <!-- Main content of the document -->
-        <section id="overview">
-            <h2>Overview</h2>
-            <p>
-                In the age of rapidly the growing internet, online shopping has become a conveince billions of people rely on worldwide. Especially in a post-Covid world, where every aspect of our lives has become more solitary, and we are more conscious now than ever about leaving our homes, buying goods online, including clothing, has become an affordable, safe, and extremely popular option. What we aim to solve with this project is navigating the vast internet to find the best products at the best prices. StyleScout 360 is a web app designed to help consumers get the best price on the items they're looking for in one seamless experience, without having to visit every site individually and manually compare prices. StyleScout finds products the consumer wants on a variety of online retailers and deliveries them with a link to purchase them, saving the customer the work of having to find the best price themself, only to realize later that they missed a sight with a better price. StyleScout is something anyone who shops online can benefit from making use of.
-            </p>
-        </section>
-        <section id="application-parts">
-            <h2>Application Parts</h2>
-            <p>
-                The most important component of the StyleScout is, of course, the search feature. The search feature is what allows the consumer to find the product that they're looking for. There are many different ways to search on StyleScout, the simplest being to type in key words about the product, which will return a variety of results. Users can also search for a specific product and narrow down their results using filters, until they find a product they're satisfied with. From there, the next component comes in, which is the real-time list of prices of any given product on a range of popular online shopping sites. This will allow the user to compare prices, shipping costs, and other store-specific information about the product they're interested in. Finally, the pinnacle of convenience, is the wish list. While browsing for items, users can add items they find interesting to their personal wish list, which they can access at a later date if they're not ready to commit to buying it. They can also ask to be notified via email to remind them about the product, or get updates on new lower prices or a new seller becoming available. Combined with the ease of comparing prices across retailers, this component gives the user the most convenient way to shop online. StyleScout gives the user all their favorite brands in one place, without the hassle of finding deals themself.
-            </p>
-        </section>
-        <section id="data-requirements">
-            <h2>Data Requirements</h2>
-            <p>
-                Placeholder
-            </p>
-        </section>
-        <section id="wire-frames">
-            <h2>Wire Frames</h2>
-            <p>
-                Placeholder
-            </p>
-        </section>
-        <section id="real-world">
-            <h2>Real-World Connection</h2>
-            <p>
-                Placeholder
-            </p>
-        </section>
-        <section id="integrative-experience">
-            <h2>Integrative Experience</h2>
-            <p>
-                Placeholder
-            </p>
-        </section>
+      <!-- Main content of the document -->
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>
+          In the age of rapidly the growing internet, online shopping has become
+          a conveince billions of people rely on worldwide. Especially in a
+          post-Covid world, where every aspect of our lives has become more
+          solitary, and we are more conscious now than ever about leaving our
+          homes, buying goods online, including clothing, has become an
+          affordable, safe, and extremely popular option. What we aim to solve
+          with this project is navigating the vast internet to find the best
+          products at the best prices. StyleScout 360 is a web app designed to
+          help consumers get the best price on the items they're looking for in
+          one seamless experience, without having to visit every site
+          individually and manually compare prices. StyleScout finds products
+          the consumer wants on a variety of online retailers and deliveries
+          them with a link to purchase them, saving the customer the work of
+          having to find the best price themself, only to realize later that
+          they missed a sight with a better price. StyleScout is something
+          anyone who shops online can benefit from making use of.
+        </p>
+      </section>
+      <section id="application-parts">
+        <h2>Application Parts</h2>
+        <p>
+          The most important component of the StyleScout is, of course, the
+          search feature. The search feature is what allows the consumer to find
+          the product that they're looking for. There are many different ways to
+          search on StyleScout, the simplest being to type in key words about
+          the product, which will return a variety of results. Users can also
+          search for a specific product and narrow down their results using
+          filters, until they find a product they're satisfied with. From there,
+          the next component comes in, which is the real-time list of prices of
+          any given product on a range of popular online shopping sites. This
+          will allow the user to compare prices, shipping costs, and other
+          store-specific information about the product they're interested in.
+          Finally, the pinnacle of convenience, is the wish list. While browsing
+          for items, users can add items they find interesting to their personal
+          wish list, which they can access at a later date if they're not ready
+          to commit to buying it. They can also ask to be notified via email to
+          remind them about the product, or get updates on new lower prices or a
+          new seller becoming available. Combined with the ease of comparing
+          prices across retailers, this component gives the user the most
+          convenient way to shop online. StyleScout gives the user all their
+          favorite brands in one place, without the hassle of finding deals
+          themself.
+        </p>
+      </section>
+      <section id="data-requirements">
+        <h2>Data Requirements</h2>
+        <p>Placeholder</p>
+      </section>
+      <section id="wire-frames">
+        <h2>Wire Frames</h2>
+        <p>Placeholder</p>
+      </section>
+      <section id="real-world">
+        <h2>Real-World Connection</h2>
+        <p>Placeholder</p>
+      </section>
+      <section id="integrative-experience">
+        <h2>Integrative Experience</h2>
+        <p>Placeholder</p>
+      </section>
     </main>
 
     <footer>
-        <!-- Footer content like copyright, links to privacy policy, etc. -->
+      <!-- Footer content like copyright, links to privacy policy, etc. -->
     </footer>
-</body>
+  </body>
 </html>
