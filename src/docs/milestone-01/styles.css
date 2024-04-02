@@ -171,20 +171,19 @@ main section h2:hover {
   color: aqua;
 }
 footer {
-    position: fixed; /* or fixed, depending on your needs */
+    position: fixed;
     bottom: 0;
     display: flex;
-    justify-content: flex-end; /* Aligns content to the right */
-    align-items: center; /* Vertically centers content */
+    justify-content: flex-end;
+    align-items: center;
     padding-right: 0.5em;
     padding-bottom: 0.25vh;
-    width: 100%; /* Spans the width of the page */
-    background-color: #353966; /* Your specified blue color */
+    width: 100%;
+    background-color: #353966;
     font-size: 9px;
-    color: white; /* Assuming you want white text */
+    color: white;
     margin-bottom: -2vh;
-    box-sizing: border-box; /* Ensures padding is included in height */
+    box-sizing: border-box;
     border-top-style: solid;
     border-top-color: black;
-    /* border-bottom-color: black; */
 }
