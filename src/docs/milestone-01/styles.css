@@ -11,6 +11,10 @@ body {
   margin-bottom: 5px;
 }
 #vision h1 {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1;
   margin-top: 0px;
   font-family: "Roboto";
   font-weight: 900;
@@ -22,6 +26,8 @@ body {
   outline: 5px solid black;
 }
 #image-showcase-container {
+  /* top: 100px; */
+  z-index: 0;
   display: flex;
   align-items: center;
   /* justify-content: center; */
@@ -113,6 +119,8 @@ figcaption {
 }
 nav {
   /* display: flex; */
+  position: sticky;
+  top: 0;
   text-align: center;
   padding: 2em;
   background-color: #353966;
@@ -149,6 +157,7 @@ main section h2 {
   margin-bottom: 0;
   color: #353966;
   text-shadow: 1px 1px 1px;
+  padding: 0.5em 0.5em 0em;
 }
 main section p {
   display: none;
@@ -160,4 +169,22 @@ main section p {
 main section h2:hover {
   text-align: center;
   color: aqua;
+}
+footer {
+    position: fixed; /* or fixed, depending on your needs */
+    bottom: 0;
+    display: flex;
+    justify-content: flex-end; /* Aligns content to the right */
+    align-items: center; /* Vertically centers content */
+    padding-right: 0.5em;
+    padding-bottom: 0.25vh;
+    width: 100%; /* Spans the width of the page */
+    background-color: #353966; /* Your specified blue color */
+    font-size: 9px;
+    color: white; /* Assuming you want white text */
+    margin-bottom: -2vh;
+    box-sizing: border-box; /* Ensures padding is included in height */
+    border-top-style: solid;
+    border-top-color: black;
+    /* border-bottom-color: black; */
 }
