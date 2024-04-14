@@ -27,6 +27,7 @@
   ],
   "scripts": {
     "milestone-01": "http-server src -p 3000 -c-1 -o /docs/milestone-01/index.html",
+    "milestone-02": "http-server src -p 3000 -c-1 -o /client/index.html",
     "validate-html": "html-validate 'src/**/*.html'",
     "prettier": "prettier src --write",
     "dev": "",
@@ -36,5 +37,8 @@
     "html-validate": "^8.11.1",
     "http-server": "^14.1.1",
     "prettier": "^3.2.5"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3"
   }
 }
