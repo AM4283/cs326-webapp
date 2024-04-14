@@ -112,6 +112,7 @@ figure img {
   width: 50%;
   height: auto;
   border-radius: 50%;
+  outline: 1px solid black;
 }
 figcaption {
   margin-top: 10px;
