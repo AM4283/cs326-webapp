@@ -33,38 +33,46 @@
 
   <body>
     <div class="container">
-        <nav class="navbar bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand">StyleScout360</a>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-                <img class = "nav-bar-icon" src="img/shopping-cart.png">
-                <img class = "nav-bar-icon" src="img/account.png">
-            </div>
-          </nav>
+      <nav class="navbar bg-body-tertiary" id="nav-bar">
+        <div class="row">
+          <div class="col">
+            <a class="unstyled-link" id="nav-bar-title" href="index.html">StyleScout360</a>
+          </div>
+    
+          <div class="col">
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit" id="search-button">Search</button>
+            </form>
+          </div>
+    
+          <div class="col" id="nav-bar-image-links">
+            <a href="cart.html"><img class="nav-bar-icon" src="img/shopping-cart.png"></a>
+            <a href="settings.html"><img class="nav-bar-icon" src="img/account.png"></a>
+          </div>
+        </div>
+      </nav>
         
         <div class="row">
           <div class="col-4" id = "menu" >
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <a role="button" >
+                    <a class="unstyled-link" role="button" href="orders.html">
                         Orders
                       </a>
                 </li>
                 <li class="list-group-item">
-                    <a role="button" >
+                    <a class="unstyled-link" role="button" href="wishlist.html">
                         Wishlist
                       </a>
                 </li>
                 <li class="list-group-item">
-                    <a role="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <a class="unstyled-link" role="button" href="settings.html">
                         Settings
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <a role="button" >
+                    <a class="unstyled-link" role="button" href="sendInfo.html">
                         Send Info
                       </a>
                 </li>
