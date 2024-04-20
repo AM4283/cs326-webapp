@@ -1,3 +1,17 @@
+.add-to-cart-btn{
+  background-color: #353966;
+  color: white;
+  border: none;
+  margin: 4px 2px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.add-to-cart-btn:hover{
+  background-color: #191c41;
+  color: white;
+}
+
 #body{
   text-align: center;
 }
@@ -25,6 +39,11 @@
   background-color: #353966;
   color: white;
   border: none;
+}
+
+.search-result-item-name{
+  font-weight: bold;
+  font-size: larger;
 }
 
 .unstyled-link:link{
