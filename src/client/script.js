@@ -101,3 +101,38 @@ function addToCart(id){
     }
     
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    
+    function navigate(viewId) {
+        document.querySelectorAll(".view").forEach((view) => {
+            view.style.display = "none";
+        });
+        document.getElementById(viewId).style.display = "block";
+    }
+
+    function setLinks(links) {
+        links.forEach(link => {
+            link.addEventListener('click', async e => {
+                e.preventDefault();
+                const href = e.target.getAttribute('href');
+                const view = href.replace('#', '');
+                window.location.hash = view;
+                navigate(view);
+            });
+        });
+    }
+    const menu = document.getElementById("menu");
+    const menuLinks = menu.querySelectorAll('a');
+    setLinks(menuLinks);
+    const iconLinks = document.getElementById("nav-bar-image-links").querySelectorAll('a');
+    setLinks(iconLinks);
+    
+
+    navigate("home");
+});
+
+
+
+
