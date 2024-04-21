@@ -112,8 +112,8 @@ function addToCart(id){
 document.addEventListener("DOMContentLoaded", () => {
 
     async function navigate(viewID) {
-        const viewselm = document.getElementById('views');
-        viewselm.innerHTML = '';
+        const viewsElm = document.getElementById('views');
+        viewsElm.innerHTML = '';
         let view = null;
         if(viewID === "home") {
             view = new HomeView();
@@ -126,11 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if(viewID === "sendInfo") {
             view = new SendInfoView();
         }
-        viewselm.appendChild(await view.render());
-        // document.querySelectorAll(".view").forEach((view) => {
-        //     view.style.display = "none";
-        // });
-        // document.getElementById(viewID).style.display = "block";
+        viewsElm.appendChild(await view.render());
     }
 
     function setLinks(links) {
@@ -151,8 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const iconLinks = document.getElementById("nav-bar-image-links").querySelectorAll('a');
     setLinks(iconLinks);
     
-    
-
     navigate("home");
 });
 
