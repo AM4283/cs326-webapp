@@ -13,6 +13,7 @@
 }
 
 #body{
+  display: flex;
   text-align: center;
 }
 
@@ -54,4 +55,8 @@
 .unstyled-link:visited{
   text-decoration: none; 
   color:#353966; 
+}
+
+.view{
+  text-align: center;
 }

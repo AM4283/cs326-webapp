@@ -1,3 +1,9 @@
+import { WishlistView } from "./WishlistView.js";
+import { CartView } from "./CartView.js"
+import { HomeView } from "./HomeView.js";
+import { SettingsView } from "./SettingsView.js";
+import { SendInfoView } from "./SendInfoView.js";
+
 //Document Elements
 const searchButton = document.getElementById('search-button');
 const searchBar = document.getElementById('search-bar');
@@ -101,3 +107,49 @@ function addToCart(id){
     }
     
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    async function navigate(viewID) {
+        const viewsElm = document.getElementById('views');
+        viewsElm.innerHTML = '';
+        let view = null;
+        if(viewID === "home") {
+            view = new HomeView();
+        } else if(viewID === "cart") {
+            view = new CartView();
+        } else if(viewID === "settings") {
+            view = new SettingsView();
+        } else if(viewID === "wishlist") {
+            view = new WishlistView();
+        } else if(viewID === "sendInfo") {
+            view = new SendInfoView();
+        }
+        viewsElm.appendChild(await view.render());
+    }
+
+    function setLinks(links) {
+        links.forEach(link => {
+            link.addEventListener('click', async e => {
+                e.preventDefault();
+                const href = e.target.getAttribute('href');
+                const view = href.replace('#', '');
+                window.location.hash = view;
+                navigate(view);
+            });
+        });
+    }
+    
+    const menu = document.getElementById("menu");
+    const menuLinks = menu.querySelectorAll('a');
+    setLinks(menuLinks);
+    const iconLinks = document.getElementById("nav-bar-image-links").querySelectorAll('a');
+    setLinks(iconLinks);
+    
+    navigate("home");
+});
+
+
+
+
