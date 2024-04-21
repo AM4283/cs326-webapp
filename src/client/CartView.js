@@ -30,10 +30,10 @@ class Cart {
     async render() {
         const cartElm = document.createElement('div');
         cartElm.id = 'cart';
-        cartElm.className = 'view';
+        cartElm.classList.add('view');
 
         const textElm = document.createElement('h1');
-        textElm.innerText = 'Welcome to the Cart';
+        textElm.innerText = 'This is the cart';
 
         cartElm.appendChild(textElm);
 

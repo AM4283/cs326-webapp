@@ -30,10 +30,10 @@ class SendInfo {
     async render() {
         const sendInfoElm = document.createElement('div');
         sendInfoElm.id = 'sendInfo';
-        sendInfoElm.className = 'view';
+        sendInfoElm.classList.add('view');
 
         const textElm = document.createElement('h1');
-        textElm.innerText = 'Welcome to the send info page';
+        textElm.innerText = 'This is the send info page';
 
         sendInfoElm.appendChild(textElm);
 

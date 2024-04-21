@@ -25,10 +25,10 @@ class Wishlist {
     async render() {
         const wishlistElm = document.createElement('div');
         wishlistElm.id = 'wishlist';
-        wishlistElm.className = 'view';
+        wishlistElm.classList.add('view');
 
         const textElm = document.createElement('h1');
-        textElm.innerText = 'Welcome to the wishlist';
+        textElm.innerText = 'This is the wishlist';
 
         wishlistElm.appendChild(textElm);
 

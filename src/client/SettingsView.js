@@ -25,10 +25,10 @@ class Settings {
     async render() {
         const settingsElm = document.createElement('div');
         settingsElm.id = 'settings';
-        settingsElm.className = 'view';
+        settingsElm.classList.add('view');
 
         const textElm = document.createElement('h1');
-        textElm.innerText = 'Welcome to the settings page';
+        textElm.innerText = 'This is the settings page';
 
         settingsElm.appendChild(textElm);
 
