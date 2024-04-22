@@ -20,6 +20,7 @@
 #nav-bar {
   display: flex;
   justify-content: space-between;
+  padding: 1vh 1vw;
 }
 
 .nav-bar-icon {
