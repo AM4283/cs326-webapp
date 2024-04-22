@@ -8,11 +8,18 @@
       type="image/png"
       href="https://lh3.googleusercontent.com/UvGJ_yf8sWctyTY-plo1i_PxKBawreHlXDobsqKsRhJlsHO68DxtDEwTiT--l8gHm0_tdtb5uBwJviDnfstt0Q=s500"
     />
-    <title>StyleScout 360 Milestone 1</title>
+    <title>StyleScout 360 Milestone 2</title>
     <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="styles.css" />
     <!-- Script Files -->
     <script type="module" src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js"></script>
+    <script type="module" src="user-info.js"></script>
+    <script>
+      var db = new PouchDB('my_database');
+      // export default db;
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -41,19 +48,68 @@
     
           <div class="col">
             <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id = 'search-bar'>
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-bar">
               <button class="btn btn-outline-success" type="button" id="search-button">Search</button>
             </form>
           </div>
     
           <div class="col" id="nav-bar-image-links">
             <a href="cart.html"><img class="nav-bar-icon" src="img/shopping-cart.png"></a>
-            <a href="sendInfo.html"><img class="nav-bar-icon" src="img/account.png"></a>
+            <!-- <a href="sendInfo.html" id="account-button"><img class="nav-bar-icon" src="img/account.png"></a> -->
+            <!-- <button class="btn btn-light" type="button"><img class="nav-bar-icon" src="img/account.png" alt="Account Info"></button> -->
+            <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#accountInfo" aria-controls="accountInfo">
+              <img class="nav-bar-icon" src="img/account.png" alt="Account Info">
+            </button>
           </div>
         </div>
       </nav>
-        
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="accountInfo" aria-labelledby="accountInfoLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="accountInfoLabel">Account Info</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="container">
+            <nav class="navbar bg-body-tertiary">
+              <div id="user-auth-section">
 
+              </div>
+            </nav>
+          </div>
+        <div class="d-none col-lg-10 text-end" id="accountMenu" >
+          <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <a class="unstyled-link" role="button" href="orders.html">
+                    Orders
+                  </a>
+              </li>
+              <li class="list-group-item">
+                <a class="unstyled-link" role="button" href="settings.html/#history">
+                    History
+                  </a>
+              </li>
+              <li class="list-group-item">
+                <a class="unstyled-link" role="button" href="settings.html/#addresses">
+                    Addresses
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a class="unstyled-link" role="button" href="settings.html/#payment-info">
+                    Payment Info
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a class="unstyled-link" role="button" href="settings.html">
+                  Account Settings
+                </a>
+              </li>
+              <li class="list-group-item">
+                <button id="signOutBtn" class="btn btn-primary">Sign Out</button>
+              </li>
+            </ul>
+        </div>
+        </div>
+      </div>
       <div class="row">
         <div class="col-2" id = "menu" >
           <ul class="list-group list-group-flush">
@@ -79,7 +135,6 @@
               </li>
             </ul>
         </div>
-          
         <div class="col-10" id = "body">
           <h1>Welcome to StyleScout360</h1>
         </div>
