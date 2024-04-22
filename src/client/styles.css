@@ -47,6 +47,11 @@
   font-size: larger;
 }
 
+.unstyled-link {
+  text-decoration: none;
+  color: #353966;
+}
+
 .unstyled-link:link {
   text-decoration: none;
   color: #353966;

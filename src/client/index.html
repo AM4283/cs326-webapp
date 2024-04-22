@@ -70,12 +70,17 @@
             </form>
           </div>
 
-          <div class="col" id="nav-bar-image-links">
-            <a
-              ><img href="#cart" class="nav-bar-icon" src="img/shopping-cart.png" alt="Cart"
-            /></a>
+          <div class="col col-4" id="nav-bar-image-links">
+            <a class="btn btn-light btn-sm">
+              <img
+                href="#cart"
+                class="nav-bar-icon"
+                src="img/shopping-cart.png"
+                alt="Cart"
+              />
+            </a>
             <button
-              class="btn btn-light"
+              class="btn btn-light btn-sm"
               type="button"
               data-bs-toggle="offcanvas"
               data-bs-target="#accountInfo"
@@ -169,17 +174,24 @@
               <a class="unstyled-link" href="#wishlist">Wishlist</a>
             </li>
             <li class="list-group-item">
-              <a class="unstyled-link" href="#settings">Settings</a>
+              <a 
+                class="unstyled-link"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#accountInfo"
+                aria-controls="accountInfo"
+              >
+                Account
+              </a>
             </li>
-            <li class="list-group-item">
+            <!-- <li class="list-group-item">
               <a class="unstyled-link" href="#sendInfo">Send Info</a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
       <div class="col-10" id="views"></div>
 
-      <footer>
+      <footer class="fixed-bottom d-flex align-items-end">
         <ul>
           Copyright 326 Team 20, All rights reserved
         </ul>
