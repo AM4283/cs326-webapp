@@ -13,6 +13,7 @@
 }
 
 #body{
+  display: flex;
   text-align: center;
 }
 
@@ -55,6 +56,11 @@
   text-decoration: none; 
   color:#353966; 
 }
+
+.view{
+  text-align: center;
+}
+
 
 #accountInfo {
     width: 20%;
