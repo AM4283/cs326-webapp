@@ -1,37 +1,37 @@
 export class WishlistView {
-    constructor() {}
+  constructor() {}
 
-    async render() {
-        const wishlistViewElm = document.createElement('div');
-        wishlistViewElm.id = 'wishlist-view';
+  async render() {
+    const wishlistViewElm = document.createElement("div");
+    wishlistViewElm.id = "wishlist-view";
 
-        const wishlistContainerElm = document.createElement('div');
-        wishlistContainerElm.id = 'wishlist-container';
+    const wishlistContainerElm = document.createElement("div");
+    wishlistContainerElm.id = "wishlist-container";
 
-        wishlistViewElm.appendChild(wishlistContainerElm);
+    wishlistViewElm.appendChild(wishlistContainerElm);
 
-        const wishlist = new Wishlist();
-        wishlistContainerElm.appendChild(await wishlist.render());
+    const wishlist = new Wishlist();
+    wishlistContainerElm.appendChild(await wishlist.render());
 
-        wishlistViewElm.appendChild(wishlistContainerElm);
+    wishlistViewElm.appendChild(wishlistContainerElm);
 
-        return wishlistViewElm;
-    }
+    return wishlistViewElm;
+  }
 }
 
 class Wishlist {
-    constructor() {}
+  constructor() {}
 
-    async render() {
-        const wishlistElm = document.createElement('div');
-        wishlistElm.id = 'wishlist';
-        wishlistElm.classList.add('view');
+  async render() {
+    const wishlistElm = document.createElement("div");
+    wishlistElm.id = "wishlist";
+    wishlistElm.classList.add("view");
 
-        const textElm = document.createElement('h1');
-        textElm.innerText = 'This is the wishlist';
+    const textElm = document.createElement("h1");
+    textElm.innerText = "This is the wishlist";
 
-        wishlistElm.appendChild(textElm);
+    wishlistElm.appendChild(textElm);
 
-        return wishlistElm;
-    }
+    return wishlistElm;
+  }
 }

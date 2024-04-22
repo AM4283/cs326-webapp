@@ -1,37 +1,37 @@
 export class HomeView {
-    constructor() {}
+  constructor() {}
 
-    async render() {
-        const homeViewElm = document.createElement('div');
-        homeViewElm.id = 'home-view';
+  async render() {
+    const homeViewElm = document.createElement("div");
+    homeViewElm.id = "home-view";
 
-        const homeContainerElm = document.createElement('div');
-        homeContainerElm.id = 'home-container';
+    const homeContainerElm = document.createElement("div");
+    homeContainerElm.id = "home-container";
 
-        homeViewElm.appendChild(homeContainerElm);
+    homeViewElm.appendChild(homeContainerElm);
 
-        const home = new Home();
-        homeContainerElm.appendChild(await home.render());
+    const home = new Home();
+    homeContainerElm.appendChild(await home.render());
 
-        homeViewElm.appendChild(homeContainerElm);
+    homeViewElm.appendChild(homeContainerElm);
 
-        return homeViewElm;
-    }
+    return homeViewElm;
+  }
 }
 
 class Home {
-    constructor() {}
+  constructor() {}
 
-    async render() {
-        const homeElm = document.createElement('div');
-        homeElm.id = 'home';
-        homeElm.classList.add('view');
+  async render() {
+    const homeElm = document.createElement("div");
+    homeElm.id = "home";
+    homeElm.classList.add("view");
 
-        const textElm = document.createElement('h1');
-        textElm.innerText = 'Welcome to StyleScout360';
+    const textElm = document.createElement("h1");
+    textElm.innerText = "Welcome to StyleScout360";
 
-        homeElm.appendChild(textElm);
+    homeElm.appendChild(textElm);
 
-        return homeElm;
-    }
+    return homeElm;
+  }
 }

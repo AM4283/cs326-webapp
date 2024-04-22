@@ -1,37 +1,37 @@
 export class SettingsView {
-    constructor() {}
+  constructor() {}
 
-    async render() {
-        const settingsViewElm = document.createElement('div');
-        settingsViewElm.id = 'settings-view';
+  async render() {
+    const settingsViewElm = document.createElement("div");
+    settingsViewElm.id = "settings-view";
 
-        const settingsContainerElm = document.createElement('div');
-        settingsContainerElm.id = 'settings-container';
+    const settingsContainerElm = document.createElement("div");
+    settingsContainerElm.id = "settings-container";
 
-        settingsViewElm.appendChild(settingsContainerElm);
+    settingsViewElm.appendChild(settingsContainerElm);
 
-        const settings = new Settings();
-        settingsContainerElm.appendChild(await settings.render());
+    const settings = new Settings();
+    settingsContainerElm.appendChild(await settings.render());
 
-        settingsViewElm.appendChild(settingsContainerElm);
+    settingsViewElm.appendChild(settingsContainerElm);
 
-        return settingsViewElm;
-    }
+    return settingsViewElm;
+  }
 }
 
 class Settings {
-    constructor() {}
+  constructor() {}
 
-    async render() {
-        const settingsElm = document.createElement('div');
-        settingsElm.id = 'settings';
-        settingsElm.classList.add('view');
+  async render() {
+    const settingsElm = document.createElement("div");
+    settingsElm.id = "settings";
+    settingsElm.classList.add("view");
 
-        const textElm = document.createElement('h1');
-        textElm.innerText = 'This is the settings page';
+    const textElm = document.createElement("h1");
+    textElm.innerText = "This is the settings page";
 
-        settingsElm.appendChild(textElm);
+    settingsElm.appendChild(textElm);
 
-        return settingsElm;
-    }
+    return settingsElm;
+  }
 }
