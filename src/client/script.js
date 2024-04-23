@@ -69,80 +69,59 @@ const dummyData = [
   },
 ];
 
-<<<<<<< HEAD
 async function performSearch(){
     const searchInput = toString(searchBar.value);
     // window.location.replace("http://127.0.0.1:3000/client/searchResults.html?");
     const collectedData = await searchWebForData(searchInput);
     document.getElementById('search-results-info').innerText = 'Search Results for ' + input + '. ' + collectedData.length + ' results found.';
-    
-=======
-function performSearch() {
-  const input = searchBar.value;
-  // window.location.replace("http://127.0.0.1:3000/client/searchResults.html?");
-  console.log(input);
-  const collectedData = dummyData;
-  console.log(collectedData.length);
-  document.getElementById("search-results-info").innerText =
-    "Search Results for " +
-    input +
-    ". " +
-    collectedData.length +
-    " results found.";
->>>>>>> 6227d6a95ec600c002cacdcabe3523b62c1a1266
 
-  for (let i = 0; i < collectedData.length; ++i) {
-    //create an html element for each of the search results
-    let item = document.createElement("div");
-    item.classList.add("card");
-    item.classList.add("mb-3");
-    // item.style = 'width: 18rem;'
+    for (let i = 0; i < collectedData.length; ++i) {
+        //create an html element for each of the search results
+        let item = document.createElement("div");
+        item.classList.add("card");
+        item.classList.add("mb-3");
+        // item.style = 'width: 18rem;'
 
-    let itemRow = document.createElement("div");
-    itemRow.classList.add("row");
-    itemRow.classList.add("g-0");
+        let itemRow = document.createElement("div");
+        itemRow.classList.add("row");
+        itemRow.classList.add("g-0");
 
-    let imageCol = document.createElement("div");
-    imageCol.classList.add("col-md-4");
+        let imageCol = document.createElement("div");
+        imageCol.classList.add("col-md-4");
 
-    let image = document.createElement("img");
-    image.src = collectedData[i].imgAddr;
-    image.classList.add("search-result-image");
-    image.style = "max-height:300px;";
+        let image = document.createElement("img");
+        image.src = collectedData[i].imgAddr;
+        image.classList.add("search-result-image");
+        image.style = "max-height:300px;";
 
-    let itemBodyCol = document.createElement("div");
-    itemBodyCol.classList.add("col-md-8");
+        let itemBodyCol = document.createElement("div");
+        itemBodyCol.classList.add("col-md-8");
 
-    let itemBody = document.createElement("div");
-    itemBody.classList.add("card-body");
+        let itemBody = document.createElement("div");
+        itemBody.classList.add("card-body");
 
-    let itemName = document.createElement("a");
-    itemName.innerText = collectedData[i].productName;
-    itemName.href = collectedData[i].link;
-    itemName.classList.add("card-title");
-    itemName.classList.add("unstyled-link");
-    itemName.classList.add("search-result-item-name");
+        let itemName = document.createElement("a");
+        itemName.innerText = collectedData[i].productName;
+        itemName.href = collectedData[i].link;
+        itemName.classList.add("card-title");
+        itemName.classList.add("unstyled-link");
+        itemName.classList.add("search-result-item-name");
 
-    let itemStore = document.createElement("h6");
-    itemStore.innerText = collectedData[i].store;
-    itemStore.classList.add("card-subtitle");
-    itemStore.classList.add("mb-2");
-    itemStore.classList.add("text-body-secondary");
+        let itemStore = document.createElement("h6");
+        itemStore.innerText = collectedData[i].store;
+        itemStore.classList.add("card-subtitle");
+        itemStore.classList.add("mb-2");
+        itemStore.classList.add("text-body-secondary");
 
-    let itemPrice = document.createElement("p");
-    itemPrice.innerText = "$" + collectedData[i].price;
-    itemPrice.classList.add("card-text");
+        let itemPrice = document.createElement("p");
+        itemPrice.innerText = "$" + collectedData[i].price;
+        itemPrice.classList.add("card-text");
 
-    let addToCartBtn = document.createElement("BUTTON");
-    addToCartBtn.innerText = "Add to Cart";
-    addToCartBtn.classList.add("add-to-cart-btn");
-    addToCartBtn.id = "button_" + collectedData[i].link;
-
-<<<<<<< HEAD
         let addToCartBtn = document.createElement("BUTTON");
-        addToCartBtn.innerText = 'Add to Cart'
-        addToCartBtn.classList.add('add-to-cart-btn');
-        addToCartBtn.id = "button_" + collectedData[i].link
+        addToCartBtn.innerText = "Add to Cart";
+        addToCartBtn.classList.add("add-to-cart-btn");
+        addToCartBtn.id = "button_" + collectedData[i].link;
+
 
         itemBody.appendChild(itemName)
         itemBody.appendChild(itemStore)
@@ -175,34 +154,6 @@ function addToCart(id){
         btn.innerText = "Add to Cart"
     }
     
-=======
-    itemBody.appendChild(itemName);
-    itemBody.appendChild(itemStore);
-    itemBody.appendChild(itemPrice);
-    itemBody.appendChild(addToCartBtn);
-    imageCol.appendChild(image);
-    itemBodyCol.appendChild(itemBody);
-    itemRow.appendChild(imageCol);
-    itemRow.appendChild(itemBodyCol);
-    item.appendChild(itemRow);
-    searchResults.appendChild(item);
-    document
-      .getElementById("button_" + collectedData[i].link)
-      .addEventListener("click", () => {
-        addToCart("button_" + collectedData[i].link);
-      });
-  }
-}
-
-function addToCart(id) {
-  console.log("added to cart");
-  let btn = document.getElementById(id);
-  if (btn.innerText === "Add to Cart") {
-    btn.innerText = "Remove from Cart";
-  } else {
-    btn.innerText = "Add to Cart";
-  }
->>>>>>> 6227d6a95ec600c002cacdcabe3523b62c1a1266
 }
 
 document.addEventListener("DOMContentLoaded", () => {
