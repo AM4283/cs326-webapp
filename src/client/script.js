@@ -16,12 +16,10 @@ const dummyData = [
     {imgAddr: 'https://s7d2.scene7.com/is/image/aeo/5494_3357_012_f?$pdp-mdg-opt$&fmt=webp', productName: "Aerie Graphic Oversized Boyfriend T-Shirt", price:26.95, store: 'Aerie', link: 'https://www.ae.com/us/en/p/aerie/tops/t/aerie-graphic-oversized-boyfriend-t/5494_3357_012?menu=cat4840006&ip=off'}
 ];
 
-function performSearch(){
-    const input = searchBar.value;
+async function performSearch(){
+    const searchInput = toString(searchBar.value);
     // window.location.replace("http://127.0.0.1:3000/client/searchResults.html?");
-    console.log(input);
-    const collectedData = dummyData;
-    console.log(collectedData.length)
+    const collectedData = await searchWebForData(searchInput);
     document.getElementById('search-results-info').innerText = 'Search Results for ' + input + '. ' + collectedData.length + ' results found.';
     
 
@@ -73,8 +71,6 @@ function performSearch(){
         addToCartBtn.classList.add('add-to-cart-btn');
         addToCartBtn.id = "button_" + collectedData[i].link
 
-
-
         itemBody.appendChild(itemName)
         itemBody.appendChild(itemStore)
         itemBody.appendChild(itemPrice)
@@ -89,6 +85,12 @@ function performSearch(){
     }
 
     
+}
+
+async function searchWebForData(searchInput){
+    //this function will eventually return data using a web scraper
+    console.log('searching the web for results related to ' + searchInput)
+    return dummyData
 }
 
 function addToCart(id){
