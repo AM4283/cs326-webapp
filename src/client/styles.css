@@ -1,3 +1,7 @@
+#accountInfo {
+  width: 20%;
+}
+
 .add-to-cart-btn {
   background-color: #353966;
   color: white;
@@ -66,8 +70,4 @@
 
 .view {
   text-align: center;
-}
-
-#accountInfo {
-  width: 20%;
 }
