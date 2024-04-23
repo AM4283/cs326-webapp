@@ -8,11 +8,21 @@
       type="image/png"
       href="https://lh3.googleusercontent.com/UvGJ_yf8sWctyTY-plo1i_PxKBawreHlXDobsqKsRhJlsHO68DxtDEwTiT--l8gHm0_tdtb5uBwJviDnfstt0Q=s500"
     />
-    <title>StyleScout 360 Milestone 1</title>
+    <title>StyleScout 360 Milestone 2</title>
     <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="styles.css" />
     <!-- Script Files -->
     <script type="module" src="script.js" defer></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="//cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js"></script>
+    <script type="module" src="user-info.js"></script>
+    <script>
+      var db = new PouchDB("my_database");
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -33,64 +43,159 @@
 
   <body>
     <div class="container">
-      <nav class="navbar bg-body-tertiary" id="nav-bar">
+      <nav class="navbar bg-body-tertiary" id="nav-bar" aria-label="Main Navigation">
         <div class="row">
           <div class="col">
-            <a class="unstyled-link" id="nav-bar-title" href="index.html">StyleScout360</a>
+            <a class="unstyled-link" id="nav-bar-title" href="index.html"
+              >StyleScout360</a
+            >
           </div>
-    
+
           <div class="col">
             <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id = 'search-bar'>
-              <button class="btn btn-outline-success" type="button" id="search-button">Search</button>
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                id="search-bar"
+              />
+              <button
+                class="btn btn-outline-success"
+                type="submit"
+                id="search-button"
+              >
+                Search
+              </button>
             </form>
           </div>
-    
-          <div class="col" id="nav-bar-image-links">
-            <a href="cart.html"><img class="nav-bar-icon" src="img/shopping-cart.png"></a>
-            <a href="sendInfo.html"><img class="nav-bar-icon" src="img/account.png"></a>
+
+          <div class="col col-4" id="nav-bar-image-links">
+            <a class="btn btn-light btn-sm" href="#cart">
+              <img
+                href="#cart"
+                class="nav-bar-icon"
+                src="img/shopping-cart.png"
+                alt="Cart"
+              />
+            </a>
+            <button
+              class="btn btn-light btn-sm"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#accountInfo"
+              aria-controls="accountInfo"
+            >
+              <img
+                class="nav-bar-icon"
+                src="img/account.png"
+                alt="Account Info"
+              />
+            </button>
           </div>
         </div>
       </nav>
-        
-
-      <div class="row">
-        <div class="col-2" id = "menu" >
-          <ul class="list-group list-group-flush">
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="accountInfo"
+        aria-labelledby="accountInfoLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="accountInfoLabel">Account Info</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="container">
+            <nav class="navbar bg-body-tertiary" aria-label="User Authentication">
+              <div id="user-auth-section"></div>
+            </nav>
+          </div>
+          <div class="d-none col-lg-10 text-end" id="accountMenu">
+            <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                  <a class="unstyled-link" role="button" href="cart.html">
-                      Cart
-                    </a>
+                <a class="unstyled-link" href="orders.html">
+                  Orders
+                </a>
               </li>
               <li class="list-group-item">
-                  <a class="unstyled-link" role="button" href="wishlist.html">
-                      Wishlist
-                    </a>
+                <a
+                  class="unstyled-link"
+                  href="settings.html/#history"
+                >
+                  History
+                </a>
               </li>
               <li class="list-group-item">
-                  <a class="unstyled-link" role="button" href="settings.html">
-                      Settings
-                  </a>
+                <a
+                  class="unstyled-link"
+                  href="settings.html/#addresses"
+                >
+                  Addresses
+                </a>
               </li>
               <li class="list-group-item">
-                  <a class="unstyled-link" role="button" href="sendInfo.html">
-                      Send Info
-                    </a>
+                <a
+                  class="unstyled-link"
+                  href="settings.html/#payment-info"
+                >
+                  Payment Info
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a class="unstyled-link" href="settings.html">
+                  Account Settings
+                </a>
+              </li>
+              <li class="list-group-item">
+                <button id="signOutBtn" class="btn btn-primary" type="button">
+                  Sign Out
+                </button>
               </li>
             </ul>
-        </div>
-          
-        <div class="col-10" id = "views">
+          </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-2" id="menu">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <a class="unstyled-link" href="#home">Home</a>
+            </li>
+            <li class="list-group-item">
+              <a class="unstyled-link" href="#cart">Cart</a>
+            </li>
+            <li class="list-group-item">
+              <a class="unstyled-link" href="#wishlist">Wishlist</a>
+            </li>
+            <li class="list-group-item">
+              <a 
+                class="unstyled-link"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#accountInfo"
+                aria-controls="accountInfo"
+              >
+                Account
+              </a>
+            </li>
+            <!-- <li class="list-group-item">
+              <a class="unstyled-link" href="#sendInfo">Send Info</a>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+      <div class="col-10" id="views"></div>
 
-
-    <footer>
-      <!-- Footer content like copyright, links to privacy policy, etc. -->
-      <ul>
-        Copyright 326 Team 20, All rights reserved
-      </ul>
-    </footer>
-    </div>  
+      <footer class="fixed-bottom d-flex align-items-end">
+        <ul>
+          Copyright 326 Team 20, All rights reserved
+        </ul>
+      </footer>
+    </div>
   </body>
 </html>
