@@ -45,6 +45,10 @@
 #search-button {
   background-color: #353966;
   color: white;
+  padding-top: 6px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 10px;
   border: none;
 }
 

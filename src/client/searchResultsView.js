@@ -46,7 +46,6 @@ class SearchResults {
 
 
 // //Document Elements
-// const view = document.getElementById("view")
 // const searchButton = document.getElementById("search-button");
 // const searchBar = document.getElementById("search-bar");
 
