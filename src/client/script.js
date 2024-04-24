@@ -207,6 +207,3 @@ document.addEventListener("DOMContentLoaded", () => {
   navigate("home");
 });
 
-document.getElementById("button_" + collectedData[i].link).addEventListener("click", function() {
-  addToCart("button_" + collectedData[i].link);
-});
