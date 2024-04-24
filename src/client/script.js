@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setLinks(iconLinks);
   const searchLink = document.getElementById('search-button')
   setLinks([searchLink])
+  
 
   navigate("home");
 });

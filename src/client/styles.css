@@ -32,6 +32,17 @@
   margin-bottom: 5px;
 }
 
+.carousel {
+  margin-right: 15%;
+  margin-left: 15%;
+}
+
+.carousel-img {
+  height: 450px;
+  /* width: auto; */
+  /* height:auto; */
+}
+
 #nav-bar {
   display: flex;
   justify-content: space-between;
@@ -50,6 +61,29 @@
 
 #nav-bar-title {
   font-size: xx-large;
+}
+
+#recommended-searches {
+  margin: 45px 0px 25px 0px;
+}
+
+#recommended-search-container {
+  margin-top: 50px;
+}
+
+.recommended-search-img {
+  border-radius: 50%;
+  height: 175px;
+  width: 175px;
+  margin-bottom: 15px;
+}
+
+#recommended-searches-title {
+  padding: 10px 0 10px 0;
+  color: white;
+  margin: 0% 10%;
+  background-color: #5259a2;
+  border-radius: 10px;
 }
 
 #search-button {
