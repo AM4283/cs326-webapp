@@ -32,11 +32,30 @@ class Cart {
     cartElm.id = "cart";
     cartElm.classList.add("view");
 
-    const textElm = document.createElement("h1");
-    textElm.innerText = "This is the cart";
+    
 
-    cartElm.appendChild(textElm);
+    let isSignedIn = true
+
+    if(isSignedIn) {
+      const textElm = document.createElement("h1");
+      textElm.innerText = "Welcome to your cart";
+      cartElm.appendChild(textElm);
+    } else {
+      const textElm = document.createElement("h1");
+      textElm.innerText = "Sign in to view your cart";
+      cartElm.appendChild(textElm);
+    }
+
+   
 
     return cartElm;
+  }
+
+  renderCart(){
+    cartElements = this.getCart()
+  }
+
+  async getCart(){
+    
   }
 }

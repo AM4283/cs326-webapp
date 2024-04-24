@@ -274,7 +274,7 @@ class SearchResults {
                 store: "Aerie",
                 link: "https://www.ae.com/us/en/p/aerie/tops/t/aerie-graphic-oversized-boyfriend-t/5494_3357_012?menu=cat4840006&ip=off",
             },
-            ];
+        ];
         return dummyData
     }
 
