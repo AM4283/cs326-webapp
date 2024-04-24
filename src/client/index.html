@@ -42,6 +42,12 @@
   </head>
 
   <body>
+    <div id="cartSidebar" class="sidebar">
+      <h2>Cart</h2>
+      <div id="cartItems" class="cart-items">
+      </div>
+      <button onclick="alert('Checkout functionality coming soon!')">Checkout</button>
+    </div>
     <div class="container">
 
       <!-- NAV BAR -->
@@ -67,9 +73,8 @@
           </div>
 
           <div class="col col-4" id="nav-bar-image-links">
-            <a class="btn btn-light btn-sm" href="#cart">
+            <a class="btn btn-light btn-sm" onclick="toggleCart()">
               <img
-                href="#cart"
                 class="nav-bar-icon"
                 src="img/shopping-cart.png"
                 alt="Cart"
