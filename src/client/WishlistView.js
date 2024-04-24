@@ -23,15 +23,22 @@ class Wishlist {
   constructor() {}
 
   async render() {
-    const wishlistElm = document.createElement("div");
-    wishlistElm.id = "wishlist";
-    wishlistElm.classList.add("view");
+    const wishlistElem = document.createElement("div");
+    wishlistElem.id = "wishlist";
+    wishlistElem.classList.add("view");
 
-    const textElm = document.createElement("h1");
-    textElm.innerText = "This is the wishlist";
+    let isSignedIn = true
 
-    wishlistElm.appendChild(textElm);
+    if(isSignedIn) {
+      const textElem = document.createElement("h1");
+      textElem.innerText = "Welcome to your wishlist";
+      wishlistElem.appendChild(textElem);
+    } else {
+      const textElem = document.createElement("h1");
+      textElem.innerText = "Sign in to view your wishlist...";
+      wishlistElem.appendChild(textElem);
+    }
 
-    return wishlistElm;
+    return wishlistElem;
   }
 }
