@@ -173,9 +173,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let view = null;
     if (viewID === "home") {
       view = new HomeView();
-    } else if (viewID === "cart") {
-      view = new CartView();
-    } else if (viewID === "wishlist") {
+    } 
+    // else if (viewID === "cart") {
+    //   view = new CartView();
+    // } 
+    else if (viewID === "wishlist") {
       view = new WishlistView();
     } else if (viewID === "searchResults") {
         view = new SearchResultsView();
