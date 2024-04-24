@@ -34,8 +34,85 @@ class SearchResults {
         const searchResults = await this.searchWebForData(searchInput)
         searchResultsElem.appendChild(this.renderSearchResultTools(searchInput, searchResults.length))
 
+        searchResultsElem.appendChild(this.renderSearchResults(searchResults))
+
         return searchResultsElem;
 
+    }
+
+    renderSearchResults(searchResults) {
+        const allResults = document.createElement('div')
+        console.log(searchResults)
+
+        for (let i = 0; i < searchResults.length; ++i) {
+            const item = document.createElement("div");
+            item.classList.add("card");
+            item.classList.add("mb-3");
+
+            let itemRow = document.createElement("div");
+            itemRow.classList.add("row");
+            itemRow.classList.add("g-0");
+
+            let imageCol = document.createElement("div");
+            imageCol.classList.add("col-md-4");
+
+            let image = document.createElement("img");
+            image.src = searchResults[i].imgAddr;
+            image.classList.add("search-result-image");
+            image.style = "max-height:300px;";
+
+            let itemBodyCol = document.createElement("div");
+            itemBodyCol.classList.add("col-md-8");
+
+            let itemBody = document.createElement("div");
+            itemBody.classList.add("card-body");
+
+            let itemName = document.createElement("a");
+            itemName.innerText = searchResults[i].productName;
+            itemName.href = searchResults[i].link;
+            itemName.classList.add("card-title");
+            itemName.classList.add("unstyled-link");
+            itemName.classList.add("search-result-item-name");
+
+            let itemStore = document.createElement("h6");
+            itemStore.innerText = searchResults[i].store;
+            itemStore.classList.add("card-subtitle");
+            itemStore.classList.add("mb-2");
+            itemStore.classList.add("text-body-secondary");
+
+            let itemPrice = document.createElement("p");
+            itemPrice.innerText = "$" + searchResults[i].price;
+            itemPrice.classList.add("card-text");
+
+            let addToCartBtn = document.createElement("BUTTON");
+            addToCartBtn.innerText = "Add to Cart";
+            addToCartBtn.classList.add("add-to-cart-btn");
+            addToCartBtn.id = "button_" + searchResults[i].link;
+            addToCartBtn.addEventListener('click', () => { this.addToCart(searchResults[i])})
+
+
+            itemBody.appendChild(itemName)
+            itemBody.appendChild(itemStore)
+            itemBody.appendChild(itemPrice)
+            itemBody.appendChild(addToCartBtn)
+            imageCol.appendChild(image)
+            itemBodyCol.appendChild(itemBody)
+            itemRow.appendChild(imageCol)
+            itemRow.appendChild(itemBodyCol)
+            item.appendChild(itemRow)
+            allResults.appendChild(item)
+        }
+        return allResults
+    }
+
+    addToCart(itemInfo){
+        console.log('added to cart')
+        let btn = document.getElementById('button_' + itemInfo.link)
+        if(btn.innerText === 'Add to Cart'){
+            btn.innerText = "Remove from Cart"
+        } else {
+            btn.innerText = "Add to Cart"
+        }
     }
 
     renderSearchResultTools(searchInput, resultsLen){
