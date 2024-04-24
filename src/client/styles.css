@@ -70,3 +70,34 @@
 #accountInfo {
   width: 20%;
 }
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  color: white;
+}
+
+.sidebar h2 {
+  padding-left: 15px;
+}
+
+.sidebar button {
+  margin: 20px 10px;
+}
+
+.cart-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ccc;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}

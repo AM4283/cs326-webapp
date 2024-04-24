@@ -149,14 +149,32 @@ function performSearch() {
   }
 }
 
+function toggleCart() {
+  var cartSidebar = document.getElementById("cartSidebar");
+  if (cartSidebar.style.width === '0px' || cartSidebar.style.width === '') {
+      cartSidebar.style.width = '250px';
+  } else {
+      cartSidebar.style.width = '0px';
+  }
+}
+
 function addToCart(id) {
-  console.log("added to cart");
+  console.log("added to cart", id);
   let btn = document.getElementById(id);
+  let product = dummyData.find(data => 'button_' + data.link === id);
+  let cartItemsContainer = document.getElementById('cartItems');
+  
   if (btn.innerText === "Add to Cart") {
     btn.innerText = "Remove from Cart";
+    let item = document.createElement('div');
+    item.className = 'cart-item';
+    item.innerHTML = `<img src="${product.imgAddr}" alt="Item" style="width:50px; height:50px; vertical-align: middle;">
+                      <p>${product.productName} - $${product.price}</p>`;
+    cartItemsContainer.appendChild(item);
   } else {
-    btn.innerText = "Add to Cart";
+    alert('This item is already in your cart');
   }
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -199,4 +217,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setLinks(iconLinks);
 
   navigate("home");
+});
+
+document.getElementById("button_" + collectedData[i].link).addEventListener("click", function() {
+  addToCart("button_" + collectedData[i].link);
 });
