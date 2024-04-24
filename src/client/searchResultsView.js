@@ -23,25 +23,29 @@ export class SearchResultsView {
 
 class SearchResults {
 
-    constructor() {}
+    constructor() {
+        this.sortOrder = 'Sort By'
+        this.filters = []
+        this.searchResults = []
+        this.searchResultsElem = document.createElement("div")
+    }
 
     async render (){
-        let searchResultsElem = document.createElement("div");
-        searchResultsElem.id = "searchResults";
-        searchResultsElem.classList.add("view");
+        this.searchResultsElem.id = "searchResults";
+        this.searchResultsElem.classList.add("view");
 
         const searchInput = document.getElementById('search-bar').value
-        const searchResults = await this.searchWebForData(searchInput)
-        searchResultsElem.appendChild(this.renderSearchResultTools(searchInput, searchResults.length))
+        this.searchResults = await this.searchWebForData(searchInput)
+        this.searchResultsElem.appendChild(this.renderSearchResultTools(searchInput))
 
-        searchResultsElem.appendChild(this.renderSearchResults(searchResults))
+        this.searchResultsElem.appendChild(this.renderSearchResults(this.searchResults))
 
-        return searchResultsElem;
-
+        return this.searchResultsElem;
     }
 
     renderSearchResults(searchResults) {
         const allResults = document.createElement('div')
+        allResults.id = 'results'
         console.log(searchResults)
 
         for (let i = 0; i < searchResults.length; ++i) {
@@ -86,7 +90,8 @@ class SearchResults {
 
             let addToCartBtn = document.createElement("BUTTON");
             addToCartBtn.innerText = "Add to Cart";
-            addToCartBtn.classList.add("add-to-cart-btn");
+            addToCartBtn.classList.add("add-to-cart-button");
+            addToCartBtn.classList.add('standard-button')
             addToCartBtn.id = "button_" + searchResults[i].link;
             addToCartBtn.addEventListener('click', () => { this.addToCart(searchResults[i])})
 
@@ -115,7 +120,7 @@ class SearchResults {
         }
     }
 
-    renderSearchResultTools(searchInput, resultsLen){
+    renderSearchResultTools(searchInput){
         console.log('rendering the tool bar')
 
         const tools = document.createElement('div')
@@ -130,19 +135,31 @@ class SearchResults {
         sortOptions.name = 'sort'
         sortOptions.innerText = 'Sort By'
         selectCol.appendChild(sortOptions)
-        
-        const optionList = ['Sort By', 'Price Low to High', 'Price High to Low']
+
+        const defaultOption = document.createElement("option");
+        defaultOption.value = 'none'
+        defaultOption.selected = true
+        defaultOption.disabled = true
+        defaultOption.hidden = true
+        defaultOption.innerText = 'Sort By'
+        sortOptions.appendChild(defaultOption)
+
+        const optionList = ['Featured', 'Price Low to High', 'Price High to Low']
         for (let i = 0; i < optionList.length; i++) {
             const option = document.createElement("option");
             option.value = optionList[i];
             option.innerText = optionList[i];
             sortOptions.appendChild(option);
         }
+        sortOptions.addEventListener('change', () => {
+            this.sortOrder = sortOptions.value
+            this.reRender()
+        })
 
         const resultInfo = document.createElement('p')
         resultInfo.classList.add('col')
         resultInfo.id = 'search-results-info'
-        resultInfo.innerText = 'Search Results for \"' + searchInput + '\". ' + resultsLen + ' results found.';
+        resultInfo.innerText = 'Search Results for \"' + searchInput + '\". ' + this.searchResults.length + ' results found.';
         tools.appendChild(resultInfo)
 
         const filterBtnCol = document.createElement('div')
@@ -150,13 +167,30 @@ class SearchResults {
         tools.appendChild(filterBtnCol)
 
         const filterBtn = document.createElement('button')
-        filterBtn.classList.add('col')
         filterBtn.innerText = 'Filter'
         filterBtn.id = 'filter-button'
+        filterBtn.classList.add('standard-button')
         filterBtn.value = 'filter'
         filterBtnCol.appendChild(filterBtn)
 
         return tools
+    }
+
+    reRender(){
+        console.log('re-rendering in process')
+        console.log('sort order: ' + this.sortOrder)
+        console.log('filters: ' + this.filters)
+
+        let reSortedResults = [...this.searchResults]
+        if(this.sortOrder === 'Price Low to High'){
+            reSortedResults =  reSortedResults.sort((a,b) => a.price - b.price)
+        } else if(this.sortOrder === 'Price High to Low'){
+            reSortedResults = reSortedResults.sort((a,b) => b.price - a.price)
+        }
+
+        this.searchResultsElem.removeChild(document.getElementById('results'))
+        this.searchResultsElem.appendChild(this.renderSearchResults(reSortedResults))
+
     }
 
     async searchWebForData(searchInput){
@@ -224,101 +258,3 @@ class SearchResults {
     }
 
 }
-
-
-
-
-// //Document Elements
-// const searchButton = document.getElementById("search-button");
-// const searchBar = document.getElementById("search-bar");
-
-// //Event listeners
-// // searchButton.addEventListener("click", performSearch);
-
-
-// async function performSearch(){
-//     // view.innerHTML = "";
-//     const searchInput = toString(searchBar.value);
-//     // window.location.replace("http://127.0.0.1:3000/client/searchResults.html?");
-//     const collectedData = await searchWebForData(searchInput);
-//     document.getElementById('search-results-info').innerText = 'Search Results for ' + input + '. ' + collectedData.length + ' results found.';
-
-//     for (let i = 0; i < collectedData.length; ++i) {
-//         //create an html element for each of the search results
-//         let item = document.createElement("div");
-//         item.classList.add("card");
-//         item.classList.add("mb-3");
-//         // item.style = 'width: 18rem;'
-
-//         let itemRow = document.createElement("div");
-//         itemRow.classList.add("row");
-//         itemRow.classList.add("g-0");
-
-//         let imageCol = document.createElement("div");
-//         imageCol.classList.add("col-md-4");
-
-//         let image = document.createElement("img");
-//         image.src = collectedData[i].imgAddr;
-//         image.classList.add("search-result-image");
-//         image.style = "max-height:300px;";
-
-//         let itemBodyCol = document.createElement("div");
-//         itemBodyCol.classList.add("col-md-8");
-
-//         let itemBody = document.createElement("div");
-//         itemBody.classList.add("card-body");
-
-//         let itemName = document.createElement("a");
-//         itemName.innerText = collectedData[i].productName;
-//         itemName.href = collectedData[i].link;
-//         itemName.classList.add("card-title");
-//         itemName.classList.add("unstyled-link");
-//         itemName.classList.add("search-result-item-name");
-
-//         let itemStore = document.createElement("h6");
-//         itemStore.innerText = collectedData[i].store;
-//         itemStore.classList.add("card-subtitle");
-//         itemStore.classList.add("mb-2");
-//         itemStore.classList.add("text-body-secondary");
-
-//         let itemPrice = document.createElement("p");
-//         itemPrice.innerText = "$" + collectedData[i].price;
-//         itemPrice.classList.add("card-text");
-
-//         let addToCartBtn = document.createElement("BUTTON");
-//         addToCartBtn.innerText = "Add to Cart";
-//         addToCartBtn.classList.add("add-to-cart-btn");
-//         addToCartBtn.id = "button_" + collectedData[i].link;
-
-
-//         itemBody.appendChild(itemName)
-//         itemBody.appendChild(itemStore)
-//         itemBody.appendChild(itemPrice)
-//         itemBody.appendChild(addToCartBtn)
-//         imageCol.appendChild(image)
-//         itemBodyCol.appendChild(itemBody)
-//         itemRow.appendChild(imageCol)
-//         itemRow.appendChild(itemBodyCol)
-//         item.appendChild(itemRow)
-//         searchResults.appendChild(item)
-//         document.getElementById("button_" + collectedData[i].link).addEventListener('click', () => { addToCart("button_" + collectedData[i].link)})
-//     }
-
-    
-// }
-
-// async function searchWebForData(searchInput){
-//     //this function will eventually return data using a web scraper
-//     console.log('searching the web for results related to ' + searchInput)
-//     return dummyData
-// }
-
-// function addToCart(id){
-//     console.log('added to cart')
-//     let btn = document.getElementById(id)
-//     if(btn.innerText === 'Add to Cart'){
-//         btn.innerText = "Remove from Cart"
-//     } else {
-//         btn.innerText = "Add to Cart"
-//     }
-// }
