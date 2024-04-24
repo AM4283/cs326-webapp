@@ -71,8 +71,8 @@
               class="btn btn-light btn-sm"
               type="button"
               data-bs-toggle="offcanvas"
-              data-bs-target="#cartInfo"
-              aria-controls="cartInfo"
+              data-bs-target="#cart"
+              aria-controls="cart"
             >
               <img
                 class="nav-bar-icon"
@@ -165,73 +165,37 @@
         </div>
       </div>
 
-      <!-- HIDDEN CART -->
-      <div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="cartInfo"
-        aria-labelledby="cartInfoLabel"
-      >
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="cartInfoLabel">Cart</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="offcanvas-body">
-          <div class="container">
-            <nav class="navbar bg-body-tertiary" aria-label="User Authentication">
-              <div id="user-auth-section"></div>
-            </nav>
-          </div>
-          <div class="d-none col-lg-10 text-end" id="accountMenu">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <a class="unstyled-link" href="orders.html">
-                  Orders
-                </a>
-              </li>
-              <li class="list-group-item">
-                <a
-                  class="unstyled-link"
-                  href="settings.html/#history"
-                >
-                  History
-                </a>
-              </li>
-              <li class="list-group-item">
-                <a
-                  class="unstyled-link"
-                  href="settings.html/#addresses"
-                >
-                  Addresses
-                </a>
-              </li>
-              <li class="list-group-item">
-                <a
-                  class="unstyled-link"
-                  href="settings.html/#payment-info"
-                >
-                  Payment Info
-                </a>
-              </li>
-              <li class="list-group-item">
-                <a class="unstyled-link" href="settings.html">
-                  Account Settings
-                </a>
-              </li>
-              <li class="list-group-item">
-                <button id="signOutBtn" class="btn btn-primary" type="button">
-                  Sign Out
-                </button>
-              </li>
-            </ul>
-          </div>
+<!-- HIDDEN CART VIEW -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cart" aria-labelledby="cartLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="cartLabel">Shopping Cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="row align-items-center">
+                <div class="col-4">
+                  <img src="img/nikefleece.jpg" alt="Item Name" class="img-fluid">
+                </div>
+                <div class="col-8">
+                  <h6 class="mb-1">Nike Fleece</h6>
+                  <p class="mb-1">Price: $145.00</p>
+                  <button class="btn btn-sm btn-outline-primary">Remove</button>
+                </div>
+              </div>
+            </li>
+            <!-- More items -->
+          </ul>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
 
       <!-- PAGE NAVIGATION -->
       <div class="row">
