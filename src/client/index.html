@@ -42,14 +42,8 @@
   </head>
 
   <body>
-    <div id="cartSidebar" class="sidebar">
-      <h2>Cart</h2>
-      <div id="cartItems" class="cart-items">
-      </div>
-      <button onclick="alert('Checkout functionality coming soon!')">Checkout</button>
-    </div>
     <div class="container">
-
+      
       <!-- NAV BAR -->
       <nav class="navbar bg-body-tertiary" id="nav-bar" aria-label="Main Navigation">
         <div class="row">
@@ -73,13 +67,19 @@
           </div>
 
           <div class="col col-4" id="nav-bar-image-links">
-            <a class="btn btn-light btn-sm" onclick="toggleCart()">
+            <button
+              class="btn btn-light btn-sm"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#cartInfo"
+              aria-controls="cartInfo"
+            >
               <img
                 class="nav-bar-icon"
                 src="img/shopping-cart.png"
                 alt="Cart"
               />
-            </a>
+            </button>
             <button
               class="btn btn-light btn-sm"
               type="button"
@@ -106,6 +106,74 @@
       >
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="accountInfoLabel">Account Info</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="container">
+            <nav class="navbar bg-body-tertiary" aria-label="User Authentication">
+              <div id="user-auth-section"></div>
+            </nav>
+          </div>
+          <div class="d-none col-lg-10 text-end" id="accountMenu">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <a class="unstyled-link" href="orders.html">
+                  Orders
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a
+                  class="unstyled-link"
+                  href="settings.html/#history"
+                >
+                  History
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a
+                  class="unstyled-link"
+                  href="settings.html/#addresses"
+                >
+                  Addresses
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a
+                  class="unstyled-link"
+                  href="settings.html/#payment-info"
+                >
+                  Payment Info
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a class="unstyled-link" href="settings.html">
+                  Account Settings
+                </a>
+              </li>
+              <li class="list-group-item">
+                <button id="signOutBtn" class="btn btn-primary" type="button">
+                  Sign Out
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- HIDDEN CART -->
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="cartInfo"
+        aria-labelledby="cartInfoLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="cartInfoLabel">Cart</h5>
           <button
             type="button"
             class="btn-close"
@@ -267,7 +335,7 @@
 
       <footer class="fixed-bottom d-flex align-items-end">
         <ul>
-          Copyright 326 Team 20, All rights reserved
+          Copyright 326 Team 20, All Rights Reserved
         </ul>
       </footer>
     </div>

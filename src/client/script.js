@@ -147,15 +147,6 @@ function performSearch() {
   }
 }
 
-function toggleCart() {
-  var cartSidebar = document.getElementById("cartSidebar");
-  if (cartSidebar.style.width === '0px' || cartSidebar.style.width === '') {
-      cartSidebar.style.width = '250px';
-  } else {
-      cartSidebar.style.width = '0px';
-  }
-}
-
 function addToCart(id) {
   console.log("added to cart", id);
   let btn = document.getElementById(id);
