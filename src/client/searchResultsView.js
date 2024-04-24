@@ -176,22 +176,6 @@ class SearchResults {
         return tools
     }
 
-    reRender(){
-        console.log('re-rendering in process')
-        console.log('sort order: ' + this.sortOrder)
-        console.log('filters: ' + this.filters)
-
-        let reSortedResults = [...this.searchResults]
-        if(this.sortOrder === 'Price Low to High'){
-            reSortedResults =  reSortedResults.sort((a,b) => a.price - b.price)
-        } else if(this.sortOrder === 'Price High to Low'){
-            reSortedResults = reSortedResults.sort((a,b) => b.price - a.price)
-        }
-
-        this.searchResultsElem.removeChild(document.getElementById('results'))
-        this.searchResultsElem.appendChild(this.renderSearchResults(reSortedResults))
-    }
-
     async searchWebForData(searchInput){
         //this function will eventually return data using a web scraper
         console.log('searching the web for results related to ' + searchInput)
