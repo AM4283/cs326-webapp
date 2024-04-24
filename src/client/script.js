@@ -188,9 +188,11 @@ document.addEventListener("DOMContentLoaded", () => {
       link.addEventListener("click", async (e) => {
         e.preventDefault();
         const href = e.target.getAttribute("href");
-        const view = href.replace("#", "");
-        window.location.hash = view;
-        navigate(view);
+        if(href) {
+          const view = href.replace("#", "");
+          window.location.hash = view;
+          navigate(view);
+        }
       });
     });
   }
@@ -198,10 +200,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const menu = document.getElementById("menu");
   const menuLinks = menu.querySelectorAll("a");
   setLinks(menuLinks);
-  const iconLinks = document
-    .getElementById("nav-bar-image-links")
-    .querySelectorAll("a");
-  setLinks(iconLinks);
   const searchLink = document.getElementById('search-button')
   setLinks([searchLink])
   
