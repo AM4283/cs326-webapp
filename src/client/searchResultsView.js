@@ -87,18 +87,40 @@ class SearchResults {
             itemPrice.innerText = "$" + searchResults[i].price;
             itemPrice.classList.add("card-text");
 
+            let buttonRow = document.createElement('div')
+            buttonRow.classList.add('row')
+
+            let addToCartBtnCol = document.createElement('div')
+            addToCartBtnCol.classList.add('col')
+            buttonRow.appendChild(addToCartBtnCol)
+
             let addToCartBtn = document.createElement("BUTTON");
             addToCartBtn.innerText = "Add to Cart";
-            addToCartBtn.classList.add("add-to-cart-button");
+            addToCartBtn.classList.add("add-to-button");
             addToCartBtn.classList.add('standard-button')
-            addToCartBtn.id = "button_" + searchResults[i].link;
+            addToCartBtn.id = "cart_button_" + searchResults[i].link;
             addToCartBtn.addEventListener('click', () => { this.addToCart(searchResults[i])})
+            addToCartBtnCol.appendChild(addToCartBtn)
+            
+
+            let addToWishlistBtnCol = document.createElement('div')
+            addToWishlistBtnCol.classList.add('col')
+            buttonRow.appendChild(addToWishlistBtnCol)
+
+            let addToWishlistBtn = document.createElement("BUTTON");
+            addToWishlistBtn.innerText = "Add to Wishlist";
+            addToWishlistBtn.classList.add('col')
+            addToWishlistBtn.classList.add("add-to-button");
+            addToWishlistBtn.classList.add('standard-button')
+            addToWishlistBtn.id = "wishlist_button_" + searchResults[i].link;
+            addToWishlistBtn.addEventListener('click', () => { this.addToWishlist(searchResults[i])})
+            addToWishlistBtnCol.appendChild(addToWishlistBtn)
 
 
             itemBody.appendChild(itemName)
             itemBody.appendChild(itemStore)
             itemBody.appendChild(itemPrice)
-            itemBody.appendChild(addToCartBtn)
+            itemBody.appendChild(buttonRow)
             imageCol.appendChild(image)
             itemBodyCol.appendChild(itemBody)
             itemRow.appendChild(imageCol)
@@ -128,11 +150,21 @@ class SearchResults {
 
     addToCart(itemInfo){
         console.log('added to cart')
-        let btn = document.getElementById('button_' + itemInfo.link)
+        let btn = document.getElementById('cart_button_' + itemInfo.link)
         if(btn.innerText === 'Add to Cart'){
             btn.innerText = "Remove from Cart"
         } else {
             btn.innerText = "Add to Cart"
+        }
+    }
+
+    addToWishlist(itemInfo){
+        console.log('added to wishlist')
+        let btn = document.getElementById('wishlist_button_' + itemInfo.link)
+        if(btn.innerText === 'Add to Wishlist'){
+            btn.innerText = "Remove from Wishlist"
+        } else {
+            btn.innerText = "Add to WishList"
         }
     }
 
@@ -178,17 +210,6 @@ class SearchResults {
             this.sortOrder = sortOptions.value
             this.reRender()
         })
-
-        // const filterBtnCol = document.createElement('div')
-        // filterBtnCol.classList.add('col')
-        // tools.appendChild(filterBtnCol)
-
-        // const filterBtn = document.createElement('button')
-        // filterBtn.innerText = 'Filter'
-        // filterBtn.id = 'filter-button'
-        // filterBtn.classList.add('standard-button')
-        // filterBtn.value = 'filter'
-        // filterBtnCol.appendChild(filterBtn)
 
         return tools
     }

@@ -2,10 +2,9 @@
   width: 20%;
 }
 
-.add-to-cart-button {
-  margin: 4px 2px;
-  padding: 20px;
-  margin-bottom: auto;
+.add-to-button {
+  /* margin: 0px 7px; */
+  padding: 10px;
 }
 
 #body {
