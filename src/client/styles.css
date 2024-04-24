@@ -5,6 +5,7 @@
 .add-to-cart-button {
   margin: 4px 2px;
   padding: 20px;
+  margin-bottom: auto;
 }
 
 #body {
@@ -12,13 +13,24 @@
   text-align: center;
   padding-top: 15px;
 }
-/* 
-#filter-button {
-  padding: 8px 18px 8px 18px
-} */
 
-#filter-button {
-  padding: 8px 18px 8px 18px
+.card-text {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.card-subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 5px;
 }
 
 #nav-bar {
@@ -50,6 +62,12 @@
   border: none;
 }
 
+.search-result-image{
+  height: 250px;
+  width: auto;
+  border-radius: 8px 0 0 8px;
+}
+
 .search-result-item-name {
   font-weight: bold;
   font-size: larger;
@@ -59,11 +77,32 @@
   margin-bottom: 10px;
 }
 
+#sort-options {
+  width: 200px; /* Adjust width as needed */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #333;
+}
+
+
+#sort-options:hover {
+  background-color: #f9f9f9;
+}
+
+#sort-options option {
+  padding: 8px;
+}
+
 .standard-button{
   background-color: #353966;
   color: white;
   border: none;
   border-radius: 8px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .standard-button:hover{

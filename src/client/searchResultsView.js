@@ -63,7 +63,6 @@ class SearchResults {
             let image = document.createElement("img");
             image.src = searchResults[i].imgAddr;
             image.classList.add("search-result-image");
-            image.style = "max-height:300px;";
 
             let itemBodyCol = document.createElement("div");
             itemBodyCol.classList.add("col-md-8");
@@ -110,6 +109,23 @@ class SearchResults {
         return allResults
     }
 
+    reRender(){
+        console.log('re-rendering in process')
+        console.log('sort order: ' + this.sortOrder)
+        console.log('filters: ' + this.filters)
+
+        let reSortedResults = [...this.searchResults]
+        if(this.sortOrder === 'Price Low to High'){
+            reSortedResults =  reSortedResults.sort((a,b) => a.price - b.price)
+        } else if(this.sortOrder === 'Price High to Low'){
+            reSortedResults = reSortedResults.sort((a,b) => b.price - a.price)
+        }
+
+        this.searchResultsElem.removeChild(document.getElementById('results'))
+        this.searchResultsElem.appendChild(this.renderSearchResults(reSortedResults))
+
+    }
+
     addToCart(itemInfo){
         console.log('added to cart')
         let btn = document.getElementById('button_' + itemInfo.link)
@@ -127,6 +143,12 @@ class SearchResults {
         tools.classList.add('row')
         tools.id = 'search-results-tools'
 
+        const resultInfo = document.createElement('p')
+        resultInfo.classList.add('col')
+        resultInfo.id = 'search-results-info'
+        resultInfo.innerText = 'Search Results for \"' + searchInput + '\". ' + this.searchResults.length + ' results found.';
+        tools.appendChild(resultInfo)
+
         const selectCol = document.createElement('div')
         selectCol.classList.add('col')
         tools.appendChild(selectCol)
@@ -134,6 +156,7 @@ class SearchResults {
         const sortOptions = document.createElement('select')
         sortOptions.name = 'sort'
         sortOptions.innerText = 'Sort By'
+        sortOptions.id = 'sort-options'
         selectCol.appendChild(sortOptions)
 
         const defaultOption = document.createElement("option");
@@ -155,12 +178,6 @@ class SearchResults {
             this.sortOrder = sortOptions.value
             this.reRender()
         })
-
-        const resultInfo = document.createElement('p')
-        resultInfo.classList.add('col')
-        resultInfo.id = 'search-results-info'
-        resultInfo.innerText = 'Search Results for \"' + searchInput + '\". ' + this.searchResults.length + ' results found.';
-        tools.appendChild(resultInfo)
 
         // const filterBtnCol = document.createElement('div')
         // filterBtnCol.classList.add('col')
