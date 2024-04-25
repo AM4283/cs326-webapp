@@ -1,5 +1,9 @@
-// import db from './index.html';
-
+/**
+ * Adds a document to the database.
+ * @async
+ * @function addDocument
+ * @param {Object} doc - The document to be added.
+ */
 async function addDocument(doc) {
   try {
     const response = await db.put(doc);
@@ -9,8 +13,12 @@ async function addDocument(doc) {
   }
 }
 
-//   addDocument({ _id: 'unique_document_id', data: { /* your data here */ } });
-
+/**
+ * Retrieves a document from the database by its ID.
+ * @async
+ * @function getDocument
+ * @param {string} id - The ID of the document to retrieve.
+ */
 async function getDocument(id) {
   try {
     const doc = await db.get(id);
@@ -20,8 +28,11 @@ async function getDocument(id) {
   }
 }
 
-//   getDocument('unique_document_id');
-
+/**
+ * Synchronizes the local database with the remote database.
+ * @async
+ * @function syncDatabase
+ */
 async function syncDatabase() {
   try {
     await PouchDB.sync("my_database", "<http://example.com/mydb>");
@@ -31,8 +42,10 @@ async function syncDatabase() {
   }
 }
 
-//   syncDatabase();
-
+/**
+ * Updates the authentication UI based on the user's sign-in status.
+ * @function updateAuthUI
+ */
 function updateAuthUI() {
   const userAuthSection = document.getElementById("user-auth-section");
   // Check if user is signed in (this example uses localStorage for simplicity)
@@ -52,6 +65,10 @@ function updateAuthUI() {
   }
 }
 
+/**
+ * Adds event listeners for authentication buttons.
+ * @function addAuthEventListeners
+ */
 function addAuthEventListeners() {
   document.getElementById("signInBtn").addEventListener("click", function () {
     displaySignInForm();
@@ -63,15 +80,19 @@ function addAuthEventListeners() {
     });
 }
 
-// Simplified sign-in and account creation functions
-// Implement actual database checks and updates here using PouchDB
-
-// Example sign-out function
+/**
+ * Signs out the current user and updates the UI.
+ * @function signOut
+ */
 function signOut() {
   localStorage.removeItem("currentUser");
   updateAuthUI();
 }
 
+/**
+ * Displays the sign-in form.
+ * @function displaySignInForm
+ */
 function displaySignInForm() {
   const userAuthSection = document.getElementById("user-auth-section");
   userAuthSection.innerHTML = `
@@ -82,6 +103,10 @@ function displaySignInForm() {
   document.getElementById("signInSubmit").addEventListener("click", signIn);
 }
 
+/**
+ * Displays the create account form.
+ * @function displayCreateAccountForm
+ */
 function displayCreateAccountForm() {
   const userAuthSection = document.getElementById("user-auth-section");
   userAuthSection.innerHTML = `
@@ -94,6 +119,11 @@ function displayCreateAccountForm() {
     .addEventListener("click", createAccount);
 }
 
+/**
+ * Attempts to sign in a user with provided credentials.
+ * @async
+ * @function signIn
+ */
 async function signIn() {
   const username = document.getElementById("signInUsername").value;
   const password = document.getElementById("signInPassword").value;
@@ -111,19 +141,25 @@ async function signIn() {
   }
 }
 
+/**
+ * Attempts to create a new user account with provided credentials.
+ * @async
+ * @function createAccount
+ */
 async function createAccount() {
   const username = document.getElementById("createAccountUsername").value;
   const password = document.getElementById("createAccountPassword").value;
   try {
     await db.put({
       _id: username,
-      password: password,
+      password: password
     });
     localStorage.setItem("currentUser", username);
     updateAuthUI();
+    console.log("Account created successfully");
   } catch (error) {
-    console.error(error);
-    alert("An error occurred during account creation.");
+    console.error("Account creation failed:", error);
+    alert("Failed to create account. Please try again.");
   }
 }
 document.getElementById("signOutBtn").addEventListener("click", signOut);

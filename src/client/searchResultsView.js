@@ -1,6 +1,15 @@
+/**
+ * Represents the view for displaying search results.
+ * @class
+ */
 export class SearchResultsView {
   constructor() {}
 
+  /**
+   * Renders the search results view element with all its child components.
+   * @async
+   * @returns {Promise<HTMLDivElement>} The rendered search results view element.
+   */
   async render() {
     console.log("rendering search results");
     const searchResultsViewElem = document.createElement("div");
@@ -20,6 +29,10 @@ export class SearchResultsView {
   }
 }
 
+/**
+ * Represents the search results component within the search results view.
+ * @class
+ */
 class SearchResults {
   constructor() {
     this.sortOrder = "Sort By";
@@ -28,6 +41,11 @@ class SearchResults {
     this.searchResultsElem = document.createElement("div");
   }
 
+  /**
+   * Renders the search results component with its content.
+   * @async
+   * @returns {Promise<HTMLDivElement>} The rendered search results element.
+   */
   async render() {
     this.searchResultsElem.id = "searchResults";
     this.searchResultsElem.classList.add("view");
@@ -45,6 +63,11 @@ class SearchResults {
     return this.searchResultsElem;
   }
 
+  /**
+   * Renders individual search results.
+   * @param {Array<Object>} searchResults - The search results to render.
+   * @returns {HTMLDivElement} The container with all search results.
+   */
   renderSearchResults(searchResults) {
     const allResults = document.createElement("div");
     allResults.id = "results";
@@ -135,6 +158,9 @@ class SearchResults {
     return allResults;
   }
 
+  /**
+   * Re-renders the search results based on the current sort order and filters.
+   */
   reRender() {
     console.log("re-rendering in process");
     console.log("sort order: " + this.sortOrder);
@@ -153,6 +179,10 @@ class SearchResults {
     );
   }
 
+  /**
+   * Adds an item to the cart and updates the button text.
+   * @param {Object} itemInfo - The information about the item to add to the cart.
+   */
   addToCart(itemInfo) {
     console.log("added to cart");
     let btn = document.getElementById("cart_button_" + itemInfo.link);
@@ -163,6 +193,10 @@ class SearchResults {
     }
   }
 
+  /**
+   * Adds an item to the wishlist and updates the button text.
+   * @param {Object} itemInfo - The information about the item to add to the wishlist.
+   */
   addToWishlist(itemInfo) {
     console.log("added to wishlist");
     let btn = document.getElementById("wishlist_button_" + itemInfo.link);
@@ -173,6 +207,11 @@ class SearchResults {
     }
   }
 
+  /**
+   * Renders tools for search results like sorting options.
+   * @param {string} searchInput - The current search input.
+   * @returns {HTMLDivElement} The search result tools element.
+   */
   renderSearchResultTools(searchInput) {
     console.log("rendering the tool bar");
 
@@ -224,6 +263,11 @@ class SearchResults {
     return tools;
   }
 
+  /**
+   * Simulates a web search for data based on the input.
+   * @param {string} searchInput - The search query.
+   * @returns {Promise<Array<Object>>} A promise that resolves to an array of search result data.
+   */
   async searchWebForData(searchInput) {
     //this function will eventually return data using a web scraper
     console.log("searching the web for results related to " + searchInput);

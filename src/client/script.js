@@ -69,9 +69,13 @@ const dummyData = [
   },
 ];
 
+/**
+ * Performs a search based on the input from the search bar and displays results.
+ * This function collects data from a dummy dataset and creates HTML elements to display each item.
+ * @function performSearch
+ */
 function performSearch() {
   const input = searchBar.value;
-  // window.location.replace("http://127.0.0.1:3000/client/searchResults.html?");
   console.log(input);
   const collectedData = dummyData;
   console.log(collectedData.length);
@@ -147,6 +151,11 @@ function performSearch() {
   }
 }
 
+/**
+ * Adds an item to the cart or alerts the user if the item is already in the cart.
+ * @param {string} id - The ID of the button associated with the product to add to the cart.
+ * @function addToCart
+ */
 function addToCart(id) {
   console.log("added to cart", id);
   let btn = document.getElementById(id);

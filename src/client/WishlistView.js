@@ -1,6 +1,17 @@
+/**
+ * Represents the view for the user's wishlist in the application.
+ * @class
+ */
 export class WishlistView {
-  constructor() {}
+  constructor() {
+    // Initializes a new instance of WishlistView
+  }
 
+  /**
+   * Renders the wishlist view element with all its child components.
+   * @async
+   * @returns {Promise<HTMLDivElement>} The rendered wishlist view element.
+   */
   async render() {
     const wishlistViewElm = document.createElement("div");
     wishlistViewElm.id = "wishlist-view";
@@ -19,9 +30,20 @@ export class WishlistView {
   }
 }
 
+/**
+ * Represents the wishlist component within the wishlist view.
+ * @class
+ */
 class Wishlist {
-  constructor() {}
+  constructor() {
+    // Initializes a new instance of Wishlist
+  }
 
+  /**
+   * Renders the wishlist component with its content.
+   * @async
+   * @returns {Promise<HTMLDivElement>} The rendered wishlist element.
+   */
   async render() {
     const wishlistElm = document.createElement("div");
     wishlistElm.id = "wishlist";

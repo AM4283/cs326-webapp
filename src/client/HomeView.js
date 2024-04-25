@@ -1,6 +1,15 @@
+/**
+ * Represents the home view of the application.
+ * @class
+ */
 export class HomeView {
   constructor() {}
 
+  /**
+   * Renders the home view element with all its child components.
+   * @async
+   * @returns {Promise<HTMLDivElement>} The rendered home view element.
+   */
   async render() {
     const homeViewElm = document.createElement("div");
     homeViewElm.id = "home-view";
@@ -19,9 +28,18 @@ export class HomeView {
   }
 }
 
+/**
+ * Represents the home component within the home view.
+ * @class
+ */
 class Home {
   constructor() {}
 
+  /**
+   * Renders the home component with its content.
+   * @async
+   * @returns {Promise<HTMLDivElement>} The rendered home element.
+   */
   async render() {
     const homeElem = document.createElement("div");
     homeElem.id = "home";
@@ -43,6 +61,10 @@ class Home {
     return homeElem;
   }
 
+  /**
+   * Renders recommended searches as a component.
+   * @returns {HTMLDivElement} The recommended searches container.
+   */
   renderRecommendedSearches() {
     const recommendations = [
       "Business Casual Pants",
@@ -81,6 +103,10 @@ class Home {
     return recommendedSearchContainer;
   }
 
+  /**
+   * Creates a carousel component for the home view.
+   * @returns {HTMLDivElement} The carousel container.
+   */
   createCarousel() {
     const carouselContainer = document.createElement("div");
     carouselContainer.classList.add("carousel");
