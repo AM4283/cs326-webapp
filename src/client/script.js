@@ -1,5 +1,4 @@
 import { WishlistView } from "./WishlistView.js";
-import { CartView } from "./CartView.js";
 import { HomeView } from "./HomeView.js";
 import { SearchResultsView } from "./searchResultsView.js";
 //Document Elements
@@ -172,11 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let view = null;
     if (viewID === "home") {
       view = new HomeView();
-    }
-    // else if (viewID === "cart") {
-    //   view = new CartView();
-    // }
-    else if (viewID === "wishlist") {
+    } else if (viewID === "wishlist") {
       view = new WishlistView();
     } else if (viewID === "searchResults") {
       view = new SearchResultsView();
