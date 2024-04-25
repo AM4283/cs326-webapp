@@ -150,20 +150,19 @@ function performSearch() {
 function addToCart(id) {
   console.log("added to cart", id);
   let btn = document.getElementById(id);
-  let product = dummyData.find(data => 'button_' + data.link === id);
-  let cartItemsContainer = document.getElementById('cartItems');
-  
+  let product = dummyData.find((data) => "button_" + data.link === id);
+  let cartItemsContainer = document.getElementById("cartItems");
+
   if (btn.innerText === "Add to Cart") {
     btn.innerText = "Remove from Cart";
-    let item = document.createElement('div');
-    item.className = 'cart-item';
+    let item = document.createElement("div");
+    item.className = "cart-item";
     item.innerHTML = `<img src="${product.imgAddr}" alt="Item" style="width:50px; height:50px; vertical-align: middle;">
                       <p>${product.productName} - $${product.price}</p>`;
     cartItemsContainer.appendChild(item);
   } else {
-    alert('This item is already in your cart');
+    alert("This item is already in your cart");
   }
-
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -173,15 +172,15 @@ document.addEventListener("DOMContentLoaded", () => {
     let view = null;
     if (viewID === "home") {
       view = new HomeView();
-    } 
+    }
     // else if (viewID === "cart") {
     //   view = new CartView();
-    // } 
+    // }
     else if (viewID === "wishlist") {
       view = new WishlistView();
     } else if (viewID === "searchResults") {
-        view = new SearchResultsView();
-    } 
+      view = new SearchResultsView();
+    }
     viewsElm.appendChild(await view.render());
   }
 
@@ -190,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
       link.addEventListener("click", async (e) => {
         e.preventDefault();
         const href = e.target.getAttribute("href");
-        if(href) {
+        if (href) {
           const view = href.replace("#", "");
           window.location.hash = view;
           navigate(view);
@@ -202,10 +201,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const menu = document.getElementById("menu");
   const menuLinks = menu.querySelectorAll("a");
   setLinks(menuLinks);
-  const searchLink = document.getElementById('search-button')
-  setLinks([searchLink])
-  
+  const searchLink = document.getElementById("search-button");
+  setLinks([searchLink]);
 
   navigate("home");
 });
-

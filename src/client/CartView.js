@@ -32,11 +32,9 @@ class Cart {
     cartElm.id = "cart";
     cartElm.classList.add("view");
 
-    
+    let isSignedIn = true;
 
-    let isSignedIn = true
-
-    if(isSignedIn) {
+    if (isSignedIn) {
       const textElm = document.createElement("h1");
       textElm.innerText = "Welcome to your cart";
       cartElm.appendChild(textElm);
@@ -46,16 +44,12 @@ class Cart {
       cartElm.appendChild(textElm);
     }
 
-   
-
     return cartElm;
   }
 
-  renderCart(){
-    cartElements = this.getCart()
+  renderCart() {
+    cartElements = this.getCart();
   }
 
-  async getCart(){
-    
-  }
+  async getCart() {}
 }
