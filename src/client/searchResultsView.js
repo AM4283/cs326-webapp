@@ -183,6 +183,40 @@ class SearchResults {
    * Adds an item to the cart and updates the button text.
    * @param {Object} itemInfo - The information about the item to add to the cart.
    */
+  async addToCart(itemInfo){
+    console.log('added to cart')
+    const user = localStorage.getItem("currentUser");
+    console.log(user);
+    if(!user) {
+        alert("Please sign in to add items to cart!");
+        return;
+    }
+    const id = 'cart_button_' + itemInfo.link;
+    let btn = document.getElementById(id)
+    if(btn.innerText === 'Add to Cart'){
+        try {
+            const response = await db.put({
+                _id: id,
+                product: itemInfo.productName,
+                user: user
+            });
+            localStorage.setItem(itemInfo.productName, id);
+            btn.innerText = "Remove from Cart";
+        } catch (error) {
+            alert("There was an error adding this item to your cart.")
+            console.error(error);
+        }
+    } else {
+        try {
+            db.remove(id);
+            localStorage.removeItem(itemInfo.productName);
+            btn.innerText = "Add to Cart";
+        } catch (error) {
+            alert("There was an error removing this item from your cart.")
+            console.error(error);
+        }
+    }
+}
   addToCart(itemInfo) {
     console.log("added to cart");
     let btn = document.getElementById("cart_button_" + itemInfo.link);
