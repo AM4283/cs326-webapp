@@ -114,6 +114,7 @@ async function renderCart() {
     removeButton.classList.add("btn");  
     removeButton.classList.add("btn-sm");
     removeButton.classList.add("btn-outline-primary");
+    removeButton.id = "inner-cart-remove-btn";
     removeButton.innerHTML = "Remove";
     info.appendChild(removeButton);
 
