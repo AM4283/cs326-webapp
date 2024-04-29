@@ -117,6 +117,22 @@ async function renderCart() {
     removeButton.id = "inner-cart-remove-btn";
     removeButton.innerHTML = "Remove";
     info.appendChild(removeButton);
+    removeButton.addEventListener("click", () => {
+      try {
+          db.get(item.id).then(function(doc) {
+            return db.remove(doc);
+          }).catch(function (err) {
+            console.log(err);
+          });
+          localStorage.removeItem(item.id);
+          console.log('removed from cart');
+          renderCart();
+      } catch (error) {
+          alert("There was an error removing this item from your cart.")
+          console.error(error);
+      }
+    });
+    
 
     row.appendChild(info);
 
