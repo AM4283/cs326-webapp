@@ -43,20 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
 async function renderCart() {
   const cartContainer = document.getElementById("cartList");
   const user = localStorage.getItem("currentUser");
-  if(!user) {
-    
-  }
 
   const userCart = await db.allDocs({
     include_docs: true,
     startkey: user + '_cart_',
-    endkey: user+"_cart_\uffff"
+    endkey: user + "_cart_\uffff"
   });
-  if(userCart.rows.length != 0) { 
-    cartContainer.innerHTML = "";
-    console.log("user cart"); 
-  } else { 
-    cartContainer.innerHTML = "";
+  cartContainer.innerHTML = "";
+  if(userCart.rows.length == 0) { 
     const listGroup = document.createElement("li");
     listGroup.classList.add("list-group-item");
 
@@ -69,13 +63,19 @@ async function renderCart() {
 
     const header = document.createElement("h6");
     header.classList.add("mb-1");
-    header.innerHTML = "Your cart is empty";
-    message.appendChild(header);
+    if(user) {
+      header.innerHTML = "Your cart is empty";
+      message.appendChild(header);
+    }
+    else {
+      header.innerHTML = "Please sign in to view your cart"
+      message.appendChild(header);
+    }
     cartContainer.appendChild(message);
-    //cartContainer.innerHTML = "Your cart is empty";
     console.log("cart empty"); 
     return;
   }
+  console.log("user cart");
   console.log(userCart);
   userCart.rows.forEach(item => {
     const listGroup = document.createElement("li");
@@ -126,3 +126,5 @@ async function renderCart() {
 
 const cartButton = document.getElementById("cartButton");
 cartButton.addEventListener("click", renderCart);
+const sideCartButton = document.getElementById("side-cartButton");
+sideCartButton.addEventListener("click", renderCart);
