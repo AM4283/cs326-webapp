@@ -201,7 +201,9 @@ class SearchResults {
             const response = await db.put({
                 _id: id,
                 product: itemInfo.productName,
-                user: user
+                user: user,
+                img: itemInfo.imgAddr,
+                price: itemInfo.price
             });
             localStorage.setItem(id, itemInfo.productName);
             btn.innerText = "Remove from Cart";
