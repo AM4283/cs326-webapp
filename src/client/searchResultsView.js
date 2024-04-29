@@ -120,7 +120,11 @@ class SearchResults {
       buttonRow.appendChild(addToCartBtnCol);
 
       let addToCartBtn = document.createElement("BUTTON");
-      addToCartBtn.innerText = "Add to Cart";
+      if(this.isInCart(searchResults[i])) {
+        addToCartBtn.innerText = "Remove from Cart";
+      } else {
+        addToCartBtn.innerText = "Add to Cart";
+      }
       addToCartBtn.classList.add("add-to-button");
       addToCartBtn.classList.add("standard-button");
       addToCartBtn.id = "cart_button_" + searchResults[i].link;
@@ -183,15 +187,58 @@ class SearchResults {
    * Adds an item to the cart and updates the button text.
    * @param {Object} itemInfo - The information about the item to add to the cart.
    */
-  addToCart(itemInfo) {
-    console.log("added to cart");
-    let btn = document.getElementById("cart_button_" + itemInfo.link);
-    if (btn.innerText === "Add to Cart") {
-      btn.innerText = "Remove from Cart";
+  async addToCart(itemInfo){
+    const user = localStorage.getItem("currentUser");
+    console.log(user);
+    if(!user) {
+        alert("Please sign in to add items to cart!");
+        return;
+    }
+    const id = user + '_cart_' + itemInfo.link;
+    let btn = document.getElementById('cart_button_' + itemInfo.link);
+    if(btn.innerText === 'Add to Cart'){
+        try {
+            const response = await db.put({
+                _id: id,
+                product: itemInfo.productName,
+                user: user,
+                img: itemInfo.imgAddr,
+                price: itemInfo.price
+            });
+            localStorage.setItem(id, itemInfo.productName);
+            btn.innerText = "Remove from Cart";
+            console.log('added to cart');
+        } catch (error) {
+            alert("There was an error adding this item to your cart.")
+            console.error(error);
+        }
     } else {
-      btn.innerText = "Add to Cart";
+        try {
+            db.get(id).then(function(doc) {
+              return db.remove(doc);
+            }).catch(function (err) {
+              console.log(err);
+            });
+            //db.remove(doc);
+            localStorage.removeItem(id);
+            btn.innerText = "Add to Cart";
+            console.log('removed from cart');
+        } catch (error) {
+            alert("There was an error removing this item from your cart.")
+            console.error(error);
+        }
     }
   }
+  
+  isInCart(itemInfo) {
+    const user = localStorage.getItem("currentUser");
+    if(!user) { return false; }
+    if(localStorage.getItem(user + '_cart_' + itemInfo.link)) {
+      return true;
+    }
+    return false;
+  }
+
 
   /**
    * Adds an item to the wishlist and updates the button text.

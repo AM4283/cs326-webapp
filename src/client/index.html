@@ -67,6 +67,7 @@
 
           <div class="col col-4" id="nav-bar-image-links">
             <button
+              id="cartButton"
               class="btn btn-light btn-sm"
               type="button"
               data-bs-toggle="offcanvas"
@@ -173,8 +174,15 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <ul class="list-group list-group-flush">
+          <ul class="list-group list-group-flush" id="cartList">
             <li class="list-group-item">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h6 class="mb-1">Your cart is empty</h6>
+                </div>
+              </div>
+            </li>
+            <!-- <li class="list-group-item">
               <div class="row align-items-center">
                 <div class="col-4">
                   <img src="img/nikefleece.png" alt="Item Name" class="img-fluid">
@@ -209,7 +217,7 @@
                   <button type="button" class="btn btn-sm btn-outline-primary">Remove</button>
                 </div>
               </div>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -227,6 +235,7 @@
             </li>
             <li class="list-group-item">
               <a 
+                id="side-cartButton"
                 class="unstyled-link"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#cart"
