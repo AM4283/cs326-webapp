@@ -39,6 +39,7 @@
     "prettier": "^3.2.5"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "puppeteer": "^22.7.1"
   }
 }

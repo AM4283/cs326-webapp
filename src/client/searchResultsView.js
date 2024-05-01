@@ -1,3 +1,4 @@
+import { scrapeWeb } from "./webScraper";
 
 export class SearchResultsView {
     constructor() {}
