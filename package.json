@@ -28,7 +28,8 @@
   "scripts": {
     "milestone-01": "http-server src -p 3000 -c-1 -o /docs/milestone-01/index.html",
     "milestone-02": "http-server src -p 3000 -c-1 -o /client/index.html",
-    "milestone-03": "node src/server/server.js",
+    "server": "node src/server/server.js",
+    "milestone-03": "open-cli http://localhost:3000/index.html & npm run server",
     "validate-html": "html-validate 'src/**/*.html'",
     "prettier": "prettier src --write",
     "dev": "",
@@ -37,6 +38,8 @@
   "devDependencies": {
     "html-validate": "^8.11.1",
     "http-server": "^14.1.1",
+    "open": "^10.1.0",
+    "open-cli": "^8.0.0",
     "prettier": "^3.2.5"
   },
   "dependencies": {
