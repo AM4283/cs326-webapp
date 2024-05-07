@@ -24,16 +24,9 @@ async function readCartItem(response, name) {
 
 async function updateCartItem(response, name) {
   try {
-    const counter = await db.loadCounter(name);
-    counter.count++;
-    await db.modifyCounter(counter);
-    response.writeHead(200, headerFields);
-    response.write(`<h1>Counter ${counter._id} Updated</h1>`);
-    response.end();
+
   } catch (err) {
-    response.writeHead(404, headerFields);
-    response.write(`<h1>Counter ${name} Not Found</h1>`);
-    response.end();
+
   }
 }
 
