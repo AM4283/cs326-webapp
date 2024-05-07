@@ -70,8 +70,24 @@ function updateAuthUI() {
  * @function addAuthEventListeners
  */
 function addAuthEventListeners() {
-  document.getElementById("signInBtn").addEventListener("click", function () {
+  document.getElementById("signInBtn").addEventListener("click", async function() {
     displaySignInForm();
+    // const username = document.getElementById("signInUsername").value;
+    // const password = document.getElementById("signInPassword").value;
+    // const response = await fetch('/api/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({ username, password })
+    // });
+    // const data = await response.json();
+    // if (data.success) {
+    //   localStorage.setItem("currentUser", username);
+    //   updateAuthUI();
+    // } else {
+    //   alert("Login failed");
+    // }
   });
   document
     .getElementById("createAccountBtn")
@@ -127,18 +143,33 @@ function displayCreateAccountForm() {
 async function signIn() {
   const username = document.getElementById("signInUsername").value;
   const password = document.getElementById("signInPassword").value;
-  try {
-    const userDoc = await db.get(username);
-    if (userDoc.password === password) {
+  // try {
+  //   const userDoc = await db.get(username);
+  //   if (userDoc.password === password) {
+  //     localStorage.setItem("currentUser", username);
+  //     updateAuthUI();
+  //   } else {
+  //     alert("Incorrect username or password.");
+  //   }
+  // } catch (error) {
+  //   console.error(error);
+  //   alert("An error occurred during sign in.");
+  // }
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await response.json();
+    if (data.success) {
       localStorage.setItem("currentUser", username);
       updateAuthUI();
     } else {
-      alert("Incorrect username or password.");
+      alert("Login failed: " + data.message);
+      console.log(data.message);
     }
-  } catch (error) {
-    console.error(error);
-    alert("An error occurred during sign in.");
-  }
 }
 
 /**
@@ -149,20 +180,47 @@ async function signIn() {
 async function createAccount() {
   const username = document.getElementById("createAccountUsername").value;
   const password = document.getElementById("createAccountPassword").value;
-  try {
-    await db.put({
-      _id: username,
-      password: password
+    const response = await fetch('/api/create_account', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
     });
-    localStorage.setItem("currentUser", username);
-    updateAuthUI();
-    console.log("Account created successfully");
-  } catch (error) {
-    console.error("Account creation failed:", error);
-    alert("Failed to create account. Please try again.");
-  }
+    const data = await response.json();
+    if (data.success) {
+      localStorage.setItem("currentUser", username);
+      updateAuthUI();
+      console.log("Account created successfully");
+    } else {
+      alert("Create account failed: " + data.message);
+      // console.error(data.message);
+    }
+  // try {
+  //   await db.put({
+  //     _id: username,
+  //     password: password
+  //   });
+  //   localStorage.setItem("currentUser", username);
+  //   updateAuthUI();
+  //   console.log("Account created successfully");
+  // } catch (error) {
+  //   console.error("Account creation failed:", error);
+  //   alert("Failed to create account. Please try again.");
+  // }
 }
-document.getElementById("signOutBtn").addEventListener("click", signOut);
+document.getElementById("signOutBtn").addEventListener("click", async function() {
+  const response = await fetch('/api/logout', {
+    method: 'POST'
+  });
+  const data = await response.json();
+  if (data.success) {
+    localStorage.removeItem("currentUser");
+    updateAuthUI();
+  } else {
+    alert("Logout failed");
+  }
+});
 document.addEventListener("DOMContentLoaded", function () {
   updateAuthUI();
 });

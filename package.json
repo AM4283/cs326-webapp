@@ -28,6 +28,7 @@
   "scripts": {
     "milestone-01": "http-server src -p 3000 -c-1 -o /docs/milestone-01/index.html",
     "milestone-02": "http-server src -p 3000 -c-1 -o /client/index.html",
+    "milestone-03": "node src/server/server.js",
     "validate-html": "html-validate 'src/**/*.html'",
     "prettier": "prettier src --write",
     "dev": "",
@@ -39,6 +40,9 @@
     "prettier": "^3.2.5"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0",
+    "pouchdb": "^8.0.1"
   }
 }
