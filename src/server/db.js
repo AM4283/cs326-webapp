@@ -171,8 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // CODE FOR MILESTONE 03
-
-
 export async function saveCartItem(name, count) {
   await db.put({ _id: name, count });
 }
