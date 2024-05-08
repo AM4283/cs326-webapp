@@ -1,6 +1,7 @@
 import { CartView } from "./CartView.js";
 import { HomeView } from "./HomeView.js";
 import { SearchResultsView } from "./searchResultsView.js";
+//import db from "../server/database.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   async function navigate(viewID) {
@@ -44,11 +45,20 @@ async function renderCart() {
   const cartContainer = document.getElementById("cartList");
   const user = localStorage.getItem("currentUser");
 
-  const userCart = await db.allDocs({
-    include_docs: true,
-    startkey: user + '_cart_',
-    endkey: user + "_cart_\uffff"
-  });
+  // const userCart = await db.allDocs({
+  //   include_docs: true,
+  //   startkey: user + '_cart_',
+  //   endkey: user + "_cart_\uffff"
+  // });
+  const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
+  // const response = await fetch('/api/create_account', {
+  //   method: 'GET',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify({ user })
+  // });
+  const userCart = await response.json();
   cartContainer.innerHTML = "";
   if(userCart.rows.length == 0) { 
     const listGroup = document.createElement("li");
@@ -117,21 +127,21 @@ async function renderCart() {
     removeButton.id = "inner-cart-remove-btn";
     removeButton.innerHTML = "Remove";
     info.appendChild(removeButton);
-    removeButton.addEventListener("click", () => {
-      try {
-          db.get(item.id).then(function(doc) {
-            return db.remove(doc);
-          }).catch(function (err) {
-            console.log(err);
-          });
-          localStorage.removeItem(item.id);
-          console.log('removed from cart');
-          renderCart();
-      } catch (error) {
-          alert("There was an error removing this item from your cart.")
-          console.error(error);
-      }
-    });
+    // removeButton.addEventListener("click", () => {
+    //   try {
+    //       db.get(item.id).then(function(doc) {
+    //         return db.remove(doc);
+    //       }).catch(function (err) {
+    //         console.log(err);
+    //       });
+    //       localStorage.removeItem(item.id);
+    //       console.log('removed from cart');
+    //       renderCart();
+    //   } catch (error) {
+    //       alert("There was an error removing this item from your cart.")
+    //       console.error(error);
+    //   }
+    // });
     
 
     row.appendChild(info);

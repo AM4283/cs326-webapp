@@ -196,22 +196,41 @@ class SearchResults {
     }
     const id = user + '_cart_' + itemInfo.link;
     let btn = document.getElementById('cart_button_' + itemInfo.link);
+    const product = itemInfo.productName;
+    const img = itemInfo.imgAddr;
+    const price = itemInfo.price;
     if(btn.innerText === 'Add to Cart'){
-        try {
-            const response = await db.put({
-                _id: id,
-                product: itemInfo.productName,
-                user: user,
-                img: itemInfo.imgAddr,
-                price: itemInfo.price
-            });
-            localStorage.setItem(id, itemInfo.productName);
-            btn.innerText = "Remove from Cart";
-            console.log('added to cart');
-        } catch (error) {
-            alert("There was an error adding this item to your cart.")
-            console.error(error);
-        }
+      const response = await fetch('/api/add_to_cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, product, user, img, price,  }) // need to add quantity
+      });
+      const data = await response.json();
+      if (data.success) {
+        localStorage.setItem(id, itemInfo.productName);
+        btn.innerText = "Remove from Cart";
+        console.log('added to cart');
+      } else {
+        alert("add to cart failed: " + data.message);
+        // console.error(data.message);
+      }
+        // try {
+        //     const response = await db.put({
+        //         _id: id,
+        //         product: itemInfo.productName,
+        //         user: user,
+        //         img: itemInfo.imgAddr,
+        //         price: itemInfo.price
+        //     });
+        //     localStorage.setItem(id, itemInfo.productName);
+        //     btn.innerText = "Remove from Cart";
+        //     console.log('added to cart');
+        // } catch (error) {
+        //     alert("There was an error adding this item to your cart.")
+        //     console.error(error);
+        // }
     } else {
         try {
             db.get(id).then(function(doc) {

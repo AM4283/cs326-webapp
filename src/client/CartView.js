@@ -49,8 +49,14 @@ class Cart {
     cartElm.id = "cart";
     cartElm.classList.add("view");
 
+    const user = localStorage.getItem("currentUser");
     const textElm = document.createElement("h1");
-    textElm.innerText = "This is the cart";
+    if(user) {
+      textElm.innerText = "Your cart is empty";
+    } else {
+      textElm.innerText = "Sign in to view your cart";
+    }
+    
 
     cartElm.appendChild(textElm);
 

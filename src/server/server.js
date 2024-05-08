@@ -61,7 +61,33 @@ app.post('/api/logout', (req, res) => {
     res.json({ success: true});
 })
 
+app.post('/api/add_to_cart', async (req, res) => {
+  const { id, product, user, img, price, } = req.body; // need to add quantity 
+  try {
+    await db.put({
+      _id: id,
+      product: product,
+      user: user,
+      img: img,
+      price: price
+    });
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error adding this item to cart:", error);
+    res.status(500).json({ success: false, message: "Internal server error: " + error.message });
+  //   alert("Failed to create account. Please try again.");
+  }
+});
 
+app.get('/api/load_cart', async (req, res) => {
+  const { user } = req.query;
+  const userCart = await db.allDocs({
+    include_docs: true,
+    startkey: user + '_cart_',
+    endkey: user + "_cart_\uffff"
+  });
+  return userCart;
+})
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
