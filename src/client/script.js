@@ -59,6 +59,7 @@ async function renderCart() {
   //   body: JSON.stringify({ user })
   // });
   const userCart = await response.json();
+  
   cartContainer.innerHTML = "";
   if(userCart.rows.length == 0) { 
     const listGroup = document.createElement("li");
@@ -152,5 +153,6 @@ async function renderCart() {
 
 const cartButton = document.getElementById("cartButton");
 cartButton.addEventListener("click", renderCart);
+//cartButton.addEventListener("click", )
 const sideCartButton = document.getElementById("side-cartButton");
 sideCartButton.addEventListener("click", renderCart);
