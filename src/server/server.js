@@ -61,6 +61,12 @@ app.post('/api/logout', (req, res) => {
     res.json({ success: true});
 })
 
+app.post('/createCart', async (req, res) => {
+  
+})
+
+app.get('/readCart')
+
 
 
 app.listen(port, () => {
