@@ -44,6 +44,7 @@ async function renderCart() {
   const cartContainer = document.getElementById("cartList");
   const user = localStorage.getItem("currentUser");
 
+
   const userCart = await db.allDocs({
     include_docs: true,
     startkey: user + '_cart_',

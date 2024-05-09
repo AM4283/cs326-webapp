@@ -114,24 +114,83 @@ class SearchResults {
 
       let buttonRow = document.createElement("div");
       buttonRow.classList.add("row");
+      
+      let buttonGroupDiv = document.createElement('div')
+      buttonGroupDiv.setAttribute('role', "group")
 
-      let addToCartBtnCol = document.createElement("div");
-      addToCartBtnCol.classList.add("col");
-      buttonRow.appendChild(addToCartBtnCol);
+      let minusCartButton = document.createElement('button')
+      minusCartButton.classList.add('btn')
+      minusCartButton.classList.add('standard-button')
+      minusCartButton.innerText = "-";
+      minusCartButton.addEventListener("click", () => {
+        if(this.isInCart(searchResults[i])){
+          this.removeFromCart(searchResults[i]);
+        } else {
+          alert ("Item not in cart.")
+        }
+      });
+      buttonGroupDiv.appendChild(minusCartButton)
 
-      let addToCartBtn = document.createElement("BUTTON");
-      if(this.isInCart(searchResults[i])) {
-        addToCartBtn.innerText = "Remove from Cart";
-      } else {
-        addToCartBtn.innerText = "Add to Cart";
-      }
+      let addToCartBtn = document.createElement('button')
+      addToCartBtn.classList.add('btn')
       addToCartBtn.classList.add("add-to-button");
-      addToCartBtn.classList.add("standard-button");
+      addToCartBtn.classList.add('standard-button')
       addToCartBtn.id = "cart_button_" + searchResults[i].link;
+      if(this.isInCart(searchResults[i])) {
+          addToCartBtn.innerText = "Remove from Cart";
+        } else {
+          addToCartBtn.innerText = "Add to Cart";
+      }
       addToCartBtn.addEventListener("click", () => {
+          this.addToCart(searchResults[i]);
+        });
+      buttonGroupDiv.appendChild(addToCartBtn)
+
+      let plusCartButton = document.createElement('button')
+      plusCartButton.classList.add('btn')
+      plusCartButton.classList.add('standard-button')
+      plusCartButton.innerText = "+";
+      plusCartButton.addEventListener("click", () => {
         this.addToCart(searchResults[i]);
       });
-      addToCartBtnCol.appendChild(addToCartBtn);
+      buttonGroupDiv.appendChild(plusCartButton)
+      
+
+      buttonRow.appendChild(buttonGroupDiv)
+
+      // let addToCartBtnCol = document.createElement("div");
+      // addToCartBtnCol.classList.add("col");
+      // buttonRow.appendChild(addToCartBtnCol);
+
+      // let addToCartBtn = document.createElement("BUTTON");
+      // if(this.isInCart(searchResults[i])) {
+      //   addToCartBtn.innerText = "Remove from Cart";
+      // } else {
+      //   addToCartBtn.innerText = "Add to Cart";
+      // }
+      // addToCartBtn.classList.add("add-to-button");
+      // addToCartBtn.classList.add("standard-button");
+      // addToCartBtn.id = "cart_button_" + searchResults[i].link;
+      // addToCartBtn.addEventListener("click", () => {
+      //   this.addToCart(searchResults[i]);
+      // });
+      // addToCartBtnCol.appendChild(addToCartBtn);
+
+
+      // let addToWishlistBtnCol = document.createElement("div");
+      // addToWishlistBtnCol.classList.add("col");
+      // buttonRow.appendChild(addToWishlistBtnCol);
+
+      // let addToWishlistBtn = document.createElement("BUTTON");
+      // addToWishlistBtn.innerText = "Add to Wishlist";
+      // addToWishlistBtn.classList.add("col");
+      // addToWishlistBtn.classList.add("add-to-button");
+      // addToWishlistBtn.classList.add("standard-button");
+      // addToWishlistBtn.id = "wishlist_button_" + searchResults[i].link;
+      // addToWishlistBtn.addEventListener("click", () => {
+      //   this.addToWishlist(searchResults[i]);
+      // });
+      // addToWishlistBtnCol.appendChild(addToWishlistBtn);
 
       itemBody.appendChild(itemName);
       itemBody.appendChild(itemStore);
