@@ -133,21 +133,6 @@ class SearchResults {
       });
       addToCartBtnCol.appendChild(addToCartBtn);
 
-      let addToWishlistBtnCol = document.createElement("div");
-      addToWishlistBtnCol.classList.add("col");
-      buttonRow.appendChild(addToWishlistBtnCol);
-
-      let addToWishlistBtn = document.createElement("BUTTON");
-      addToWishlistBtn.innerText = "Add to Wishlist";
-      addToWishlistBtn.classList.add("col");
-      addToWishlistBtn.classList.add("add-to-button");
-      addToWishlistBtn.classList.add("standard-button");
-      addToWishlistBtn.id = "wishlist_button_" + searchResults[i].link;
-      addToWishlistBtn.addEventListener("click", () => {
-        this.addToWishlist(searchResults[i]);
-      });
-      addToWishlistBtnCol.appendChild(addToWishlistBtn);
-
       itemBody.appendChild(itemName);
       itemBody.appendChild(itemStore);
       itemBody.appendChild(itemPrice);
