@@ -233,15 +233,18 @@ class SearchResults {
         // }
     } else {
         try {
-            db.get(id).then(function(doc) {
-              return db.remove(doc);
-            }).catch(function (err) {
-              console.log(err);
-            });
-            //db.remove(doc);
-            localStorage.removeItem(id);
+            const response = fetch(`/api/delete_item?id=${id}`, { method: "DELETE" });
             btn.innerText = "Add to Cart";
             console.log('removed from cart');
+            // db.get(id).then(function(doc) {
+            //   return db.remove(doc);
+            // }).catch(function (err) {
+            //   console.log(err);
+            // });
+            // //db.remove(doc);
+            localStorage.removeItem(id);
+            // btn.innerText = "Add to Cart";
+            // console.log('removed from cart');
         } catch (error) {
             alert("There was an error removing this item from your cart.")
             console.error(error);

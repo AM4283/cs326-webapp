@@ -13,6 +13,7 @@ export class CartView {
    * @returns {Promise<HTMLDivElement>} The rendered cart view element.
    */
   async render() {
+    console.log("rendering cart view");
     const cartViewElm = document.createElement("div");
     cartViewElm.id = "cart-view";
 
@@ -41,22 +42,23 @@ class Cart {
     this.cartElem = document.createElement("div");
   }
   async render() {
+    console.log("rendering cart");
     this.cartElem.id = "cart";
     this.cartElem.classList.add("view");
 
     //const searchInput = document.getElementById("search-bar").value;
     //this.cart = fetch cart;
     const user = localStorage.getItem("currentUser");
-    const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
-    this.cart = await response.json();
+    // const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
+    // this.cart = await response.json();
     // this.cartElem.appendChild(
     //   this.renderSearchResultTools(searchInput),
     // );
-
+    console.log("trying to render list");
     this.cartElem.appendChild(
-      await this.renderCart(this.cart),
+      await this.renderCart(), //this.cart
     );
-
+    console.log("should have rendered");
     return this.cartElem;
   }
 
@@ -65,7 +67,8 @@ class Cart {
    * @async
    * @returns {Promise<HTMLDivElement>} The rendered cart element.
    */
-  async renderCart(cart) {
+  async renderCart() {
+    console.log("rendering cart list");
     const cartElm = document.createElement("div");
     cartElm.id = "cartItems";
     cartElm.classList.add("view");
@@ -73,9 +76,18 @@ class Cart {
     const user = localStorage.getItem("currentUser");
     const textElm = document.createElement("h1");
     if(user) {
+      console.log(user);
       textElm.innerText = "Your cart is empty";
-      const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
+      //const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
+      const response = await fetch('/api/load_cart', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
     } else {
+      console.log("not user");
       textElm.innerText = "Sign in to view your cart";
     }
     const item = document.createElement("div");

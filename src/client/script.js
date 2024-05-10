@@ -58,7 +58,9 @@ async function renderCart() {
   //   },
   //   body: JSON.stringify({ user })
   // });
+  console.log(`usercart is ${userCart}`);
   const userCart = await response.json();
+  
   
   cartContainer.innerHTML = "";
   if(userCart.rows.length == 0) { 
@@ -143,8 +145,9 @@ async function renderCart() {
     //       console.error(error);
     //   }
     // });
-    
-
+    removeButton.addEventListener("click", () => {
+      const response = fetch(`/api/delete_item?id=${item.id}`, { method: "DELETE" });
+    });
     row.appendChild(info);
 
     cartContainer.appendChild(listGroup);
