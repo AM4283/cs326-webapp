@@ -61,6 +61,64 @@ app.post('/api/logout', (req, res) => {
     res.json({ success: true});
 })
 
+app.post('/api/add_to_cart', async (req, res) => {
+  const { id, product, user, img, price, } = req.body; // need to add quantity 
+  try {
+    await db.put({
+      _id: id,
+      product: product,
+      user: user,
+      img: img,
+      price: price
+    });
+    if(db.get(id)) {
+      res.json({ success: true });
+    }
+  } catch (error) {
+    console.error("Error adding this item to cart:", error);
+    res.status(500).json({ success: false, message: "Internal server error: " + error.message });
+  //   alert("Failed to create account. Please try again.");
+  }
+});
+
+app.get('/api/load_cart', async (req, res) => {
+  console.log("getting user cart");
+  const user = req.query.user;
+  console.log(`inside load_cart: user is ${user}`);
+  try{
+    const userCart = await db.allDocs({
+      include_docs: true,
+      startkey: user + '_cart_',
+      endkey: user + "_cart_\uffff"
+    });
+    //console.log(user + " " + userCart);
+    return userCart;
+  }
+  catch(err) {
+    console.log("error in load_cart");
+    res.status(500).json({ success: false, message: "Internal server error: " + err.message });
+  }
+});
+
+app.delete('/api/delete_item', async (req, res) => {
+  console.log("deleting item");
+  const id = req.query.id;
+  console.log(id);
+    try {
+      db.get(id).then(function(doc) {
+        return db.remove(doc);
+      }).catch(function (err) {
+        console.log(err);
+      });
+      //localStorage.removeItem(id);
+      console.log('removed from cart');
+    } catch (error) {
+      console.error("Error removing this item from cart:", error);
+      res.status(500).json({ success: false, message: "Internal server error: " + error.message });
+    }
+    //console.log(user + " " + userCart);
+    //return userCart;
+});
 
 
 app.listen(port, () => {

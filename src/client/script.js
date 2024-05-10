@@ -43,14 +43,18 @@ document.addEventListener("DOMContentLoaded", () => {
 async function renderCart() {
   const cartContainer = document.getElementById("cartList");
   const user = localStorage.getItem("currentUser");
-
-  const userCart = await db.allDocs({
-    include_docs: true,
-    startkey: user + '_cart_',
-    endkey: user + "_cart_\uffff"
-  });
+  console.log("in render cart");
+  const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
+  // const userCart = await db.allDocs({
+  //   include_docs: true,
+  //   startkey: user + '_cart_',
+  //   endkey: user + "_cart_\uffff"
+  // });
+  console.log("fetch is done in rendercart");
+  const userCart = await response.text();
+  console.log(userCart);
   cartContainer.innerHTML = "";
-  if(userCart.rows.length == 0) { 
+  if(parseInt(userCart.total_rows) == 0) { 
     const listGroup = document.createElement("li");
     listGroup.classList.add("list-group-item");
 
@@ -117,21 +121,21 @@ async function renderCart() {
     removeButton.id = "inner-cart-remove-btn";
     removeButton.innerHTML = "Remove";
     info.appendChild(removeButton);
-    removeButton.addEventListener("click", () => {
-      try {
-          db.get(item.id).then(function(doc) {
-            return db.remove(doc);
-          }).catch(function (err) {
-            console.log(err);
-          });
-          localStorage.removeItem(item.id);
-          console.log('removed from cart');
-          renderCart();
-      } catch (error) {
-          alert("There was an error removing this item from your cart.")
-          console.error(error);
-      }
-    });
+    // removeButton.addEventListener("click", () => {
+    //   try {
+    //       db.get(item.id).then(function(doc) {
+    //         return db.remove(doc);
+    //       }).catch(function (err) {
+    //         console.log(err);
+    //       });
+    //       localStorage.removeItem(item.id);
+    //       console.log('removed from cart');
+    //       renderCart();
+    //   } catch (error) {
+    //       alert("There was an error removing this item from your cart.")
+    //       console.error(error);
+    //   }
+    // });
     
 
     row.appendChild(info);
