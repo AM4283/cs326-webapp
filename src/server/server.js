@@ -82,17 +82,18 @@ app.post('/api/add_to_cart', async (req, res) => {
 app.get('/api/load_cart', async (req, res) => {
   console.log("getting user cart");
   const user = req.query.user;
-  console.log(user);
+  console.log(`in load_cart: user is ${user}`);
   try{
     const userCart = await db.allDocs({
       include_docs: true,
       startkey: user + '_cart_',
       endkey: user + "_cart_\uffff"
     });
-    console.log(user + " " + userCart);
+    //console.log(user + " " + userCart);
     return userCart;
   }
   catch(err) {
+    console.log("error in load_cart");
     return err;
   }
 });

@@ -78,14 +78,22 @@ class Cart {
     if(user) {
       console.log(user);
       textElm.innerText = "Your cart is empty";
-      //const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
-      const response = await fetch('/api/load_cart', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-      });
+      try {
+        const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
+        const data = await response.json();
+        console.log(data);
+      } catch (e) {
+        console.log("error in rendercart");
+        return err;
+      }
+      
+      // const response = await fetch('/api/load_cart', {
+      //   method: 'GET',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ user })
+      // });
     } else {
       console.log("not user");
       textElm.innerText = "Sign in to view your cart";
