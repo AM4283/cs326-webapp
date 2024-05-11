@@ -62,39 +62,41 @@ app.post('/api/logout', (req, res) => {
 })
 
 app.post('/api/add_to_cart', async (req, res) => {
-  const { id, product, user, img, price, } = req.body; // need to add quantity 
+  const { id, product, user, img, price, quantity} = req.body; // need to add quantity 
   try {
     await db.put({
       _id: id,
       product: product,
       user: user,
       img: img,
-      price: price
+      price: price,
+      quantity: quantity
     });
-    res.json({ success: true });
+    if(db.get(id)) {
+      res.json({ success: true });
+      console.log(`added to cart: ${id}`);
+    }
   } catch (error) {
     console.error("Error adding this item to cart:", error);
     res.status(500).json({ success: false, message: "Internal server error: " + error.message });
-  //   alert("Failed to create account. Please try again.");
   }
 });
 
 app.get('/api/load_cart', async (req, res) => {
   console.log("getting user cart");
   const user = req.query.user;
-  console.log(`in load_cart: user is ${user}`);
+  console.log(`inside load_cart: user is ${user}`);
   try{
     const userCart = await db.allDocs({
       include_docs: true,
       startkey: user + '_cart_',
       endkey: user + "_cart_\uffff"
     });
-    //console.log(user + " " + userCart);
-    return userCart;
+    res.status(200).json({ success: true, userCart: userCart });
   }
   catch(err) {
     console.log("error in load_cart");
-    return err;
+    res.status(500).json({ success: false, message: "Internal server error: " + err.message });
   }
 });
 
@@ -108,14 +110,12 @@ app.delete('/api/delete_item', async (req, res) => {
       }).catch(function (err) {
         console.log(err);
       });
-      //localStorage.removeItem(id);
       console.log('removed from cart');
+      res.status(200).json({ success: true });
     } catch (error) {
       console.error("Error removing this item from cart:", error);
       res.status(500).json({ success: false, message: "Internal server error: " + error.message });
     }
-    //console.log(user + " " + userCart);
-    //return userCart;
 });
 
 

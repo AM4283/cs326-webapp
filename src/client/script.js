@@ -45,22 +45,15 @@ async function renderCart() {
   const cartContainer = document.getElementById("cartList");
   const user = localStorage.getItem("currentUser");
 
-  // const userCart = await db.allDocs({
-  //   include_docs: true,
-  //   startkey: user + '_cart_',
-  //   endkey: user + "_cart_\uffff"
-  // });
-  const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
-  // const response = await fetch('/api/create_account', {
-  //   method: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify({ user })
-  // });
-  console.log(`usercart is ${userCart}`);
-  const userCart = await response.json();
-  
+  try {
+    const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
+    const data = await response.json();
+    console.log(`data is ${data}`);
+    const userCart = data.userCart;
+  } catch (e) {
+    console.log(`error loading cart in rendercart: ${e}`);
+    alert("There was an error loading your cart");
+  }
   
   cartContainer.innerHTML = "";
   if(userCart.rows.length == 0) { 
@@ -119,7 +112,7 @@ async function renderCart() {
 
     const price = document.createElement("p");
     price.classList.add("mb-1");
-    price.innerHTML = item.doc.price;
+    price.innerHTML = '$' + item.doc.price;
     info.appendChild(price);
 
     const removeButton = document.createElement("button");
@@ -130,23 +123,21 @@ async function renderCart() {
     removeButton.id = "inner-cart-remove-btn";
     removeButton.innerHTML = "Remove";
     info.appendChild(removeButton);
-    // removeButton.addEventListener("click", () => {
-    //   try {
-    //       db.get(item.id).then(function(doc) {
-    //         return db.remove(doc);
-    //       }).catch(function (err) {
-    //         console.log(err);
-    //       });
-    //       localStorage.removeItem(item.id);
-    //       console.log('removed from cart');
-    //       renderCart();
-    //   } catch (error) {
-    //       alert("There was an error removing this item from your cart.")
-    //       console.error(error);
-    //   }
-    // });
-    removeButton.addEventListener("click", () => {
-      const response = fetch(`/api/delete_item?id=${item.id}`, { method: "DELETE" });
+    removeButton.addEventListener("click", async () => {
+      try {
+        const response = await fetch(`/api/delete_item?id=${item.id}`, { method: "DELETE" });
+        console.log("recieved delete response");
+        if(response.status == 200) {
+          localStorage.removeItem(item.id);
+          console.log('rendercart local storage: removed from cart');
+          renderCart();
+        } else {
+          alert("Error removing this item from cart");
+        }
+      } catch (error) {
+          alert("There was an error removing this item from your cart.")
+          console.error(error);
+      }
     });
     row.appendChild(info);
 
