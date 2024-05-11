@@ -45,15 +45,6 @@ class Cart {
     console.log("rendering cart");
     this.cartElem.id = "cart";
     this.cartElem.classList.add("view");
-
-    //const searchInput = document.getElementById("search-bar").value;
-    //this.cart = fetch cart;
-    //const user = localStorage.getItem("currentUser");
-    // const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
-    // this.cart = await response.json();
-    // this.cartElem.appendChild(
-    //   this.renderSearchResultTools(searchInput),
-    // );
     console.log("trying to render list");
     this.cartElem.appendChild(
       await this.renderCart(), //this.cart

@@ -133,21 +133,6 @@ class SearchResults {
       });
       addToCartBtnCol.appendChild(addToCartBtn);
 
-      // let addToWishlistBtnCol = document.createElement("div");
-      // addToWishlistBtnCol.classList.add("col");
-      // buttonRow.appendChild(addToWishlistBtnCol);
-
-      // let addToWishlistBtn = document.createElement("BUTTON");
-      // addToWishlistBtn.innerText = "Add to Wishlist";
-      // addToWishlistBtn.classList.add("col");
-      // addToWishlistBtn.classList.add("add-to-button");
-      // addToWishlistBtn.classList.add("standard-button");
-      // addToWishlistBtn.id = "wishlist_button_" + searchResults[i].link;
-      // addToWishlistBtn.addEventListener("click", () => {
-      //   this.addToWishlist(searchResults[i]);
-      // });
-      // addToWishlistBtnCol.appendChild(addToWishlistBtn);
-
       itemBody.appendChild(itemName);
       itemBody.appendChild(itemStore);
       itemBody.appendChild(itemPrice);
@@ -208,9 +193,8 @@ class SearchResults {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id, product, user, img, price, store, quantity }) // need to add quantity
+          body: JSON.stringify({ id, product, user, img, price, store, quantity }) 
         });
-        //const data = await response.json();
         localStorage.setItem(id, itemInfo.productName);
         btn.innerText = "Remove from Cart";
         console.log('local storage: added to cart');
@@ -222,7 +206,6 @@ class SearchResults {
         try {
           const response = await fetch(`/api/delete_item?id=${id}`, { method: "DELETE" });
           console.log("recieved delete response");
-          //const data = await response.text();
           if(response.status == 200) {
             localStorage.removeItem(id);
             btn.innerText = "Add to Cart";
@@ -246,20 +229,6 @@ class SearchResults {
     return false;
   }
 
-
-  /**
-   * Adds an item to the wishlist and updates the button text.
-   * @param {Object} itemInfo - The information about the item to add to the wishlist.
-   */
-  addToWishlist(itemInfo) {
-    console.log("added to wishlist");
-    let btn = document.getElementById("wishlist_button_" + itemInfo.link);
-    if (btn.innerText === "Add to Wishlist") {
-      btn.innerText = "Remove from Wishlist";
-    } else {
-      btn.innerText = "Add to WishList";
-    }
-  }
 
   /**
    * Renders tools for search results like sorting options.
