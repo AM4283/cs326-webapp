@@ -210,13 +210,14 @@ class SearchResults {
         alert("Please sign in to add items to cart!");
         return;
     }
-    const id = user + '_cart_' + itemInfo.link.substring(10, 20);
+    const id = user + '_cart_' + itemInfo.link.substring(itemInfo.link.length-15);
     let btn = document.getElementById('cart_button_' + itemInfo.link);
     const product = itemInfo.productName;
     const img = itemInfo.imgAddr;
     const price = itemInfo.price;
     const quantity = 1;
     const store = itemInfo.store;
+    const link = itemInfo.link;
     if(btn.innerText === 'Add to Cart'){
       try{
         const response = await fetch('/api/add_to_cart', {
@@ -224,7 +225,7 @@ class SearchResults {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id, product, user, img, price, store, quantity }) 
+          body: JSON.stringify({ id, product, user, img, price, store, link, quantity }) 
         });
         localStorage.setItem(id, itemInfo.productName);
         btn.innerText = "Remove from Cart";
@@ -256,12 +257,46 @@ class SearchResults {
   isInCart(itemInfo) {
     const user = localStorage.getItem("currentUser");
     if(!user) { return false; }
-    if(localStorage.getItem(user + '_cart_' + itemInfo.link.substring(10, 20))) {
+    if(localStorage.getItem(user + '_cart_' + itemInfo.link.substring(itemInfo.link.length-15))) {
       return true;
     }
     return false;
   }
 
+  async updateQuantity(type, link) {
+    const user = localStorage.getItem("currentUser");
+    if(!user) {
+      alert("Sign in to add items to cart");
+      return;
+    }
+    const id = user + "_cart_" + link.substring(link.length-15);
+    try {
+      const response = await fetch(`/api/update_quantity?type=${type}&id=${id}`, { method: "PUT" });
+      if(response.status == 200) {
+        console.log("quantity updated");
+      }
+      if((await response.json()).deleted) {
+        localStorage.removeItem(id);
+        this.reRender();
+      }
+
+    } catch (e) {
+      alert("There was an error updating this item");
+      console.error(e);
+    }
+    
+  }
+
+  async getQuantity(link) {
+    const user = localStorage.getItem("currentUser");
+    if(!user) {
+      return 0;
+    }
+    const response = await fetch(`/api/get_quantity?id=${id}`, { method: "GET" });
+    const quantity = (await response.json()).quantity;
+    console.log(quantity);
+    return quantity;
+  }
 
   /**
    * Renders tools for search results like sorting options.

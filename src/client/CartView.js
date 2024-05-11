@@ -138,32 +138,87 @@ class Cart {
       let buttonRow = document.createElement("div");
       buttonRow.classList.add("row");
 
-      let addToCartBtnCol = document.createElement("div");
-      addToCartBtnCol.classList.add("col");
-      buttonRow.appendChild(addToCartBtnCol);
+      let buttonGroupDiv = document.createElement('div')
+      buttonGroupDiv.setAttribute('role', "group")
 
-      let addToCartBtn = document.createElement("BUTTON");
-      addToCartBtn.innerText = "Remove from Cart";
-      addToCartBtn.classList.add("add-to-button");
-      addToCartBtn.classList.add("standard-button");
-      addToCartBtn.id = "cart_button_" + cartItem.link;
-      addToCartBtn.addEventListener("click", async () => {
-        try {
-          const response = await fetch(`/api/delete_item?id=${cartItem._id}`, { method: "DELETE" });
-          console.log("recieved delete response");
-          if(response.status == 200) {
-            localStorage.removeItem(cartItem._id);
-            console.log('rendercart local storage: removed from cart');
-            this.reRender();
-          } else {
-            alert("Error removing this item from cart");
-          }
-        } catch (error) {
-            alert("There was an error removing this item from your cart.")
-            console.error(error);
+      let minusCartButton = document.createElement('button')
+      minusCartButton.classList.add('btn')
+      minusCartButton.classList.add('standard-button')
+      minusCartButton.innerText = "-";
+      minusCartButton.addEventListener("click", () => {
+        if(localStorage.getItem(cartItem._id)){
+          this.updateQuantity("decrease", cartItem._id);
+        } else {
+          alert ("Item not in cart.")
         }
       });
-      addToCartBtnCol.appendChild(addToCartBtn);
+      buttonGroupDiv.appendChild(minusCartButton)
+
+      let rmvFromCartBtn = document.createElement('button')
+      rmvFromCartBtn.classList.add('btn')
+      rmvFromCartBtn.classList.add("add-to-button");
+      rmvFromCartBtn.classList.add('standard-button')
+      rmvFromCartBtn.id = "cart_button_" + cartItem.link;
+      rmvFromCartBtn.innerText = "Remove from Cart";
+      rmvFromCartBtn.addEventListener("click", async () => {
+          try {
+            const response = await fetch(`/api/delete_item?id=${cartItem._id}`, { method: "DELETE" });
+            console.log("recieved delete response");
+            if(response.status == 200) {
+              localStorage.removeItem(cartItem._id);
+              console.log('rendercart local storage: removed from cart');
+              this.reRender();
+            } else {
+              alert("Error removing this item from cart");
+            }
+          } catch (error) {
+              alert("There was an error removing this item from your cart.")
+              console.error(error);
+          }
+        });
+      buttonGroupDiv.appendChild(rmvFromCartBtn)
+
+      let plusCartButton = document.createElement('button')
+      plusCartButton.classList.add('btn')
+      plusCartButton.classList.add('standard-button')
+      plusCartButton.innerText = "+";
+      plusCartButton.addEventListener("click", () => {
+        if(localStorage.getItem(cartItem._id)){
+          this.updateQuantity("increase", cartItem._id);
+        } else {
+          alert ("Item not in cart.")
+        }
+      });
+      buttonGroupDiv.appendChild(plusCartButton);
+
+      buttonRow.appendChild(buttonGroupDiv)
+
+      // let addToCartBtnCol = document.createElement("div");
+      // addToCartBtnCol.classList.add("col");
+      // buttonRow.appendChild(addToCartBtnCol);
+
+      // let addToCartBtn = document.createElement("BUTTON");
+      // addToCartBtn.innerText = "Remove from Cart";
+      // addToCartBtn.classList.add("add-to-button");
+      // addToCartBtn.classList.add("standard-button");
+      // addToCartBtn.id = "cart_button_" + cartItem.link;
+      // addToCartBtn.addEventListener("click", async () => {
+      //   try {
+      //     const response = await fetch(`/api/delete_item?id=${cartItem._id}`, { method: "DELETE" });
+      //     console.log("recieved delete response");
+      //     if(response.status == 200) {
+      //       localStorage.removeItem(cartItem._id);
+      //       console.log('rendercart local storage: removed from cart');
+      //       this.reRender();
+      //     } else {
+      //       alert("Error removing this item from cart");
+      //     }
+      //   } catch (error) {
+      //       alert("There was an error removing this item from your cart.")
+      //       console.error(error);
+      //   }
+      // });
+      // addToCartBtnCol.appendChild(addToCartBtn);
 
       itemBody.appendChild(itemName);
       itemBody.appendChild(itemStore);
@@ -188,5 +243,28 @@ class Cart {
     this.cartElem.appendChild(
       await this.renderCart(),
     );
+  }
+
+  async updateQuantity(type, id) {
+    const user = localStorage.getItem("currentUser");
+    if(!user) {
+      alert("Sign in to add items to cart");
+      return;
+    }
+    try {
+      const response = await fetch(`/api/update_quantity?type=${type}&id=${id}`, { method: "PUT" });
+      if(response.status == 200) {
+        console.log("quantity updated");
+      }
+      if((await response.json()).deleted) {
+        localStorage.removeItem(id);
+        this.reRender();
+      }
+
+    } catch (e) {
+      alert("There was an error updating this item");
+      console.error(e);
+    }
+    
   }
 }
