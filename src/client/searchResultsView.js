@@ -234,6 +234,7 @@ class SearchResults {
     const price = itemInfo.price;
     const quantity = 1;
     const store = itemInfo.store;
+    const link = itemInfo.link;
     if(btn.innerText === 'Add to Cart'){
       try{
         const response = await fetch('/api/add_to_cart', {
@@ -241,7 +242,7 @@ class SearchResults {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id, product, user, img, price, store, quantity }) 
+          body: JSON.stringify({ id, product, user, img, price, store, link, quantity }) 
         });
         localStorage.setItem(id, itemInfo.productName);
         btn.innerText = "Remove from Cart";
