@@ -62,7 +62,7 @@ app.post('/api/logout', (req, res) => {
 })
 
 app.post('/api/add_to_cart', async (req, res) => {
-  const { id, product, user, img, price, quantity } = req.body; // need to add quantity 
+  const { id, product, user, img, price, store, quantity } = req.body; // need to add quantity 
   try {
     await db.put({
       _id: id,
@@ -70,6 +70,7 @@ app.post('/api/add_to_cart', async (req, res) => {
       user: user,
       img: img,
       price: price,
+      store: store,
       quantity: quantity
     });
     if(db.get(id)) {

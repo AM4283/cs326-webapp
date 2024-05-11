@@ -200,6 +200,7 @@ class SearchResults {
     const img = itemInfo.imgAddr;
     const price = itemInfo.price;
     const quantity = 1;
+    const store = itemInfo.store;
     if(btn.innerText === 'Add to Cart'){
       try{
         const response = await fetch('/api/add_to_cart', {
@@ -207,7 +208,7 @@ class SearchResults {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ id, product, user, img, price, quantity }) // need to add quantity
+          body: JSON.stringify({ id, product, user, img, price, store, quantity }) // need to add quantity
         });
         //const data = await response.json();
         localStorage.setItem(id, itemInfo.productName);

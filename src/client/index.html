@@ -70,9 +70,6 @@
               id="cartButton"
               class="btn btn-light btn-sm"
               type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#cart"
-              aria-controls="cart"
             >
               <img
                 class="nav-bar-icon"
@@ -80,6 +77,9 @@
                 alt="Cart"
               />
             </button>
+            <!-- data-bs-toggle="offcanvas"
+              data-bs-target="#cart"
+              aria-controls="cart" -->
             <button
               class="btn btn-light btn-sm"
               type="button"
@@ -165,10 +165,10 @@
       </div>
 
 <!-- HIDDEN CART VIEW -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="cart" aria-labelledby="cartLabel">
+<!-- <div class="offcanvas offcanvas-end" tabindex="-1" id="cart" aria-labelledby="cartLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="cartLabel">Shopping Cart</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <h5 class="offcanvas-title" id="cartLabel" href="#cart">Shopping Cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" href="#cart"></button>
   </div>
   <div class="offcanvas-body">
     <div class="container">
@@ -181,7 +181,7 @@
                   <h6 class="mb-1">Your cart is empty</h6>
                 </div>
               </div>
-            </li>
+            </li> -->
             <!-- <li class="list-group-item">
               <div class="row align-items-center">
                 <div class="col-4">
@@ -218,12 +218,12 @@
                 </div>
               </div>
             </li> -->
-          </ul>
+          <!-- </ul>
         </div>
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
       <!-- PAGE NAVIGATION -->
@@ -233,7 +233,7 @@
             <li class="list-group-item">
               <a class="unstyled-link" href="#home">Home</a>
             </li>
-            <li class="list-group-item">
+            <!-- <li class="list-group-item">
               <a 
                 id="side-cartButton"
                 class="unstyled-link"
@@ -243,10 +243,10 @@
               >
                 Cart
               </a>
-            </li>
-            <!-- <li class="list-group-item">
-              <a class="unstyled-link" href="#wishlist">Wishlist</a>
             </li> -->
+            <li class="list-group-item">
+              <a class="unstyled-link" href="#cart">Cart</a>
+            </li>
             <li class="list-group-item">
               <a 
                 class="unstyled-link"
