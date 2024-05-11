@@ -62,7 +62,7 @@ app.post('/api/logout', (req, res) => {
 })
 
 app.post('/api/add_to_cart', async (req, res) => {
-  const { id, product, user, img, price, store, quantity } = req.body;
+  const { id, product, user, img, price, store, link, quantity } = req.body;
   try {
     await db.put({
       _id: id,
@@ -71,6 +71,7 @@ app.post('/api/add_to_cart', async (req, res) => {
       img: img,
       price: price,
       store: store,
+      link: link,
       quantity: quantity
     });
     if(db.get(id)) {
@@ -117,6 +118,73 @@ app.delete('/api/delete_item', async (req, res) => {
       console.error("Error removing this item from cart:", error);
       res.status(500).json({ success: false, message: "Internal server error: " + error.message });
     }
+});
+
+app.put('/api/update_quantity', async (req, res) => {
+  const type = req.query.type;
+  const id = req.query.id;
+  console.log(`type: ${type} and id: ${id}`);
+  let deleted = false;
+  try {
+    if(type == "increase") {
+      db.get(id).then(function(doc) {
+        const quantity = doc.quantity+1;
+        console.log(`increased quantity to ${quantity}`);
+        return db.put({
+          _id: id,
+          _rev: doc._rev,
+          quantity: quantity
+        });
+      })
+    } else if(type == "decrease") {
+      await db.get(id).then(async function(doc) {
+        const quantity = doc.quantity-1;
+        console.log(`decreased quantity to ${quantity}`);
+        if(quantity == 0) {
+          await db.get(id).then(async function(doc) {
+            return await db.remove(doc);
+          }).catch(function (err) {
+            console.log(err);
+          });
+          console.log('removed from cart');
+          deleted = true;
+        }
+        else{
+          return db.put({
+            _id: id,
+            _rev: doc._rev,
+            quantity: quantity,
+            product: doc.product,
+            user: doc.user,
+            img: doc.img,
+            price: doc.price,
+            store: doc.store,
+            link: doc.link
+          });
+        }
+      })
+    }
+    console.log('server: quantity updated');
+    res.status(200).json({ success: true, deleted: deleted });
+  } catch (e) {
+    console.error("Error updating this item:", e);
+    res.status(500).json({ success: false, message: "Internal server error: " + e.message });
+  }
+  
+});
+
+app.get('/api/get_quantity', async (req, res) => {
+  const id = req.query.id;
+  try {
+    const quantity = await db.get(id).then(function(doc) {
+      return doc.quantity;
+    })
+    console.log(`quantity: ${quantity}`);
+    res.status(200).json({ success: true, quantity: quantity });
+  } catch (e) {
+    console.error("Error fetching this item:", error);
+    res.status(500).json({ success: false, message: "Internal server error: " + e.message });
+  }
 });
 
 app.listen(port, () => {
