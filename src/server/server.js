@@ -119,6 +119,64 @@ app.delete('/api/delete_item', async (req, res) => {
     }
 });
 
+app.put('/api/update_quantity', async (req, res) => {
+  const type = req.query.type;
+  const id = req.query.id;
+  console.log(`type: ${type} and id: ${id}`);
+  try {
+    if(type == "increase") {
+      db.get(id).then(function(doc) {
+        const quantity = doc.quantity+1;
+        return db.put({
+          _id: id,
+          _rev: doc._rev,
+          quantity: quantity
+        });
+      })
+    } else if(type == "decrease") {
+      db.get(id).then(function(doc) {
+        const quantity = doc.quantity-1;
+        if(quantity == 0) {
+          db.get(id).then(function(doc) {
+            return db.remove(doc);
+          }).catch(function (err) {
+            console.log(err);
+          });
+          console.log('removed from cart');
+          res.status(200).json({ success: true });
+        }
+        else{
+          return db.put({
+            _id: id,
+            _rev: doc._rev,
+            quantity: quantity
+          });
+        }
+      })
+    }
+    console.log('server: quantity updated');
+    res.status(200).json({ success: true });
+  } catch (e) {
+    console.error("Error updating this item:", error);
+    res.status(500).json({ success: false, message: "Internal server error: " + e.message });
+  }
+  
+});
+
+app.get('/api/get_quantity', (req, res) => {
+  const id = req.query.id;
+  try {
+    const quantity = db.get(id).then(function(doc) {
+      return doc.quantity;
+    })
+    console.log(`quantity: ${quantity}`);
+    res.status(200).json({ success: true, quantity: quantity });
+  } catch (e) {
+    console.error("Error fetching this item:", error);
+    res.status(500).json({ success: false, message: "Internal server error: " + e.message });
+  }
+});
+
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 })

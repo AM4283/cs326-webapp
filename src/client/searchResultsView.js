@@ -115,23 +115,67 @@ class SearchResults {
       let buttonRow = document.createElement("div");
       buttonRow.classList.add("row");
 
-      let addToCartBtnCol = document.createElement("div");
-      addToCartBtnCol.classList.add("col");
-      buttonRow.appendChild(addToCartBtnCol);
+      let buttonGroupDiv = document.createElement('div')
+      buttonGroupDiv.setAttribute('role', "group")
 
-      let addToCartBtn = document.createElement("BUTTON");
-      if(this.isInCart(searchResults[i])) {
-        addToCartBtn.innerText = "Remove from Cart";
-      } else {
-        addToCartBtn.innerText = "Add to Cart";
-      }
-      addToCartBtn.classList.add("add-to-button");
-      addToCartBtn.classList.add("standard-button");
-      addToCartBtn.id = "cart_button_" + searchResults[i].link;
-      addToCartBtn.addEventListener("click", () => {
-        this.addToCart(searchResults[i]);
+      let minusCartButton = document.createElement('button')
+      minusCartButton.classList.add('btn')
+      minusCartButton.classList.add('standard-button')
+      minusCartButton.innerText = "-";
+      minusCartButton.addEventListener("click", () => {
+        if(this.isInCart(searchResults[i])){
+          this.updateQuantity("decrease", searchResults[i].link);
+        } else {
+          alert ("Item not in cart.")
+        }
       });
-      addToCartBtnCol.appendChild(addToCartBtn);
+      buttonGroupDiv.appendChild(minusCartButton)
+
+      let addToCartBtn = document.createElement('button')
+      addToCartBtn.classList.add('btn')
+      addToCartBtn.classList.add("add-to-button");
+      addToCartBtn.classList.add('standard-button')
+      addToCartBtn.id = "cart_button_" + searchResults[i].link;
+      if(this.isInCart(searchResults[i])) {
+          addToCartBtn.innerText = "Remove from Cart";
+        } else {
+          addToCartBtn.innerText = "Add to Cart";
+      }
+      addToCartBtn.addEventListener("click", () => {
+          this.addToCart(searchResults[i]);
+        });
+      buttonGroupDiv.appendChild(addToCartBtn)
+
+      let plusCartButton = document.createElement('button')
+      plusCartButton.classList.add('btn')
+      plusCartButton.classList.add('standard-button')
+      plusCartButton.innerText = "+";
+      plusCartButton.addEventListener("click", () => {
+        this.updateQuantity("increase", searchResults[i].link);
+      });
+      buttonGroupDiv.appendChild(plusCartButton)
+      
+
+      buttonRow.appendChild(buttonGroupDiv)
+
+
+      // let addToCartBtnCol = document.createElement("div");
+      // addToCartBtnCol.classList.add("col");
+      // buttonRow.appendChild(addToCartBtnCol);
+
+      // let addToCartBtn = document.createElement("BUTTON");
+      // if(this.isInCart(searchResults[i])) {
+      //   addToCartBtn.innerText = "Remove from Cart";
+      // } else {
+      //   addToCartBtn.innerText = "Add to Cart";
+      // }
+      // addToCartBtn.classList.add("add-to-button");
+      // addToCartBtn.classList.add("standard-button");
+      // addToCartBtn.id = "cart_button_" + searchResults[i].link;
+      // addToCartBtn.addEventListener("click", () => {
+      //   this.addToCart(searchResults[i]);
+      // });
+      // addToCartBtnCol.appendChild(addToCartBtn);
 
       itemBody.appendChild(itemName);
       itemBody.appendChild(itemStore);
@@ -179,7 +223,7 @@ class SearchResults {
         alert("Please sign in to add items to cart!");
         return;
     }
-    const id = user + '_cart_' + itemInfo.link.substring(10, 20);
+    const id = user + '_cart_' + itemInfo.link.substring(itemInfo.link.length-15);
     let btn = document.getElementById('cart_button_' + itemInfo.link);
     const product = itemInfo.productName;
     const img = itemInfo.imgAddr;
@@ -223,12 +267,32 @@ class SearchResults {
   isInCart(itemInfo) {
     const user = localStorage.getItem("currentUser");
     if(!user) { return false; }
-    if(localStorage.getItem(user + '_cart_' + itemInfo.link.substring(10, 20))) {
+    if(localStorage.getItem(user + '_cart_' + itemInfo.link.substring(itemInfo.link.length-15))) {
       return true;
     }
     return false;
   }
 
+  async updateQuantity(type, link) {
+    const user = localStorage.getItem("currentUser");
+    if(!user) {
+      alert("Sign in to add items to cart");
+      return;
+    }
+    const id = user + "_cart_" + link.substring(link.length-15);
+    try {
+      const response = await fetch(`/api/update_quantity?type=${type}&id=${id}`, { method: "PUT" });
+      if(response.status == 200) {
+        console.log("quantity updated");
+      }
+      const quantity = await fetch(`/api/get_quantity?id=${id}`, { method: "GET" });
+      console.log((await quantity.json()).quantity);
+    } catch (e) {
+      alert("There was an error updating this item");
+      console.error(e);
+    }
+    
+  }
 
   /**
    * Renders tools for search results like sorting options.
