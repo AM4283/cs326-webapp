@@ -61,7 +61,62 @@ app.post('/api/logout', (req, res) => {
     res.json({ success: true});
 })
 
+app.post('/api/add_to_cart', async (req, res) => {
+  const { id, product, user, img, price, quantity } = req.body; // need to add quantity 
+  try {
+    await db.put({
+      _id: id,
+      product: product,
+      user: user,
+      img: img,
+      price: price,
+      quantity: quantity
+    });
+    if(db.get(id)) {
+      res.json({ success: true });
+      console.log(`added to cart: ${id}`);
+    }
+  } catch (error) {
+    console.error("Error adding this item to cart:", error);
+    res.status(500).json({ success: false, message: "Internal server error: " + error.message });
+  }
+});
 
+app.get('/api/load_cart', async (req, res) => {
+  console.log("getting user cart");
+  const user = req.query.user;
+  console.log(`inside load_cart: user is ${user}`);
+  try{
+    const userCart = await db.allDocs({
+      include_docs: true,
+      startkey: user + '_cart_',
+      endkey: user + "_cart_\uffff"
+    });
+    res.status(200).json({ success: true, userCart: userCart });
+  }
+  catch(err) {
+    console.log("error in load_cart");
+    res.status(500).json({ success: false, message: "Internal server error: " + err.message });
+  }
+});
+
+app.delete('/api/delete_item', async (req, res) => {
+  console.log("deleting item");
+  const id = req.query.id;
+  console.log(id);
+    try {
+      db.get(id).then(function(doc) {
+        return db.remove(doc);
+      }).catch(function (err) {
+        console.log(err);
+      });
+      console.log('removed from cart');
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error("Error removing this item from cart:", error);
+      res.status(500).json({ success: false, message: "Internal server error: " + error.message });
+    }
+});
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);

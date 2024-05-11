@@ -194,35 +194,41 @@ class SearchResults {
         alert("Please sign in to add items to cart!");
         return;
     }
-    const id = user + '_cart_' + itemInfo.link;
+    const id = user + '_cart_' + itemInfo.link.substring(10, 20);
     let btn = document.getElementById('cart_button_' + itemInfo.link);
+    const product = itemInfo.productName;
+    const img = itemInfo.imgAddr;
+    const price = itemInfo.price;
+    const quantity = 1;
     if(btn.innerText === 'Add to Cart'){
-        try {
-            const response = await db.put({
-                _id: id,
-                product: itemInfo.productName,
-                user: user,
-                img: itemInfo.imgAddr,
-                price: itemInfo.price
-            });
-            localStorage.setItem(id, itemInfo.productName);
-            btn.innerText = "Remove from Cart";
-            console.log('added to cart');
-        } catch (error) {
-            alert("There was an error adding this item to your cart.")
-            console.error(error);
-        }
+      try{
+        const response = await fetch('/api/add_to_cart', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id, product, user, img, price, quantity }) // need to add quantity
+        });
+        //const data = await response.json();
+        localStorage.setItem(id, itemInfo.productName);
+        btn.innerText = "Remove from Cart";
+        console.log('local storage: added to cart');
+      } catch (e) {
+        console.log(`error in addtocart`);
+        console.log(e);
+      }
     } else {
         try {
-            db.get(id).then(function(doc) {
-              return db.remove(doc);
-            }).catch(function (err) {
-              console.log(err);
-            });
-            //db.remove(doc);
+          const response = await fetch(`/api/delete_item?id=${id}`, { method: "DELETE" });
+          console.log("recieved delete response");
+          //const data = await response.text();
+          if(response.status == 200) {
             localStorage.removeItem(id);
             btn.innerText = "Add to Cart";
-            console.log('removed from cart');
+            console.log('local storage: removed from cart');
+          } else {
+            alert("Error removing this item from cart");
+          }
         } catch (error) {
             alert("There was an error removing this item from your cart.")
             console.error(error);
