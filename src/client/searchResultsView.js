@@ -151,7 +151,11 @@ class SearchResults {
       plusCartButton.classList.add('standard-button')
       plusCartButton.innerText = "+";
       plusCartButton.addEventListener("click", () => {
-        this.updateQuantity("increase", searchResults[i].link);
+        if(this.isInCart(searchResults[i])){
+          this.updateQuantity("increase", searchResults[i].link);
+        } else {
+          alert ("Item not in cart.")
+        }
       });
       buttonGroupDiv.appendChild(plusCartButton)
       
@@ -285,13 +289,27 @@ class SearchResults {
       if(response.status == 200) {
         console.log("quantity updated");
       }
-      const quantity = await fetch(`/api/get_quantity?id=${id}`, { method: "GET" });
-      console.log((await quantity.json()).quantity);
+      if((await response.json()).deleted) {
+        localStorage.removeItem(id);
+        this.reRender();
+      }
+
     } catch (e) {
       alert("There was an error updating this item");
       console.error(e);
     }
     
+  }
+
+  async getQuantity(link) {
+    const user = localStorage.getItem("currentUser");
+    if(!user) {
+      return 0;
+    }
+    const response = await fetch(`/api/get_quantity?id=${id}`, { method: "GET" });
+    const quantity = (await response.json()).quantity;
+    console.log(quantity);
+    return quantity;
   }
 
   /**

@@ -123,10 +123,12 @@ app.put('/api/update_quantity', async (req, res) => {
   const type = req.query.type;
   const id = req.query.id;
   console.log(`type: ${type} and id: ${id}`);
+  let deleted = false;
   try {
     if(type == "increase") {
       db.get(id).then(function(doc) {
         const quantity = doc.quantity+1;
+        console.log(`increased quantity to ${quantity}`);
         return db.put({
           _id: id,
           _rev: doc._rev,
@@ -134,39 +136,45 @@ app.put('/api/update_quantity', async (req, res) => {
         });
       })
     } else if(type == "decrease") {
-      db.get(id).then(function(doc) {
+      await db.get(id).then(async function(doc) {
         const quantity = doc.quantity-1;
+        console.log(`decreased quantity to ${quantity}`);
         if(quantity == 0) {
-          db.get(id).then(function(doc) {
-            return db.remove(doc);
+          await db.get(id).then(async function(doc) {
+            return await db.remove(doc);
           }).catch(function (err) {
             console.log(err);
           });
           console.log('removed from cart');
-          res.status(200).json({ success: true });
+          deleted = true;
         }
         else{
           return db.put({
             _id: id,
             _rev: doc._rev,
-            quantity: quantity
+            quantity: quantity,
+            product: doc.product,
+            user: doc.user,
+            img: doc.img,
+            price: doc.price,
+            store: doc.store,
           });
         }
       })
     }
     console.log('server: quantity updated');
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, deleted: deleted });
   } catch (e) {
-    console.error("Error updating this item:", error);
+    console.error("Error updating this item:", e);
     res.status(500).json({ success: false, message: "Internal server error: " + e.message });
   }
   
 });
 
-app.get('/api/get_quantity', (req, res) => {
+app.get('/api/get_quantity', async (req, res) => {
   const id = req.query.id;
   try {
-    const quantity = db.get(id).then(function(doc) {
+    const quantity = await db.get(id).then(function(doc) {
       return doc.quantity;
     })
     console.log(`quantity: ${quantity}`);
