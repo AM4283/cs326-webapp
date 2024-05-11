@@ -71,25 +71,14 @@ class Cart {
     const user = localStorage.getItem("currentUser");
 
     let userCart = undefined;
-    // try {
-    //   const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
-    //   console.log("fetch is done in rendercart");
-    //   const data = await response.json();
-    //   console.log(`data is ${data}`);
-    //   userCart = data.userCart;
-    // } catch (e) {
-    //   console.log(`error loading cart in rendercart: ${e}`);
-    // }
     console.log("rendering cart list");
     const cartElm = document.createElement("div");
     cartElm.id = "cartItems";
     cartElm.classList.add("view");
 
-    //const user = localStorage.getItem("currentUser");
     const textElm = document.createElement("h1");
     if(user) {
       console.log(`user is ${user}`);
-      // textElm.innerText = "Your cart is empty";
       try {
         const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
         const data = await response.json();

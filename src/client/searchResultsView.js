@@ -133,20 +133,20 @@ class SearchResults {
       });
       addToCartBtnCol.appendChild(addToCartBtn);
 
-      let addToWishlistBtnCol = document.createElement("div");
-      addToWishlistBtnCol.classList.add("col");
-      buttonRow.appendChild(addToWishlistBtnCol);
+      // let addToWishlistBtnCol = document.createElement("div");
+      // addToWishlistBtnCol.classList.add("col");
+      // buttonRow.appendChild(addToWishlistBtnCol);
 
-      let addToWishlistBtn = document.createElement("BUTTON");
-      addToWishlistBtn.innerText = "Add to Wishlist";
-      addToWishlistBtn.classList.add("col");
-      addToWishlistBtn.classList.add("add-to-button");
-      addToWishlistBtn.classList.add("standard-button");
-      addToWishlistBtn.id = "wishlist_button_" + searchResults[i].link;
-      addToWishlistBtn.addEventListener("click", () => {
-        this.addToWishlist(searchResults[i]);
-      });
-      addToWishlistBtnCol.appendChild(addToWishlistBtn);
+      // let addToWishlistBtn = document.createElement("BUTTON");
+      // addToWishlistBtn.innerText = "Add to Wishlist";
+      // addToWishlistBtn.classList.add("col");
+      // addToWishlistBtn.classList.add("add-to-button");
+      // addToWishlistBtn.classList.add("standard-button");
+      // addToWishlistBtn.id = "wishlist_button_" + searchResults[i].link;
+      // addToWishlistBtn.addEventListener("click", () => {
+      //   this.addToWishlist(searchResults[i]);
+      // });
+      // addToWishlistBtnCol.appendChild(addToWishlistBtn);
 
       itemBody.appendChild(itemName);
       itemBody.appendChild(itemStore);
@@ -240,7 +240,7 @@ class SearchResults {
   isInCart(itemInfo) {
     const user = localStorage.getItem("currentUser");
     if(!user) { return false; }
-    if(localStorage.getItem(user + '_cart_' + itemInfo.link)) {
+    if(localStorage.getItem(user + '_cart_' + itemInfo.link.substring(10, 20))) {
       return true;
     }
     return false;
