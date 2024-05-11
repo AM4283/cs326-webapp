@@ -73,6 +73,7 @@ app.post('/api/add_to_cart', async (req, res) => {
     });
     if(db.get(id)) {
       res.json({ success: true });
+      console.log(`added to cart: ${id}`);
     }
   } catch (error) {
     console.error("Error adding this item to cart:", error);
@@ -92,7 +93,8 @@ app.get('/api/load_cart', async (req, res) => {
       endkey: user + "_cart_\uffff"
     });
     //console.log(user + " " + userCart);
-    return userCart;
+    res.status(200).json({ success: true, userCart: userCart });
+    //return userCart;
   }
   catch(err) {
     console.log("error in load_cart");
@@ -112,6 +114,7 @@ app.delete('/api/delete_item', async (req, res) => {
       });
       //localStorage.removeItem(id);
       console.log('removed from cart');
+      res.status(200).json({ success: true });
     } catch (error) {
       console.error("Error removing this item from cart:", error);
       res.status(500).json({ success: false, message: "Internal server error: " + error.message });

@@ -194,7 +194,7 @@ class SearchResults {
         alert("Please sign in to add items to cart!");
         return;
     }
-    const id = user + '_cart_' + itemInfo.link;
+    const id = user + '_cart_' + itemInfo.link.substring(10, 20);
     let btn = document.getElementById('cart_button_' + itemInfo.link);
     const product = itemInfo.productName;
     const img = itemInfo.imgAddr;
@@ -211,7 +211,7 @@ class SearchResults {
         //const data = await response.json();
         localStorage.setItem(id, itemInfo.productName);
         btn.innerText = "Remove from Cart";
-        console.log('added to cart');
+        console.log('local storage: added to cart');
       } catch (e) {
         console.log(`error in addtocart`);
         console.log(e);
@@ -242,11 +242,12 @@ class SearchResults {
             // });
             //db.remove(doc);
             const response = await fetch(`/api/delete_item?id=${id}`, { method: "DELETE" });
-            const data = await response.text();
-            if(data.success) {
+            console.log("recieved delete response");
+            //const data = await response.text();
+            if(response.status == 200) {
               localStorage.removeItem(id);
               btn.innerText = "Add to Cart";
-              console.log('removed from cart');
+              console.log('local storage: removed from cart');
             } else {
               alert("Error removing this item from cart");
             }

@@ -44,17 +44,30 @@ async function renderCart() {
   const cartContainer = document.getElementById("cartList");
   const user = localStorage.getItem("currentUser");
   console.log("in render cart");
-  const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
+  let userCart = null;
+  try {
+    const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
+    console.log("fetch is done in rendercart");
+    const data = await response.json();
+    console.log(`data is ${data}`);
+    userCart = data.userCart;
+  } catch (e) {
+    console.log(`error loading cart in rendercart: ${e}`);
+  }
+  
   // const userCart = await db.allDocs({
   //   include_docs: true,
   //   startkey: user + '_cart_',
   //   endkey: user + "_cart_\uffff"
   // });
-  console.log("fetch is done in rendercart");
-  const userCart = await response.text();
-  console.log(userCart);
+  
+  console.log(`usercart in rendercart: ${userCart}`);
   cartContainer.innerHTML = "";
-  if(parseInt(userCart.total_rows) == 0) { 
+  if(!userCart || userCart.rows.length == 0) { 
+    console.log(`rows length is ${userCart.rows.length}`);
+    if(!userCart) {
+      console.log("usercart is null in rendercart");
+    }
     const listGroup = document.createElement("li");
     listGroup.classList.add("list-group-item");
 
@@ -121,21 +134,35 @@ async function renderCart() {
     removeButton.id = "inner-cart-remove-btn";
     removeButton.innerHTML = "Remove";
     info.appendChild(removeButton);
-    // removeButton.addEventListener("click", () => {
-    //   try {
-    //       db.get(item.id).then(function(doc) {
-    //         return db.remove(doc);
-    //       }).catch(function (err) {
-    //         console.log(err);
-    //       });
-    //       localStorage.removeItem(item.id);
-    //       console.log('removed from cart');
-    //       renderCart();
-    //   } catch (error) {
-    //       alert("There was an error removing this item from your cart.")
-    //       console.error(error);
-    //   }
-    // });
+    removeButton.addEventListener("click", async () => {
+      try {
+        const response = await fetch(`/api/delete_item?id=${item.id}`, { method: "DELETE" });
+        console.log("recieved delete response");
+        if(response.status == 200) {
+          localStorage.removeItem(item.id);
+          console.log('rendercart local storage: removed from cart');
+          renderCart();
+        } else {
+          alert("Error removing this item from cart");
+        }
+      } catch (error) {
+          alert("There was an error removing this item from your cart.")
+          console.error(error);
+      }
+      // try {
+      //     db.get(item.id).then(function(doc) {
+      //       return db.remove(doc);
+      //     }).catch(function (err) {
+      //       console.log(err);
+      //     });
+      //     localStorage.removeItem(item.id);
+      //     console.log('removed from cart');
+      //     renderCart();
+      // } catch (error) {
+      //     alert("There was an error removing this item from your cart.")
+      //     console.error(error);
+      // }
+    });
     
 
     row.appendChild(info);
