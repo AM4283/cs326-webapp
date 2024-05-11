@@ -101,101 +101,73 @@ class SearchResults {
       itemName.classList.add("card-title");
       itemName.classList.add("unstyled-link");
       itemName.classList.add("search-result-item-name");
+      itemBody.appendChild(itemName);
 
       let itemStore = document.createElement("h6");
       itemStore.innerText = searchResults[i].store;
       itemStore.classList.add("card-subtitle");
       itemStore.classList.add("mb-2");
       itemStore.classList.add("text-body-secondary");
+      itemBody.appendChild(itemStore);
 
       let itemPrice = document.createElement("p");
       itemPrice.innerText = "$" + searchResults[i].price;
       itemPrice.classList.add("card-text");
+      itemBody.appendChild(itemPrice);
 
-      let buttonRow = document.createElement("div");
-      buttonRow.classList.add("row");
-      
-      let buttonGroupDiv = document.createElement('div')
-      buttonGroupDiv.setAttribute('role', "group")
-
-      let minusCartButton = document.createElement('button')
-      minusCartButton.classList.add('btn')
-      minusCartButton.classList.add('standard-button')
-      minusCartButton.innerText = "-";
-      minusCartButton.addEventListener("click", () => {
-        if(this.isInCart(searchResults[i])){
-          this.removeFromCart(searchResults[i]);
-        } else {
-          alert ("Item not in cart.")
-        }
-      });
-      buttonGroupDiv.appendChild(minusCartButton)
+      let buttonRow = document.createElement('div')
+      buttonRow.classList.add("row")
+      itemBody.appendChild(buttonRow)
 
       let addToCartBtn = document.createElement('button')
       addToCartBtn.classList.add('btn')
       addToCartBtn.classList.add("add-to-button");
       addToCartBtn.classList.add('standard-button')
       addToCartBtn.id = "cart_button_" + searchResults[i].link;
+      buttonRow.appendChild(addToCartBtn)
+
+      let quantitySelector = document.createElement("select");
+      quantitySelector.name = "sort";
+      quantitySelector.innerText = "1";
+      quantitySelector.id = "quantity_" + searchResults[i].link;
+      quantitySelector.hidden = true
+      itemBody.appendChild(quantitySelector);
+  
+      const optionList = ["1", "2", "3", '4', '5', '6', '7', '8', '9', '10'];
+      for (let i = 0; i < optionList.length; i++) {
+        const option = document.createElement("option");
+        option.value = optionList[i];
+        option.innerText = optionList[i];
+        quantitySelector.appendChild(option);
+      }
+      quantitySelector.addEventListener("change", () => {
+        console.log('updating quantity for this item')
+      });
       if(this.isInCart(searchResults[i])) {
           addToCartBtn.innerText = "Remove from Cart";
-        } else {
+          quantitySelector.hidden = false
+
+      } else {
           addToCartBtn.innerText = "Add to Cart";
       }
       addToCartBtn.addEventListener("click", () => {
           this.addToCart(searchResults[i]);
         });
-      buttonGroupDiv.appendChild(addToCartBtn)
+        
 
-      let plusCartButton = document.createElement('button')
-      plusCartButton.classList.add('btn')
-      plusCartButton.classList.add('standard-button')
-      plusCartButton.innerText = "+";
-      plusCartButton.addEventListener("click", () => {
-        this.addToCart(searchResults[i]);
-      });
-      buttonGroupDiv.appendChild(plusCartButton)
-      
-
-      buttonRow.appendChild(buttonGroupDiv)
-
-      // let addToCartBtnCol = document.createElement("div");
-      // addToCartBtnCol.classList.add("col");
-      // buttonRow.appendChild(addToCartBtnCol);
-
-      // let addToCartBtn = document.createElement("BUTTON");
-      // if(this.isInCart(searchResults[i])) {
-      //   addToCartBtn.innerText = "Remove from Cart";
-      // } else {
-      //   addToCartBtn.innerText = "Add to Cart";
-      // }
-      // addToCartBtn.classList.add("add-to-button");
-      // addToCartBtn.classList.add("standard-button");
-      // addToCartBtn.id = "cart_button_" + searchResults[i].link;
-      // addToCartBtn.addEventListener("click", () => {
+      // let plusCartButton = document.createElement('button')
+      // plusCartButton.classList.add('btn')
+      // plusCartButton.classList.add('standard-button')
+      // plusCartButton.innerText = "+";
+      // plusCartButton.addEventListener("click", () => {
       //   this.addToCart(searchResults[i]);
       // });
-      // addToCartBtnCol.appendChild(addToCartBtn);
+      // buttonGroupDiv.appendChild(plusCartButton)
+      
 
-
-      // let addToWishlistBtnCol = document.createElement("div");
-      // addToWishlistBtnCol.classList.add("col");
-      // buttonRow.appendChild(addToWishlistBtnCol);
-
-      // let addToWishlistBtn = document.createElement("BUTTON");
-      // addToWishlistBtn.innerText = "Add to Wishlist";
-      // addToWishlistBtn.classList.add("col");
-      // addToWishlistBtn.classList.add("add-to-button");
-      // addToWishlistBtn.classList.add("standard-button");
-      // addToWishlistBtn.id = "wishlist_button_" + searchResults[i].link;
-      // addToWishlistBtn.addEventListener("click", () => {
-      //   this.addToWishlist(searchResults[i]);
-      // });
-      // addToWishlistBtnCol.appendChild(addToWishlistBtn);
-
-      itemBody.appendChild(itemName);
-      itemBody.appendChild(itemStore);
-      itemBody.appendChild(itemPrice);
-      itemBody.appendChild(buttonRow);
+      // buttonRow.appendChild(buttonGroupDiv)
+      
+      // itemBody.appendChild(buttonRow);
       imageCol.appendChild(image);
       itemBodyCol.appendChild(itemBody);
       itemRow.appendChild(imageCol);
@@ -256,6 +228,7 @@ class SearchResults {
         });
         localStorage.setItem(id, itemInfo.productName);
         btn.innerText = "Remove from Cart";
+        document.getElementById("quantity_" + itemInfo.link).hidden = false
         console.log('local storage: added to cart');
       } catch (e) {
         console.log(`error in addtocart`);
@@ -268,6 +241,7 @@ class SearchResults {
           if(response.status == 200) {
             localStorage.removeItem(id);
             btn.innerText = "Add to Cart";
+            document.getElementById("quantity_" + itemInfo.link).hidden = true
             console.log('local storage: removed from cart');
           } else {
             alert("Error removing this item from cart");
