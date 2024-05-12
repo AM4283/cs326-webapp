@@ -196,80 +196,15 @@ class Cart {
       item.appendChild(itemRow);
 
       cartElm.appendChild(item);
-
-      // let buttonGroupDiv = document.createElement('div')
-      // buttonGroupDiv.setAttribute('role', "group")
-
-      // let minusCartButton = document.createElement('button')
-      // minusCartButton.classList.add('btn')
-      // minusCartButton.classList.add('standard-button')
-      // minusCartButton.innerText = "-";
-      // minusCartButton.addEventListener("click", () => {
-      //   if(localStorage.getItem(cartItem._id)){
-      //     this.updateQuantity("decrease", cartItem._id);
-      //   } else {
-      //     alert ("Item not in cart.")
-      //   }
-      // });
-      // buttonGroupDiv.appendChild(minusCartButton)
-
-      // let rmvFromCartBtn = document.createElement('button')
-      // rmvFromCartBtn.classList.add('btn')
-      // rmvFromCartBtn.classList.add("add-to-button");
-      // rmvFromCartBtn.classList.add('standard-button')
-      // rmvFromCartBtn.id = "cart_button_" + cartItem.link;
-      // rmvFromCartBtn.innerText = "Remove from Cart";
-      // rmvFromCartBtn.addEventListener("click", async () => {
-      //     try {
-      //       const response = await fetch(`/api/delete_item?id=${cartItem._id}`, { method: "DELETE" });
-      //       console.log("recieved delete response");
-      //       if(response.status == 200) {
-      //         localStorage.removeItem(cartItem._id);
-      //         console.log('rendercart local storage: removed from cart');
-      //         this.reRender();
-      //       } else {
-      //         alert("Error removing this item from cart");
-      //       }
-      //     } catch (error) {
-      //         alert("There was an error removing this item from your cart.")
-      //         console.error(error);
-      //     }
-      //   });
-      // buttonGroupDiv.appendChild(rmvFromCartBtn)
-
-  
-
-      // let addToCartBtnCol = document.createElement("div");
-      // addToCartBtnCol.classList.add("col");
-      // buttonRow.appendChild(addToCartBtnCol);
-
-      // let addToCartBtn = document.createElement("BUTTON");
-      // addToCartBtn.innerText = "Remove from Cart";
-      // addToCartBtn.classList.add("add-to-button");
-      // addToCartBtn.classList.add("standard-button");
-      // addToCartBtn.id = "cart_button_" + cartItem.link;
-      // addToCartBtn.addEventListener("click", async () => {
-      //   try {
-      //     const response = await fetch(`/api/delete_item?id=${cartItem._id}`, { method: "DELETE" });
-      //     console.log("recieved delete response");
-      //     if(response.status == 200) {
-      //       localStorage.removeItem(cartItem._id);
-      //       console.log('rendercart local storage: removed from cart');
-      //       this.reRender();
-      //     } else {
-      //       alert("Error removing this item from cart");
-      //     }
-      //   } catch (error) {
-      //       alert("There was an error removing this item from your cart.")
-      //       console.error(error);
-      //   }
-      // });
-      // addToCartBtnCol.appendChild(addToCartBtn);
     });
 
     return cartElm;
   }
-
+  /**
+   * Rerenders user cart after update
+   * @async
+   * @function reRender
+   */
   async reRender() {
     console.log("re-rendering in process");
 
@@ -278,14 +213,14 @@ class Cart {
       await this.renderCart(),
     );
   }
-
+  /**
+   * Updates quantity in database entry corresponding to signed in user of quantity of number of specified item id in cart
+   * @async
+   * @function updateQuantity
+   * @param {String} id user/item database name entry id combination
+   * @param {Number} quantity specified quantity to update cart to
+   */
   async updateQuantity(id, quantity) {
-    // const user = localStorage.getItem("currentUser");
-    // if(!user) {
-    //   alert("Sign in to add items to cart");
-    //   return;
-    // }
-    // // const id = user + "_cart_" + link.substring(link.length-15);
     try {
       const response = await fetch(`/api/update_quantity?id=${id}&quantity=${quantity}`, { method: "PUT" });
       if(response.status == 200) {
@@ -293,7 +228,6 @@ class Cart {
       }
       if((await response.json()).deleted) {
         localStorage.removeItem(id);
-        // this.reRender();
       }
 
     } catch (e) {
@@ -302,7 +236,12 @@ class Cart {
     }
     
   }
-
+  /**
+   * Gets quantity in database entry corresponding to signed in user of quantity of number of specified item id in cart
+   * @async
+   * @function getQuantity
+   * @param {String} id user/item database name entry id combination
+   */
   async getQuantity(id) {
     const user = localStorage.getItem("currentUser");
     if(!user) {
@@ -315,4 +254,3 @@ class Cart {
     return quantity;
   }
 }
-

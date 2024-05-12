@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "StyleScout 360",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -23,7 +23,7 @@
     "url": "https://github.com/AM4283/cs326-webapp"
   },
   "contributors": [
-    "Albi Marini, albimarini@umass.edu, Nathan Pearce npearce@umass.edu, Nicole Kaldus, nkaldus@umass.edu, Danny Cedrone, jcedrone@umass.edu"
+    "Albi Marini, albimarini@umass.edu, Nathan Pearce, npearce@umass.edu, Nicole Kaldus, nkaldus@umass.edu, Danny Cedrone, jcedrone@umass.edu"
   ],
   "scripts": {
     "milestone-01": "http-server src -p 3000 -c-1 -o /docs/milestone-01/index.html",

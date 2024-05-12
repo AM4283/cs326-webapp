@@ -3,6 +3,12 @@ import { HomeView } from "./HomeView.js";
 import { SearchResultsView } from "./searchResultsView.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  /**
+   * Updates the webpage view to the specified viewID
+   * @async
+   * @function navigate
+   * @param {Number} viewID ID corresponding to different application view
+   */
   async function navigate(viewID) {
     const viewsElm = document.getElementById("views");
     viewsElm.innerHTML = "";
@@ -16,7 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     viewsElm.appendChild(await view.render());
   }
-
+  /**
+   * Replaces the # in href elements of html objects to "" and updates them to make them update our view to the specified viewID
+   * @function setLinks
+   * @param {HTMLElement} links HTML object that contains href elements
+   */
   function setLinks(links) {
     links.forEach((link) => {
       link.addEventListener("click", async (e) => {

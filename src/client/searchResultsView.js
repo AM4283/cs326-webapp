@@ -170,6 +170,8 @@ class SearchResults {
 
   /**
    * Re-renders the search results based on the current sort order and filters.
+   * @async
+   * @function reRender
    */
   async reRender() {
     console.log("re-rendering in process");
@@ -243,7 +245,11 @@ class SearchResults {
         }
     }
   }
-  
+  /**
+   * Checks if specified item is in user cart
+   * @param {Object} itemInfo cart item object
+   * @returns {Boolean} indicates whether item is in cart or not
+   */ 
   isInCart(itemInfo) {
     const user = localStorage.getItem("currentUser");
     if(!user) { return false; }
@@ -252,7 +258,13 @@ class SearchResults {
     }
     return false;
   }
-
+  /**
+   * Updates quantity of particular item in cart
+   * @async
+   * @function
+   * @param {String} link cart item url
+   * @param {Number} quantity quantity to update item to
+   */
   async updateQuantity(link, quantity) {
     const user = localStorage.getItem("currentUser");
     if(!user) {
@@ -276,7 +288,13 @@ class SearchResults {
     }
     
   }
-
+  /**
+   * Gets quantity of particular item in cart
+   * @async
+   * @function getQuantity
+   * @param {String} link cart item url
+   * @returns {Number} quantity of particular item in cart
+   */
   async getQuantity(link) {
     const user = localStorage.getItem("currentUser");
     if(!user) {
@@ -351,7 +369,6 @@ class SearchResults {
    * @returns {Promise<Array<Object>>} A promise that resolves to an array of search result data.
    */
   async searchWebForData(searchInput) {
-    //this function will eventually return data using a web scraper
     console.log("searching the web for results related to " + searchInput);
     const dummyData = [
       {
