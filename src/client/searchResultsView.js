@@ -243,11 +243,7 @@ class SearchResults {
         }
     }
   }
-  /**
-   * Checks whether an item is in the cart
-   * @param {Object} itemInfo cart item object
-   * @returns {boolean} indicates whether item was found in cart or not
-   */ 
+  
   isInCart(itemInfo) {
     const user = localStorage.getItem("currentUser");
     if(!user) { return false; }
@@ -256,12 +252,7 @@ class SearchResults {
     }
     return false;
   }
-  /**
-   * Updates the quantity of a particular item in acrt
-   * @async
-   * @param {String} link cart item link name
-   * @param {Number} quantity quantity that item is updated to
-   */
+
   async updateQuantity(link, quantity) {
     const user = localStorage.getItem("currentUser");
     if(!user) {
@@ -285,12 +276,7 @@ class SearchResults {
     }
     
   }
-  /**
-   * Gets quantiy of particular item in cart
-   * @async
-   * @param {String} link cart item link name
-   * @returns {Number} quantity of cart item
-   */
+
   async getQuantity(link) {
     const user = localStorage.getItem("currentUser");
     if(!user) {
@@ -365,6 +351,7 @@ class SearchResults {
    * @returns {Promise<Array<Object>>} A promise that resolves to an array of search result data.
    */
   async searchWebForData(searchInput) {
+    //this function will eventually return data using a web scraper
     console.log("searching the web for results related to " + searchInput);
     const dummyData = [
       {
