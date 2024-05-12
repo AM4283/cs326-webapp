@@ -11,7 +11,7 @@ export class SearchResultsView {
    * @returns {Promise<HTMLDivElement>} The rendered search results view element.
    */
   async render() {
-    console.log("rendering search results");
+    if (DEBUG) console.log("rendering search results");
     const searchResultsViewElem = document.createElement("div");
     searchResultsViewElem.id = "searchResults-view";
 
@@ -71,7 +71,7 @@ class SearchResults {
   async renderSearchResults(searchResults) {
     const allResults = document.createElement("div");
     allResults.id = "results";
-    console.log(searchResults);
+    if (DEBUG) console.log(searchResults);
 
     for (let i = 0; i < searchResults.length; ++i) {
       const item = document.createElement("div");
@@ -141,7 +141,7 @@ class SearchResults {
         quantitySelector.appendChild(option);
       }
       quantitySelector.addEventListener("change", async () => {
-        console.log('updating quantity for this item')
+        if (DEBUG) console.log('updating quantity for this item')
         await this.updateQuantity(searchResults[i].link, quantitySelector.value)
       });
       if(this.isInCart(searchResults[i])) {
@@ -172,9 +172,11 @@ class SearchResults {
    * Re-renders the search results based on the current sort order and filters.
    */
   async reRender() {
-    console.log("re-rendering in process");
-    console.log("sort order: " + this.sortOrder);
-    console.log("filters: " + this.filters);
+    if (DEBUG) {
+      console.log("re-rendering in process");
+      console.log("sort order: " + this.sortOrder);
+      console.log("filters: " + this.filters);
+    }
 
     let reSortedResults = [...this.searchResults];
     if (this.sortOrder === "Price Low to High") {
@@ -195,7 +197,7 @@ class SearchResults {
    */
   async addToCart(itemInfo){
     const user = localStorage.getItem("currentUser");
-    console.log(user);
+    if (DEBUG) console.log(user);
     if(!user) {
         alert("Please sign in to add items to cart!");
         return;
@@ -220,20 +222,20 @@ class SearchResults {
         localStorage.setItem(id, itemInfo.productName);
         btn.innerText = "Remove from Cart";
         document.getElementById("quantity_" + itemInfo.link).hidden = false
-        console.log('local storage: added to cart');
+        if (DEBUG) console.log('local storage: added to cart');
       } catch (e) {
-        console.log(`error in addToCart`);
-        console.log(e);
+        console.error(`error in addToCart`);
+        console.error(e);
       }
     } else {
         try {
           const response = await fetch(`/api/delete_item?id=${id}`, { method: "DELETE" });
-          console.log("received delete response");
+          if (DEBUG) console.log("received delete response");
           if(response.status == 200) {
             localStorage.removeItem(id);
             btn.innerText = "Add to Cart";
             document.getElementById("quantity_" + itemInfo.link).hidden = true
-            console.log('local storage: removed from cart');
+            if (DEBUG) console.log('local storage: removed from cart');
           } else {
             alert("Error removing this item from cart");
           }
@@ -262,7 +264,7 @@ class SearchResults {
     const id = user + "_cart_" + link.substring(link.length-15);
     try {
       const response = await fetch(`/api/update_quantity?id=${id}&quantity=${quantity}`, { method: "PUT" });
-      if(response.status == 200) {
+      if(response.status == 200 && DEBUG) {
         console.log("quantity updated");
       }
       if((await response.json()).deleted) {
@@ -285,7 +287,7 @@ class SearchResults {
     const id = user + '_cart_' + link.substring(link.length-15)
     const response = await fetch(`/api/get_quantity?id=${id}`, { method: "GET" });
     const quantity = (await response.json()).quantity;
-    console.log(quantity);
+    if (DEBUG) console.log(quantity);
     return quantity;
   }
 
@@ -295,7 +297,7 @@ class SearchResults {
    * @returns {HTMLDivElement} The search result tools element.
    */
   renderSearchResultTools(searchInput) {
-    console.log("rendering the tool bar");
+    if (DEBUG) console.log("rendering the tool bar");
 
     const tools = document.createElement("div");
     tools.classList.add("row");
@@ -352,7 +354,7 @@ class SearchResults {
    */
   async searchWebForData(searchInput) {
     //this function will eventually return data using a web scraper
-    console.log("searching the web for results related to " + searchInput);
+    if (DEBUG) console.log("searching the web for results related to " + searchInput);
     const dummyData = [
       {
         imgAddr:

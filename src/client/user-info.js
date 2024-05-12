@@ -1,48 +1,4 @@
 /**
- * Adds a document to the database.
- * @async
- * @function addDocument
- * @param {Object} doc - The document to be added.
- */
-async function addDocument(doc) {
-  try {
-    const response = await db.put(doc);
-    console.log("Document created successfully", response);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-/**
- * Retrieves a document from the database by its ID.
- * @async
- * @function getDocument
- * @param {string} id - The ID of the document to retrieve.
- */
-async function getDocument(id) {
-  try {
-    const doc = await db.get(id);
-    console.log(doc);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-/**
- * Synchronizes the local database with the remote database.
- * @async
- * @function syncDatabase
- */
-async function syncDatabase() {
-  try {
-    await PouchDB.sync("my_database", "<http://example.com/mydb>");
-    console.log("Database synced successfully");
-  } catch (error) {
-    console.error("Sync error:", error);
-  }
-}
-
-/**
  * Updates the authentication UI based on the user's sign-in status.
  * @function updateAuthUI
  */
@@ -70,39 +26,16 @@ function updateAuthUI() {
  * @function addAuthEventListeners
  */
 function addAuthEventListeners() {
-  document.getElementById("signInBtn").addEventListener("click", async function() {
-    displaySignInForm();
-    // const username = document.getElementById("signInUsername").value;
-    // const password = document.getElementById("signInPassword").value;
-    // const response = await fetch('/api/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({ username, password })
-    // });
-    // const data = await response.json();
-    // if (data.success) {
-    //   localStorage.setItem("currentUser", username);
-    //   updateAuthUI();
-    // } else {
-    //   alert("Login failed");
-    // }
-  });
+  document
+    .getElementById("signInBtn")
+    .addEventListener("click", async function () {
+      displaySignInForm();
+    });
   document
     .getElementById("createAccountBtn")
     .addEventListener("click", function () {
       displayCreateAccountForm();
     });
-}
-
-/**
- * Signs out the current user and updates the UI.
- * @function signOut
- */
-function signOut() {
-  localStorage.removeItem("currentUser");
-  updateAuthUI();
 }
 
 /**
@@ -143,33 +76,21 @@ function displayCreateAccountForm() {
 async function signIn() {
   const username = document.getElementById("signInUsername").value;
   const password = document.getElementById("signInPassword").value;
-  // try {
-  //   const userDoc = await db.get(username);
-  //   if (userDoc.password === password) {
-  //     localStorage.setItem("currentUser", username);
-  //     updateAuthUI();
-  //   } else {
-  //     alert("Incorrect username or password.");
-  //   }
-  // } catch (error) {
-  //   console.error(error);
-  //   alert("An error occurred during sign in.");
-  // }
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await response.json();
-    if (data.success) {
-      localStorage.setItem("currentUser", username);
-      updateAuthUI();
-    } else {
-      alert("Login failed: " + data.message);
-      console.log(data.message);
-    }
+  const response = await fetch("/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  const data = await response.json();
+  if (data.success) {
+    localStorage.setItem("currentUser", username);
+    updateAuthUI();
+  } else {
+    alert("Login failed: " + data.message);
+    // console.error(data.message);
+  }
 }
 
 /**
@@ -180,38 +101,34 @@ async function signIn() {
 async function createAccount() {
   const username = document.getElementById("createAccountUsername").value;
   const password = document.getElementById("createAccountPassword").value;
-    const response = await fetch('/api/create_account', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await response.json();
-    if (data.success) {
-      localStorage.setItem("currentUser", username);
-      updateAuthUI();
-      console.log("Account created successfully");
-    } else {
-      alert("Create account failed: " + data.message);
-      // console.error(data.message);
-    }
-  // try {
-  //   await db.put({
-  //     _id: username,
-  //     password: password
-  //   });
-  //   localStorage.setItem("currentUser", username);
-  //   updateAuthUI();
-  //   console.log("Account created successfully");
-  // } catch (error) {
-  //   console.error("Account creation failed:", error);
-  //   alert("Failed to create account. Please try again.");
-  // }
+  const response = await fetch("/api/create_account", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  const data = await response.json();
+  if (data.success) {
+    localStorage.setItem("currentUser", username);
+    updateAuthUI();
+    if (DEBUG) console.log("Account created successfully");
+  } else {
+    alert("Create account failed: " + data.message);
+    // console.error(data.message);
+  }
 }
-document.getElementById("signOutBtn").addEventListener("click", async function() {
-  const response = await fetch('/api/logout', {
-    method: 'POST'
+
+document.getElementById("signOutBtn").addEventListener("click", signOut);
+
+/**
+ * Attempts to sign a logged-in user out.
+ * @async
+ * @function signOut
+ */
+async function signOut() {
+  const response = await fetch("/api/logout", {
+    method: "POST",
   });
   const data = await response.json();
   if (data.success) {
@@ -220,7 +137,8 @@ document.getElementById("signOutBtn").addEventListener("click", async function()
   } else {
     alert("Logout failed");
   }
-});
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   updateAuthUI();
 });

@@ -3,6 +3,9 @@
  * @class
  */
 export class CartView {
+  /**
+   * Constructs a new instance of the CartView class.
+   */
   constructor() {
     // Initializes a new instance of CartView
   }
@@ -13,7 +16,7 @@ export class CartView {
    * @returns {Promise<HTMLDivElement>} The rendered cart view element.
    */
   async render() {
-    console.log("rendering cart view");
+    if (DEBUG) console.log("rendering cart view");
     const cartViewElm = document.createElement("div");
     cartViewElm.id = "cart-view";
 
@@ -24,9 +27,9 @@ export class CartView {
 
     const cart = new Cart();
     cartContainerElm.appendChild(await cart.render());
-    console.log("returned rendered cart");
+    if (DEBUG) console.log("returned rendered cart");
     cartViewElm.appendChild(cartContainerElm);
-    console.log("returning rendered cartview")
+    if (DEBUG) console.log("returning rendered cartview");
     return cartViewElm;
   }
 }
@@ -36,20 +39,29 @@ export class CartView {
  * @class
  */
 class Cart {
+  /**
+   * Constructs a new instance of the Cart class.
+   */
   constructor() {
     // Initializes a new instance of Cart
     this.cart = {};
     this.cartElem = document.createElement("div");
   }
+
+  /**
+   * Renders the cart component.
+   * @async
+   * @returns {Promise<HTMLDivElement>} The rendered cart element.
+   */
   async render() {
-    console.log("rendering cart");
+    if (DEBUG) console.log("rendering cart");
     this.cartElem.id = "cart";
     this.cartElem.classList.add("view");
-    console.log("trying to render list");
+    if (DEBUG) console.log("trying to render list");
     this.cartElem.appendChild(
       await this.renderCart(), //this.cart
     );
-    console.log("should have rendered");
+    if (DEBUG) console.log("should have rendered");
     return this.cartElem;
   }
 
@@ -62,42 +74,44 @@ class Cart {
     const user = localStorage.getItem("currentUser");
 
     let userCart = undefined;
-    console.log("rendering cart list");
+    if (DEBUG) console.log("rendering cart list");
     const cartElm = document.createElement("div");
     cartElm.id = "cartItems";
     cartElm.classList.add("view");
 
     const textElm = document.createElement("h1");
-    if(user) {
-      console.log(`user is ${user}`);
+    if (user) {
+      if (DEBUG) console.log(`user is ${user}`);
       try {
-        const response = await fetch(`/api/load_cart?user=${user}`, { method: "GET" });
+        const response = await fetch(`/api/load_cart?user=${user}`, {
+          method: "GET",
+        });
         const data = await response.json();
-        console.log(`data is ${data}`);
+        if (DEBUG) console.log(`data is ${data}`);
         userCart = data.userCart;
       } catch (e) {
-        console.log(`error loading cart in renderCart: ${e}`);
+        console.error(`error loading cart in renderCart: ${e}`);
         alert("There was an error loading your cart");
         return e;
       }
-      if(userCart.rows.length == 0) {
+      if (userCart.rows.length == 0) {
         textElm.innerText = "Your cart is empty";
         cartElm.appendChild(textElm);
         return cartElm;
       }
-      
     } else {
-      console.log("not user");
+      if (DEBUG) console.log("not user");
       textElm.innerText = "Sign in to view your cart";
       cartElm.appendChild(textElm);
       return cartElm;
     }
-    console.log("cart view: user cart");
-    console.log(userCart);
-    
-    userCart.rows.forEach(async doc => {
+    if (DEBUG) {
+      console.log("cart view: user cart");
+      console.log(userCart);
+    }
+    userCart.rows.forEach(async (doc) => {
       const cartItem = doc.doc;
-      console.log(cartItem)
+      if (DEBUG) console.log(cartItem);
       const item = document.createElement("div");
       item.classList.add("card");
       item.classList.add("mb-3");
@@ -143,50 +157,53 @@ class Cart {
       buttonRow.classList.add("row");
       itemBody.appendChild(buttonRow);
 
-      let rmvFromCartBtn = document.createElement('button')
-      rmvFromCartBtn.classList.add('btn')
+      let rmvFromCartBtn = document.createElement("button");
+      rmvFromCartBtn.classList.add("btn");
       rmvFromCartBtn.classList.add("add-to-button");
-      rmvFromCartBtn.classList.add('standard-button')
+      rmvFromCartBtn.classList.add("standard-button");
       rmvFromCartBtn.id = "cart_button_" + cartItem.id;
       rmvFromCartBtn.addEventListener("click", async () => {
-            try {
-              const response = await fetch(`/api/delete_item?id=${cartItem._id}`, { method: "DELETE" });
-              console.log("recieved delete response");
-              if(response.status == 200) {
-                localStorage.removeItem(cartItem._id);
-                console.log('rendercart local storage: removed from cart');
-                this.reRender();
-              } else {
-                alert("Error removing this item from cart");
-              }
-            } catch (error) {
-                alert("There was an error removing this item from your cart.")
-                console.error(error);
-            }
+        try {
+          const response = await fetch(`/api/delete_item?id=${cartItem._id}`, {
+            method: "DELETE",
           });
+          if (DEBUG) console.log("received delete response");
+          if (response.status == 200) {
+            localStorage.removeItem(cartItem._id);
+            if (DEBUG)
+              console.log("rendercart local storage: removed from cart");
+            this.reRender();
+          } else {
+            alert("Error removing this item from cart");
+          }
+        } catch (error) {
+          alert("There was an error removing this item from your cart.");
+          console.error(error);
+        }
+      });
       rmvFromCartBtn.innerText = "Remove from Cart";
-      buttonRow.appendChild(rmvFromCartBtn)
-      
+      buttonRow.appendChild(rmvFromCartBtn);
 
       let quantitySelector = document.createElement("select");
       quantitySelector.name = "sort";
       quantitySelector.innerText = "1";
       quantitySelector.id = "quantity_" + cartItem._id;
-      
+
       itemBody.appendChild(quantitySelector);
-  
-      const optionList = ["1", "2", "3", '4', '5', '6', '7', '8', '9', '10'];
+
+      const optionList = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
       for (let i = 0; i < optionList.length; i++) {
         const option = document.createElement("option");
         option.value = optionList[i];
         option.innerText = optionList[i];
         quantitySelector.appendChild(option);
       }
-      quantitySelector.value= await this.getQuantity(cartItem._id);
-      console.log('item quantity: ' + await this.getQuantity(cartItem._id))
+      quantitySelector.value = await this.getQuantity(cartItem._id);
+      if (DEBUG)
+        console.log("item quantity: " + (await this.getQuantity(cartItem._id)));
       quantitySelector.addEventListener("change", () => {
-        console.log('updating quantity for this item')
-        this.updateQuantity(cartItem._id, quantitySelector.value)
+        if (DEBUG) console.log("updating quantity for this item");
+        this.updateQuantity(cartItem._id, quantitySelector.value);
       });
 
       imageCol.appendChild(image);
@@ -196,123 +213,61 @@ class Cart {
       item.appendChild(itemRow);
 
       cartElm.appendChild(item);
-
-      // let buttonGroupDiv = document.createElement('div')
-      // buttonGroupDiv.setAttribute('role', "group")
-
-      // let minusCartButton = document.createElement('button')
-      // minusCartButton.classList.add('btn')
-      // minusCartButton.classList.add('standard-button')
-      // minusCartButton.innerText = "-";
-      // minusCartButton.addEventListener("click", () => {
-      //   if(localStorage.getItem(cartItem._id)){
-      //     this.updateQuantity("decrease", cartItem._id);
-      //   } else {
-      //     alert ("Item not in cart.")
-      //   }
-      // });
-      // buttonGroupDiv.appendChild(minusCartButton)
-
-      // let rmvFromCartBtn = document.createElement('button')
-      // rmvFromCartBtn.classList.add('btn')
-      // rmvFromCartBtn.classList.add("add-to-button");
-      // rmvFromCartBtn.classList.add('standard-button')
-      // rmvFromCartBtn.id = "cart_button_" + cartItem.link;
-      // rmvFromCartBtn.innerText = "Remove from Cart";
-      // rmvFromCartBtn.addEventListener("click", async () => {
-      //     try {
-      //       const response = await fetch(`/api/delete_item?id=${cartItem._id}`, { method: "DELETE" });
-      //       console.log("recieved delete response");
-      //       if(response.status == 200) {
-      //         localStorage.removeItem(cartItem._id);
-      //         console.log('rendercart local storage: removed from cart');
-      //         this.reRender();
-      //       } else {
-      //         alert("Error removing this item from cart");
-      //       }
-      //     } catch (error) {
-      //         alert("There was an error removing this item from your cart.")
-      //         console.error(error);
-      //     }
-      //   });
-      // buttonGroupDiv.appendChild(rmvFromCartBtn)
-
-  
-
-      // let addToCartBtnCol = document.createElement("div");
-      // addToCartBtnCol.classList.add("col");
-      // buttonRow.appendChild(addToCartBtnCol);
-
-      // let addToCartBtn = document.createElement("BUTTON");
-      // addToCartBtn.innerText = "Remove from Cart";
-      // addToCartBtn.classList.add("add-to-button");
-      // addToCartBtn.classList.add("standard-button");
-      // addToCartBtn.id = "cart_button_" + cartItem.link;
-      // addToCartBtn.addEventListener("click", async () => {
-      //   try {
-      //     const response = await fetch(`/api/delete_item?id=${cartItem._id}`, { method: "DELETE" });
-      //     console.log("recieved delete response");
-      //     if(response.status == 200) {
-      //       localStorage.removeItem(cartItem._id);
-      //       console.log('rendercart local storage: removed from cart');
-      //       this.reRender();
-      //     } else {
-      //       alert("Error removing this item from cart");
-      //     }
-      //   } catch (error) {
-      //       alert("There was an error removing this item from your cart.")
-      //       console.error(error);
-      //   }
-      // });
-      // addToCartBtnCol.appendChild(addToCartBtn);
     });
 
     return cartElm;
   }
 
+  /**
+   * Re-renders the cart component after changes.
+   */
   async reRender() {
-    console.log("re-rendering in process");
+    if (DEBUG) console.log("re-rendering in process");
 
     this.cartElem.removeChild(document.getElementById("cartItems"));
-    this.cartElem.appendChild(
-      await this.renderCart(),
-    );
+    this.cartElem.appendChild(await this.renderCart());
   }
 
+  /**
+   * Updates the quantity of an item in the cart.
+   * @param {string} id - The ID of the item.
+   * @param {string} quantity - The new quantity.
+   */
   async updateQuantity(id, quantity) {
-    // const user = localStorage.getItem("currentUser");
-    // if(!user) {
-    //   alert("Sign in to add items to cart");
-    //   return;
-    // }
-    // // const id = user + "_cart_" + link.substring(link.length-15);
     try {
-      const response = await fetch(`/api/update_quantity?id=${id}&quantity=${quantity}`, { method: "PUT" });
-      if(response.status == 200) {
+      const response = await fetch(
+        `/api/update_quantity?id=${id}&quantity=${quantity}`,
+        { method: "PUT" },
+      );
+      if (response.status == 200 && DEBUG) {
         console.log("quantity updated");
       }
-      if((await response.json()).deleted) {
+      if ((await response.json()).deleted) {
         localStorage.removeItem(id);
         // this.reRender();
       }
-
     } catch (e) {
       alert("There was an error updating this item");
       console.error(e);
     }
-    
   }
 
+  /**
+   * Gets the quantity of an item in the cart.
+   * @param {string} id - The ID of the item.
+   * @returns {Promise<number>} The quantity of the item.
+   */
   async getQuantity(id) {
     const user = localStorage.getItem("currentUser");
-    if(!user) {
+    if (!user) {
       return 0;
     }
-    console.log('getting the quantity for ' + id)
-    const response = await fetch(`/api/get_quantity?id=${id}`, { method: "GET" });
+    if (DEBUG) console.log("getting the quantity for " + id);
+    const response = await fetch(`/api/get_quantity?id=${id}`, {
+      method: "GET",
+    });
     const quantity = (await response.json()).quantity;
-    console.log(quantity);
+    if (DEBUG) console.log(quantity);
     return quantity;
   }
 }
-
