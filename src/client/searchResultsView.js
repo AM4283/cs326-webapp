@@ -115,25 +115,25 @@ class SearchResults {
       itemPrice.classList.add("card-text");
       itemBody.appendChild(itemPrice);
 
-      let buttonRow = document.createElement('div')
-      buttonRow.classList.add("row")
-      itemBody.appendChild(buttonRow)
+      let buttonRow = document.createElement("div");
+      buttonRow.classList.add("row");
+      itemBody.appendChild(buttonRow);
 
-      let addToCartBtn = document.createElement('button')
-      addToCartBtn.classList.add('btn')
+      let addToCartBtn = document.createElement("button");
+      addToCartBtn.classList.add("btn");
       addToCartBtn.classList.add("add-to-button");
-      addToCartBtn.classList.add('standard-button')
+      addToCartBtn.classList.add("standard-button");
       addToCartBtn.id = "cart_button_" + searchResults[i].link;
-      buttonRow.appendChild(addToCartBtn)
+      buttonRow.appendChild(addToCartBtn);
 
       let quantitySelector = document.createElement("select");
       quantitySelector.name = "sort";
       quantitySelector.innerText = "1";
       quantitySelector.id = "quantity_" + searchResults[i].link;
-      quantitySelector.hidden = true
+      quantitySelector.hidden = true;
       itemBody.appendChild(quantitySelector);
-  
-      const optionList = ["1", "2", "3", '4', '5', '6', '7', '8', '9', '10'];
+
+      const optionList = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
       for (let i = 0; i < optionList.length; i++) {
         const option = document.createElement("option");
         option.value = optionList[i];
@@ -141,22 +141,23 @@ class SearchResults {
         quantitySelector.appendChild(option);
       }
       quantitySelector.addEventListener("change", async () => {
-        console.log('updating quantity for this item')
-        await this.updateQuantity(searchResults[i].link, quantitySelector.value)
+        console.log("updating quantity for this item");
+        await this.updateQuantity(
+          searchResults[i].link,
+          quantitySelector.value,
+        );
       });
-      if(this.isInCart(searchResults[i])) {
-          addToCartBtn.innerText = "Remove from Cart";
-          quantitySelector.hidden = false
-          
-          quantitySelector.value= await this.getQuantity(searchResults[i].link);
+      if (this.isInCart(searchResults[i])) {
+        addToCartBtn.innerText = "Remove from Cart";
+        quantitySelector.hidden = false;
 
-
+        quantitySelector.value = await this.getQuantity(searchResults[i].link);
       } else {
-          addToCartBtn.innerText = "Add to Cart";
+        addToCartBtn.innerText = "Add to Cart";
       }
       addToCartBtn.addEventListener("click", async () => {
-          await this.addToCart(searchResults[i]);
-        });
+        await this.addToCart(searchResults[i]);
+      });
 
       imageCol.appendChild(image);
       itemBodyCol.appendChild(itemBody);
@@ -195,65 +196,83 @@ class SearchResults {
    * Adds an item to the cart and updates the button text.
    * @param {Object} itemInfo - The information about the item to add to the cart.
    */
-  async addToCart(itemInfo){
+  async addToCart(itemInfo) {
     const user = localStorage.getItem("currentUser");
     console.log(user);
-    if(!user) {
-        alert("Please sign in to add items to cart!");
-        return;
+    if (!user) {
+      alert("Please sign in to add items to cart!");
+      return;
     }
-    const id = user + '_cart_' + itemInfo.link.substring(itemInfo.link.length-15);
-    let btn = document.getElementById('cart_button_' + itemInfo.link);
+    const id =
+      user + "_cart_" + itemInfo.link.substring(itemInfo.link.length - 15);
+    let btn = document.getElementById("cart_button_" + itemInfo.link);
     const product = itemInfo.productName;
     const img = itemInfo.imgAddr;
     const price = itemInfo.price;
     const quantity = 1;
     const store = itemInfo.store;
     const link = itemInfo.link;
-    if(btn.innerText === 'Add to Cart'){
-      try{
-        const response = await fetch('/api/add_to_cart', {
-          method: 'POST',
+    if (btn.innerText === "Add to Cart") {
+      try {
+        const response = await fetch("/api/add_to_cart", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ id, product, user, img, price, store, link, quantity }) 
+          body: JSON.stringify({
+            id,
+            product,
+            user,
+            img,
+            price,
+            store,
+            link,
+            quantity,
+          }),
         });
         localStorage.setItem(id, itemInfo.productName);
         btn.innerText = "Remove from Cart";
-        document.getElementById("quantity_" + itemInfo.link).hidden = false
-        console.log('local storage: added to cart');
+        document.getElementById("quantity_" + itemInfo.link).hidden = false;
+        console.log("local storage: added to cart");
       } catch (e) {
         console.log(`error in addToCart`);
         console.log(e);
       }
     } else {
-        try {
-          const response = await fetch(`/api/delete_item?id=${id}`, { method: "DELETE" });
-          console.log("received delete response");
-          if(response.status == 200) {
-            localStorage.removeItem(id);
-            btn.innerText = "Add to Cart";
-            document.getElementById("quantity_" + itemInfo.link).hidden = true
-            console.log('local storage: removed from cart');
-          } else {
-            alert("Error removing this item from cart");
-          }
-        } catch (error) {
-            alert("There was an error removing this item from your cart.")
-            console.error(error);
+      try {
+        const response = await fetch(`/api/delete_item?id=${id}`, {
+          method: "DELETE",
+        });
+        console.log("received delete response");
+        if (response.status == 200) {
+          localStorage.removeItem(id);
+          btn.innerText = "Add to Cart";
+          document.getElementById("quantity_" + itemInfo.link).hidden = true;
+          console.log("local storage: removed from cart");
+        } else {
+          alert("Error removing this item from cart");
         }
+      } catch (error) {
+        alert("There was an error removing this item from your cart.");
+        console.error(error);
+      }
     }
   }
   /**
    * Checks if specified item is in user cart
    * @param {Object} itemInfo cart item object
    * @returns {Boolean} indicates whether item is in cart or not
-   */ 
+   */
   isInCart(itemInfo) {
     const user = localStorage.getItem("currentUser");
-    if(!user) { return false; }
-    if(localStorage.getItem(user + '_cart_' + itemInfo.link.substring(itemInfo.link.length-15))) {
+    if (!user) {
+      return false;
+    }
+    if (
+      localStorage.getItem(
+        user + "_cart_" + itemInfo.link.substring(itemInfo.link.length - 15),
+      )
+    ) {
       return true;
     }
     return false;
@@ -267,26 +286,27 @@ class SearchResults {
    */
   async updateQuantity(link, quantity) {
     const user = localStorage.getItem("currentUser");
-    if(!user) {
+    if (!user) {
       alert("Sign in to add items to cart");
       return;
     }
-    const id = user + "_cart_" + link.substring(link.length-15);
+    const id = user + "_cart_" + link.substring(link.length - 15);
     try {
-      const response = await fetch(`/api/update_quantity?id=${id}&quantity=${quantity}`, { method: "PUT" });
-      if(response.status == 200) {
+      const response = await fetch(
+        `/api/update_quantity?id=${id}&quantity=${quantity}`,
+        { method: "PUT" },
+      );
+      if (response.status == 200) {
         console.log("quantity updated");
       }
-      if((await response.json()).deleted) {
+      if ((await response.json()).deleted) {
         localStorage.removeItem(id);
         this.reRender();
       }
-
     } catch (e) {
       alert("There was an error updating this item");
       console.error(e);
     }
-    
   }
   /**
    * Gets quantity of particular item in cart
@@ -297,11 +317,13 @@ class SearchResults {
    */
   async getQuantity(link) {
     const user = localStorage.getItem("currentUser");
-    if(!user) {
+    if (!user) {
       return 0;
     }
-    const id = user + '_cart_' + link.substring(link.length-15)
-    const response = await fetch(`/api/get_quantity?id=${id}`, { method: "GET" });
+    const id = user + "_cart_" + link.substring(link.length - 15);
+    const response = await fetch(`/api/get_quantity?id=${id}`, {
+      method: "GET",
+    });
     const quantity = (await response.json()).quantity;
     console.log(quantity);
     return quantity;

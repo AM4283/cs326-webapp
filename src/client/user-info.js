@@ -70,16 +70,17 @@ function updateAuthUI() {
  * @function addAuthEventListeners
  */
 function addAuthEventListeners() {
-  document.getElementById("signInBtn").addEventListener("click", async function() {
-    displaySignInForm();
-  });
+  document
+    .getElementById("signInBtn")
+    .addEventListener("click", async function () {
+      displaySignInForm();
+    });
   document
     .getElementById("createAccountBtn")
     .addEventListener("click", function () {
       displayCreateAccountForm();
     });
 }
-
 
 /**
  * Displays the sign-in form.
@@ -119,21 +120,21 @@ function displayCreateAccountForm() {
 async function signIn() {
   const username = document.getElementById("signInUsername").value;
   const password = document.getElementById("signInPassword").value;
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await response.json();
-    if (data.success) {
-      localStorage.setItem("currentUser", username);
-      updateAuthUI();
-    } else {
-      alert("Login failed: " + data.message);
-      console.log(data.message);
-    }
+  const response = await fetch("/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  const data = await response.json();
+  if (data.success) {
+    localStorage.setItem("currentUser", username);
+    updateAuthUI();
+  } else {
+    alert("Login failed: " + data.message);
+    console.log(data.message);
+  }
 }
 
 /**
@@ -144,25 +145,25 @@ async function signIn() {
 async function createAccount() {
   const username = document.getElementById("createAccountUsername").value;
   const password = document.getElementById("createAccountPassword").value;
-    const response = await fetch('/api/create_account', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await response.json();
-    if (data.success) {
-      localStorage.setItem("currentUser", username);
-      updateAuthUI();
-      console.log("Account created successfully");
+  const response = await fetch("/api/create_account", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  const data = await response.json();
+  if (data.success) {
+    localStorage.setItem("currentUser", username);
+    updateAuthUI();
+    console.log("Account created successfully");
+  } else {
+    if (data.message === "Internal server error: Document update conflict") {
+      alert("Create account failed: account with this username already exists");
     } else {
-      if (data.message === "Internal server error: Document update conflict") {
-        alert("Create account failed: account with this username already exists");
-      } else {
-        alert("Create account failed: " + data.message);
-      }
+      alert("Create account failed: " + data.message);
     }
+  }
 }
 document.getElementById("signOutBtn").addEventListener("click", signOut);
 
@@ -172,8 +173,8 @@ document.getElementById("signOutBtn").addEventListener("click", signOut);
  * @function signOut
  */
 async function signOut() {
-  const response = await fetch('/api/logout', {
-    method: 'POST'
+  const response = await fetch("/api/logout", {
+    method: "POST",
   });
   const data = await response.json();
   if (data.success) {
