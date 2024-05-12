@@ -30,6 +30,7 @@
     "milestone-02": "http-server src -p 3000 -c-1 -o /client/index.html",
     "server": "node src/server/server.js",
     "milestone-03": "open-cli http://localhost:3000/index.html & npm run server",
+    "start": "npm run server & open-cli http://localhost:3000/index.html",
     "validate-html": "html-validate 'src/**/*.html'",
     "prettier": "prettier src --write",
     "dev": "",
