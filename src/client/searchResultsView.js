@@ -11,7 +11,7 @@ export class SearchResultsView {
    * @returns {Promise<HTMLDivElement>} The rendered search results view element.
    */
   async render() {
-    if (DEBUG) console.log("rendering search results");
+    console.log("rendering search results");
     const searchResultsViewElem = document.createElement("div");
     searchResultsViewElem.id = "searchResults-view";
 
@@ -71,7 +71,7 @@ class SearchResults {
   async renderSearchResults(searchResults) {
     const allResults = document.createElement("div");
     allResults.id = "results";
-    if (DEBUG) console.log(searchResults);
+    console.log(searchResults);
 
     for (let i = 0; i < searchResults.length; ++i) {
       const item = document.createElement("div");
@@ -141,7 +141,7 @@ class SearchResults {
         quantitySelector.appendChild(option);
       }
       quantitySelector.addEventListener("change", async () => {
-        if (DEBUG) console.log('updating quantity for this item')
+        console.log('updating quantity for this item')
         await this.updateQuantity(searchResults[i].link, quantitySelector.value)
       });
       if(this.isInCart(searchResults[i])) {
@@ -172,11 +172,9 @@ class SearchResults {
    * Re-renders the search results based on the current sort order and filters.
    */
   async reRender() {
-    if (DEBUG) {
-      console.log("re-rendering in process");
-      console.log("sort order: " + this.sortOrder);
-      console.log("filters: " + this.filters);
-    }
+    console.log("re-rendering in process");
+    console.log("sort order: " + this.sortOrder);
+    console.log("filters: " + this.filters);
 
     let reSortedResults = [...this.searchResults];
     if (this.sortOrder === "Price Low to High") {
@@ -197,7 +195,7 @@ class SearchResults {
    */
   async addToCart(itemInfo){
     const user = localStorage.getItem("currentUser");
-    if (DEBUG) console.log(user);
+    console.log(user);
     if(!user) {
         alert("Please sign in to add items to cart!");
         return;
@@ -222,20 +220,20 @@ class SearchResults {
         localStorage.setItem(id, itemInfo.productName);
         btn.innerText = "Remove from Cart";
         document.getElementById("quantity_" + itemInfo.link).hidden = false
-        if (DEBUG) console.log('local storage: added to cart');
+        console.log('local storage: added to cart');
       } catch (e) {
-        console.error(`error in addToCart`);
-        console.error(e);
+        console.log(`error in addToCart`);
+        console.log(e);
       }
     } else {
         try {
           const response = await fetch(`/api/delete_item?id=${id}`, { method: "DELETE" });
-          if (DEBUG) console.log("received delete response");
+          console.log("received delete response");
           if(response.status == 200) {
             localStorage.removeItem(id);
             btn.innerText = "Add to Cart";
             document.getElementById("quantity_" + itemInfo.link).hidden = true
-            if (DEBUG) console.log('local storage: removed from cart');
+            console.log('local storage: removed from cart');
           } else {
             alert("Error removing this item from cart");
           }
@@ -245,7 +243,11 @@ class SearchResults {
         }
     }
   }
-  
+  /**
+   * Checks whether an item is in the cart
+   * @param {Object} itemInfo cart item object
+   * @returns {boolean} indicates whether item was found in cart or not
+   */ 
   isInCart(itemInfo) {
     const user = localStorage.getItem("currentUser");
     if(!user) { return false; }
@@ -254,7 +256,12 @@ class SearchResults {
     }
     return false;
   }
-
+  /**
+   * Updates the quantity of a particular item in acrt
+   * @async
+   * @param {String} link cart item link name
+   * @param {Number} quantity quantity that item is updated to
+   */
   async updateQuantity(link, quantity) {
     const user = localStorage.getItem("currentUser");
     if(!user) {
@@ -264,7 +271,7 @@ class SearchResults {
     const id = user + "_cart_" + link.substring(link.length-15);
     try {
       const response = await fetch(`/api/update_quantity?id=${id}&quantity=${quantity}`, { method: "PUT" });
-      if(response.status == 200 && DEBUG) {
+      if(response.status == 200) {
         console.log("quantity updated");
       }
       if((await response.json()).deleted) {
@@ -278,7 +285,12 @@ class SearchResults {
     }
     
   }
-
+  /**
+   * Gets quantiy of particular item in cart
+   * @async
+   * @param {String} link cart item link name
+   * @returns {Number} quantity of cart item
+   */
   async getQuantity(link) {
     const user = localStorage.getItem("currentUser");
     if(!user) {
@@ -287,7 +299,7 @@ class SearchResults {
     const id = user + '_cart_' + link.substring(link.length-15)
     const response = await fetch(`/api/get_quantity?id=${id}`, { method: "GET" });
     const quantity = (await response.json()).quantity;
-    if (DEBUG) console.log(quantity);
+    console.log(quantity);
     return quantity;
   }
 
@@ -297,7 +309,7 @@ class SearchResults {
    * @returns {HTMLDivElement} The search result tools element.
    */
   renderSearchResultTools(searchInput) {
-    if (DEBUG) console.log("rendering the tool bar");
+    console.log("rendering the tool bar");
 
     const tools = document.createElement("div");
     tools.classList.add("row");
@@ -353,8 +365,7 @@ class SearchResults {
    * @returns {Promise<Array<Object>>} A promise that resolves to an array of search result data.
    */
   async searchWebForData(searchInput) {
-    //this function will eventually return data using a web scraper
-    if (DEBUG) console.log("searching the web for results related to " + searchInput);
+    console.log("searching the web for results related to " + searchInput);
     const dummyData = [
       {
         imgAddr:

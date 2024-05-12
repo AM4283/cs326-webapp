@@ -4,14 +4,29 @@ import db from "./database.js";
 
 const app = express();
 const port = 3000;
+
+/**
+ * Middleware to log HTTP requests and responses.
+ */
 app.use(logger("dev"));
+
+/**
+ * Middleware to parse JSON bodies.
+ */
 app.use(express.json());
+
+/**
+ * Middleware to parse URL-encoded bodies.
+ */
 app.use(express.urlencoded({ extended: false }));
+
+/**
+ * Middleware to serve static files from 'src/client' directory.
+ */
 app.use(express.static("src/client"));
 
 /**
- * POST /api/login
- * Login functionality to check user credentials.
+ * Route to handle user login.
  * @param {express.Request} req - The request object containing all the HTTP data.
  * @param {express.Response} res - The response object used for sending back HTTP responses.
  */
@@ -35,8 +50,7 @@ app.post('/api/login', async (req, res) => {
   });
 
 /**
- * POST /api/logout
- * Logout functionality to clear user session.
+ * Route to handle user logout.
  * @param {express.Request} req - The request object.
  * @param {express.Response} res - The response object.
  */
@@ -44,10 +58,11 @@ app.post('/api/logout', (req, res) => {
     res.json({ success: true });
 });
 
-app.post("/api/logout", (req, res) => {
-  res.json({ success: true });
-});
-
+/**
+ * Route to add an item to the user's cart.
+ * @param {express.Request} req - The request object containing all the HTTP data.
+ * @param {express.Response} res - The response object used for sending back HTTP responses.
+ */
 app.post("/api/add_to_cart", async (req, res) => {
   const { id, product, user, img, price, store, link, quantity } = req.body;
   try {
@@ -76,6 +91,11 @@ app.post("/api/add_to_cart", async (req, res) => {
   }
 });
 
+/**
+ * Route to load the user's cart.
+ * @param {express.Request} req - The request object.
+ * @param {express.Response} res - The response object.
+ */
 app.get("/api/load_cart", async (req, res) => {
   console.log("getting user cart");
   const user = req.query.user;
@@ -98,6 +118,11 @@ app.get("/api/load_cart", async (req, res) => {
   }
 });
 
+/**
+ * Route to delete an item from the user's cart.
+ * @param {express.Request} req - The request object.
+ * @param {express.Response} res - The response object.
+ */
 app.delete("/api/delete_item", async (req, res) => {
   console.log("deleting item");
   const id = req.query.id;
@@ -123,6 +148,11 @@ app.delete("/api/delete_item", async (req, res) => {
   }
 });
 
+/**
+ * Route to update the quantity of an item in the user's cart.
+ * @param {express.Request} req - The request object.
+ * @param {express.Response} res - The response object.
+ */
 app.put("/api/update_quantity", async (req, res) => {
   const id = req.query.id;
   const quantity = req.query.quantity;
@@ -146,6 +176,11 @@ app.put("/api/update_quantity", async (req, res) => {
   }
 });
 
+/**
+ * Route to get the quantity of an item in the user's cart.
+ * @param {express.Request} req - The request object.
+ * @param {express.Response} res - The response object.
+ */
 app.get("/api/get_quantity", async (req, res) => {
   const id = req.query.id;
   try {
@@ -165,4 +200,3 @@ app.get("/api/get_quantity", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
-
