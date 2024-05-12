@@ -57,7 +57,7 @@ class SearchResults {
     );
 
     this.searchResultsElem.appendChild(
-      this.renderSearchResults(this.searchResults),
+      await this.renderSearchResults(this.searchResults),
     );
 
     return this.searchResultsElem;
@@ -68,7 +68,7 @@ class SearchResults {
    * @param {Array<Object>} searchResults - The search results to render.
    * @returns {HTMLDivElement} The container with all search results.
    */
-  renderSearchResults(searchResults) {
+  async renderSearchResults(searchResults) {
     const allResults = document.createElement("div");
     allResults.id = "results";
     console.log(searchResults);
@@ -140,34 +140,24 @@ class SearchResults {
         option.innerText = optionList[i];
         quantitySelector.appendChild(option);
       }
-      quantitySelector.addEventListener("change", () => {
+      quantitySelector.addEventListener("change", async () => {
         console.log('updating quantity for this item')
+        await this.updateQuantity(searchResults[i].link, quantitySelector.value)
       });
       if(this.isInCart(searchResults[i])) {
           addToCartBtn.innerText = "Remove from Cart";
           quantitySelector.hidden = false
+          
+          quantitySelector.value= await this.getQuantity(searchResults[i].link);
+
 
       } else {
           addToCartBtn.innerText = "Add to Cart";
       }
-      addToCartBtn.addEventListener("click", () => {
-          this.addToCart(searchResults[i]);
+      addToCartBtn.addEventListener("click", async () => {
+          await this.addToCart(searchResults[i]);
         });
-        
 
-      // let plusCartButton = document.createElement('button')
-      // plusCartButton.classList.add('btn')
-      // plusCartButton.classList.add('standard-button')
-      // plusCartButton.innerText = "+";
-      // plusCartButton.addEventListener("click", () => {
-      //   this.addToCart(searchResults[i]);
-      // });
-      // buttonGroupDiv.appendChild(plusCartButton)
-      
-
-      // buttonRow.appendChild(buttonGroupDiv)
-      
-      // itemBody.appendChild(buttonRow);
       imageCol.appendChild(image);
       itemBodyCol.appendChild(itemBody);
       itemRow.appendChild(imageCol);
@@ -181,7 +171,7 @@ class SearchResults {
   /**
    * Re-renders the search results based on the current sort order and filters.
    */
-  reRender() {
+  async reRender() {
     console.log("re-rendering in process");
     console.log("sort order: " + this.sortOrder);
     console.log("filters: " + this.filters);
@@ -195,7 +185,7 @@ class SearchResults {
 
     this.searchResultsElem.removeChild(document.getElementById("results"));
     this.searchResultsElem.appendChild(
-      this.renderSearchResults(reSortedResults),
+      await this.renderSearchResults(reSortedResults),
     );
   }
 
@@ -232,13 +222,13 @@ class SearchResults {
         document.getElementById("quantity_" + itemInfo.link).hidden = false
         console.log('local storage: added to cart');
       } catch (e) {
-        console.log(`error in addtocart`);
+        console.log(`error in addToCart`);
         console.log(e);
       }
     } else {
         try {
           const response = await fetch(`/api/delete_item?id=${id}`, { method: "DELETE" });
-          console.log("recieved delete response");
+          console.log("received delete response");
           if(response.status == 200) {
             localStorage.removeItem(id);
             btn.innerText = "Add to Cart";
@@ -263,7 +253,7 @@ class SearchResults {
     return false;
   }
 
-  async updateQuantity(type, link) {
+  async updateQuantity(link, quantity) {
     const user = localStorage.getItem("currentUser");
     if(!user) {
       alert("Sign in to add items to cart");
@@ -271,7 +261,7 @@ class SearchResults {
     }
     const id = user + "_cart_" + link.substring(link.length-15);
     try {
-      const response = await fetch(`/api/update_quantity?type=${type}&id=${id}`, { method: "PUT" });
+      const response = await fetch(`/api/update_quantity?id=${id}&quantity=${quantity}`, { method: "PUT" });
       if(response.status == 200) {
         console.log("quantity updated");
       }
@@ -292,6 +282,7 @@ class SearchResults {
     if(!user) {
       return 0;
     }
+    const id = user + '_cart_' + link.substring(link.length-15)
     const response = await fetch(`/api/get_quantity?id=${id}`, { method: "GET" });
     const quantity = (await response.json()).quantity;
     console.log(quantity);

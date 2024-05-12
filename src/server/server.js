@@ -121,54 +121,31 @@ app.delete('/api/delete_item', async (req, res) => {
 });
 
 app.put('/api/update_quantity', async (req, res) => {
-  const type = req.query.type;
   const id = req.query.id;
-  console.log(`type: ${type} and id: ${id}`);
+  const quantity = req.query.quantity
+  console.log(`id: ${id} quantity: ${quantity}`);
   let deleted = false;
   try {
-    if(type == "increase") {
-      db.get(id).then(function(doc) {
-        const quantity = doc.quantity+1;
-        console.log(`increased quantity to ${quantity}`);
-        return db.put({
-          _id: id,
-          _rev: doc._rev,
-          quantity: quantity
-        });
-      })
-    } else if(type == "decrease") {
-      await db.get(id).then(async function(doc) {
-        const quantity = doc.quantity-1;
-        console.log(`decreased quantity to ${quantity}`);
-        if(quantity == 0) {
-          await db.get(id).then(async function(doc) {
-            return await db.remove(doc);
-          }).catch(function (err) {
-            console.log(err);
-          });
-          console.log('removed from cart');
-          deleted = true;
-        }
-        else{
-          return db.put({
-            _id: id,
-            _rev: doc._rev,
-            quantity: quantity,
-            product: doc.product,
-            user: doc.user,
-            img: doc.img,
-            price: doc.price,
-            store: doc.store,
-            link: doc.link
-          });
-        }
-      })
-    }
+    let item = await db.get(id)
+    item.quantity = quantity
+    console.log('updating this: ')
+    console.log(item)
+    await db.put(item)
+    // db.get(id).then(function(doc) {
+    //     console.log(`changed quantity to ${quantity}`);
+    //     return db.put({
+    //       _id: id,
+    //       _rev: doc._rev,
+    //       quantity: quantity
+    //     });
+      // })
     console.log('server: quantity updated');
     res.status(200).json({ success: true, deleted: deleted });
+    res.end()
   } catch (e) {
     console.error("Error updating this item:", e);
     res.status(500).json({ success: false, message: "Internal server error: " + e.message });
+    res.end()
   }
   
 });
@@ -182,7 +159,7 @@ app.get('/api/get_quantity', async (req, res) => {
     console.log(`quantity: ${quantity}`);
     res.status(200).json({ success: true, quantity: quantity });
   } catch (e) {
-    console.error("Error fetching this item:", error);
+    console.error("Error fetching this item:", e);
     res.status(500).json({ success: false, message: "Internal server error: " + e.message });
   }
 });
