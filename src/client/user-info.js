@@ -70,39 +70,16 @@ function updateAuthUI() {
  * @function addAuthEventListeners
  */
 function addAuthEventListeners() {
-  document.getElementById("signInBtn").addEventListener("click", async function() {
-    displaySignInForm();
-    // const username = document.getElementById("signInUsername").value;
-    // const password = document.getElementById("signInPassword").value;
-    // const response = await fetch('/api/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({ username, password })
-    // });
-    // const data = await response.json();
-    // if (data.success) {
-    //   localStorage.setItem("currentUser", username);
-    //   updateAuthUI();
-    // } else {
-    //   alert("Login failed");
-    // }
-  });
+  document
+    .getElementById("signInBtn")
+    .addEventListener("click", async function () {
+      displaySignInForm();
+    });
   document
     .getElementById("createAccountBtn")
     .addEventListener("click", function () {
       displayCreateAccountForm();
     });
-}
-
-/**
- * Signs out the current user and updates the UI.
- * @function signOut
- */
-function signOut() {
-  localStorage.removeItem("currentUser");
-  updateAuthUI();
 }
 
 /**
@@ -143,33 +120,21 @@ function displayCreateAccountForm() {
 async function signIn() {
   const username = document.getElementById("signInUsername").value;
   const password = document.getElementById("signInPassword").value;
-  // try {
-  //   const userDoc = await db.get(username);
-  //   if (userDoc.password === password) {
-  //     localStorage.setItem("currentUser", username);
-  //     updateAuthUI();
-  //   } else {
-  //     alert("Incorrect username or password.");
-  //   }
-  // } catch (error) {
-  //   console.error(error);
-  //   alert("An error occurred during sign in.");
-  // }
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await response.json();
-    if (data.success) {
-      localStorage.setItem("currentUser", username);
-      updateAuthUI();
-    } else {
-      alert("Login failed: " + data.message);
-      console.log(data.message);
-    }
+  const response = await fetch("/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  const data = await response.json();
+  if (data.success) {
+    localStorage.setItem("currentUser", username);
+    updateAuthUI();
+  } else {
+    alert("Login failed: " + data.message);
+    console.log(data.message);
+  }
 }
 
 /**
@@ -180,38 +145,36 @@ async function signIn() {
 async function createAccount() {
   const username = document.getElementById("createAccountUsername").value;
   const password = document.getElementById("createAccountPassword").value;
-    const response = await fetch('/api/create_account', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await response.json();
-    if (data.success) {
-      localStorage.setItem("currentUser", username);
-      updateAuthUI();
-      console.log("Account created successfully");
+  const response = await fetch("/api/create_account", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  const data = await response.json();
+  if (data.success) {
+    localStorage.setItem("currentUser", username);
+    updateAuthUI();
+    console.log("Account created successfully");
+  } else {
+    if (data.message === "Internal server error: Document update conflict") {
+      alert("Create account failed: account with this username already exists");
     } else {
       alert("Create account failed: " + data.message);
-      // console.error(data.message);
     }
-  // try {
-  //   await db.put({
-  //     _id: username,
-  //     password: password
-  //   });
-  //   localStorage.setItem("currentUser", username);
-  //   updateAuthUI();
-  //   console.log("Account created successfully");
-  // } catch (error) {
-  //   console.error("Account creation failed:", error);
-  //   alert("Failed to create account. Please try again.");
-  // }
+  }
 }
-document.getElementById("signOutBtn").addEventListener("click", async function() {
-  const response = await fetch('/api/logout', {
-    method: 'POST'
+document.getElementById("signOutBtn").addEventListener("click", signOut);
+
+/**
+ * Signs out the current user and updates the UI.
+ * @async
+ * @function signOut
+ */
+async function signOut() {
+  const response = await fetch("/api/logout", {
+    method: "POST",
   });
   const data = await response.json();
   if (data.success) {
@@ -220,7 +183,7 @@ document.getElementById("signOutBtn").addEventListener("click", async function()
   } else {
     alert("Logout failed");
   }
-});
+}
 document.addEventListener("DOMContentLoaded", function () {
   updateAuthUI();
 });
