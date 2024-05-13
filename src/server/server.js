@@ -183,19 +183,19 @@ app.put("/api/update_quantity", async (req, res) => {
   console.log(`id: ${id} quantity: ${quantity}`);
   let deleted = false;
   try {
-    // let item = await db.get(id)
-    // item.quantity = quantity
-    // console.log('updating this: ')
-    // console.log(item)
-    // await db.put(item)
-    db.get(id).then(function (doc) {
-      console.log(`changed quantity to ${quantity}`);
-      return db.put({
-        _id: id,
-        _rev: doc._rev,
-        quantity: quantity,
-      });
-    });
+    let item = await db.get(id)
+    item.quantity = quantity
+    console.log('updating this: ')
+    console.log(item)
+    await db.put(item)
+    // db.get(id).then(function (doc) {
+    //   console.log(`changed quantity to ${quantity}`);
+    //   return db.put({
+    //     _id: id,
+    //     _rev: doc._rev,
+    //     quantity: quantity,
+    //   });
+    // });
     console.log("server: quantity updated");
     res.status(200).json({ success: true, deleted: deleted });
     res.end();
