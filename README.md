@@ -7,6 +7,31 @@ Team 20 submission of the semester project for CS 326 Web Programming @ UMass
 The goal of this web app is to solve the longstanding issue that many avid online shoppers encounter today when shopping for clothes - trying to find the right styles at the best price without having to scour many different websites.
 
 
+## PROJECT STRUCTURE
+client/: Contains the front-end code.
+    index.html: The main HTML file.
+    styles.css: CSS file for styling.
+    script.js: JavaScript file for managing navigation and interactions.
+    CartView.js: JavaScript class for managing the cart view.
+    HomeView.js: JavaScript class for managing the home view.
+    searchResultsView.js: JavaScript class for managing search results.
+    user-info.js: JavaScript file for managing user authentication and account details.
+server/: Contains the back-end code.
+    server.js: The main server file.
+    database.js: Database connection and management file.
+
+
+## HOW TO RUN
+Install Dependencies: Run npm install to install the required dependencies.
+Start the Server: Run npm run start to start the server.
+Access the Application: Open your browser and go to http://localhost:3000.
+
+
+## TECHNOLOGIES USED
+Front-end: HTML, CSS, JavaScript, Bootstrap
+Back-end: Node.js, Express.js
+Database: PouchDB
+Others: LocalStorage for client-side data management
 
 
 
@@ -101,33 +126,3 @@ Query Parameters:
 Responses:
     200 OK: { "success": true, "quantity": <number> } if the quantity is retrieved successfully.
     500 Internal Server Error: { "success": false, "message": "Internal server error: <error message>" } for other errors.
-
-
-
-
-
-## PROJECT STRUCTURE
-client/: Contains the front-end code.
-    index.html: The main HTML file.
-    styles.css: CSS file for styling.
-    script.js: JavaScript file for managing navigation and interactions.
-    CartView.js: JavaScript class for managing the cart view.
-    HomeView.js: JavaScript class for managing the home view.
-    searchResultsView.js: JavaScript class for managing search results.
-    user-info.js: JavaScript file for managing user authentication and account details.
-server/: Contains the back-end code.
-    server.js: The main server file.
-    database.js: Database connection and management file.
-
-
-## HOW TO RUN
-Install Dependencies: Run npm install to install the required dependencies.
-Start the Server: Run npm run start to start the server.
-Access the Application: Open your browser and go to http://localhost:3000.
-
-
-## TECHNOLOGIES USED
-Front-end: HTML, CSS, JavaScript, Bootstrap
-Back-end: Node.js, Express.js
-Database: PouchDB
-Others: LocalStorage for client-side data management
